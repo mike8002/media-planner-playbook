@@ -16,6 +16,15 @@ const SECTIONS = [
   { id: "programmatic", label: "Programmatic Deep Dive", icon: "🖥️" },
   { id: "vendors", label: "Vendor Landscape", icon: "🏢" },
   { id: "creativespecs", label: "Creative Specs", icon: "🎨" },
+  { id: "divider", label: "─── TOOLS ───", icon: "" },
+  { id: "budgetcalc", label: "Budget Calculator", icon: "🧮" },
+  { id: "briefbuilder", label: "Brief Builder", icon: "📝" },
+  { id: "creativegen", label: "Creative Generator", icon: "🖼️" },
+  { id: "comparison", label: "Platform Compare", icon: "⚖️" },
+  { id: "ramadan", label: "Ramadan Planner", icon: "🌙" },
+  { id: "heatmap", label: "CPM Heatmap", icon: "🗓️" },
+  { id: "benchmark", label: "Benchmark Tracker", icon: "📈" },
+  { id: "aiplanner", label: "AI Plan Generator", icon: "🤖" },
   { id: "glossary", label: "KPI Glossary", icon: "📖" },
 ];
 
@@ -577,6 +586,16 @@ export default function App() {
   const [creativePlatform, setCreativePlatform] = useState("All");
   const [funnelJourney, setFunnelJourney] = useState("E-commerce");
   const [funnelHover, setFunnelHover] = useState(null);
+  const [budgetTotal, setBudgetTotal] = useState(50000);
+  const [budgetObjective, setBudgetObjective] = useState("Full Funnel");
+  const [budgetMarket, setBudgetMarket] = useState("UAE");
+  const [briefData, setBriefData] = useState({ objective: "Awareness", audience: "", markets: [], budget: "", dates: "", creative: "", kpi: "", notes: "" });
+  const [selectedPlatforms, setSelectedPlatforms] = useState(["Meta", "TikTok"]);
+  const [comparePlatforms, setComparePlatforms] = useState(["Meta (Facebook + Instagram)", "TikTok", "Snapchat"]);
+  const [benchmarkData, setBenchmarkData] = useState([]);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiResult, setAiResult] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
   const contentRef = useRef(null);
 
   const toggleCheck = (key) => setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
@@ -603,7 +622,9 @@ export default function App() {
           <div style={{ fontSize: 10, color: "#475569", marginTop: 4 }}>Updated March 2026 · Michel Zaidan · UM</div>
         </div>
         <div style={{ flex: 1, overflowY: "auto", padding: "8px 8px" }}>
-          {SECTIONS.map(s => (
+          {SECTIONS.map(s => s.id === "divider" ? (
+            <div key={s.id} style={{ padding: "8px 12px", fontSize: 9, fontWeight: 800, color: "#334155", letterSpacing: "0.1em", textAlign: "center" }}>{s.label}</div>
+          ) : (
             <button
               key={s.id}
               onClick={() => { setActiveSection(s.id); setMobileNav(false); }}
@@ -1828,6 +1849,439 @@ export default function App() {
                   • <strong style={{ color: "#e2e8f0" }}>Test before launch</strong> — Preview in-platform before going live. What looks good in Canva may crop badly in-feed.
                 </div>
               </Card>
+            </div>
+          )}
+
+          {/* BUDGET CALCULATOR */}
+          {activeSection === "budgetcalc" && (
+            <div>
+              <SectionTitle>Budget Calculator & Reach Estimator</SectionTitle>
+              <SectionDesc>Input your total budget and objective — get an auto-generated platform split with estimated reach and impressions.</SectionDesc>
+
+              <Card style={{ marginBottom: 16 }}>
+                <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 16 }}>
+                  <div style={{ flex: 1, minWidth: 200 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Monthly Budget (USD)</div>
+                    <input type="range" min={5000} max={500000} step={5000} value={budgetTotal} onChange={e => setBudgetTotal(Number(e.target.value))} style={{ width: "100%", accentColor: "#3b82f6" }} />
+                    <div style={{ fontSize: 24, fontWeight: 800, color: "#7eb8ff", marginTop: 4 }}>${budgetTotal.toLocaleString()}<span style={{ fontSize: 12, color: "#64748b" }}>/month</span></div>
+                  </div>
+                  <div style={{ minWidth: 150 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Objective</div>
+                    {["Brand Awareness", "Video Views", "Traffic", "Lead Gen", "E-commerce", "App Installs", "B2B", "Full Funnel"].map(o => (
+                      <button key={o} onClick={() => setBudgetObjective(o)} style={{ display: "block", width: "100%", padding: "4px 8px", margin: "2px 0", border: budgetObjective === o ? "1px solid #3b82f6" : "1px solid transparent", borderRadius: 6, background: budgetObjective === o ? "#1a2744" : "transparent", color: budgetObjective === o ? "#7eb8ff" : "#64748b", fontSize: 10, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", textAlign: "left" }}>{o}</button>
+                    ))}
+                  </div>
+                  <div style={{ minWidth: 100 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Market</div>
+                    {["UAE", "KSA", "Kuwait", "GCC Wide"].map(m => (
+                      <button key={m} onClick={() => setBudgetMarket(m)} style={{ display: "block", width: "100%", padding: "4px 8px", margin: "2px 0", border: budgetMarket === m ? "1px solid #3b82f6" : "1px solid transparent", borderRadius: 6, background: budgetMarket === m ? "#1a2744" : "transparent", color: budgetMarket === m ? "#7eb8ff" : "#64748b", fontSize: 10, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", textAlign: "left" }}>{m}</button>
+                    ))}
+                  </div>
+                </div>
+              </Card>
+
+              {(() => {
+                const mixes = { "Brand Awareness": { Meta: 30, TikTok: 20, Snapchat: 15, YouTube: 20, "X (Twitter)": 5, Programmatic: 10 }, "Video Views": { Meta: 25, TikTok: 30, Snapchat: 15, YouTube: 25, "X (Twitter)": 5 }, "Traffic": { Meta: 40, TikTok: 15, Snapchat: 15, Google: 15, LinkedIn: 5, "X (Twitter)": 5, Programmatic: 5 }, "Lead Gen": { Meta: 40, TikTok: 15, Snapchat: 15, Google: 10, LinkedIn: 15, "X (Twitter)": 5 }, "E-commerce": { Meta: 45, TikTok: 15, Snapchat: 10, Google: 20, Programmatic: 10 }, "App Installs": { Meta: 40, TikTok: 20, Snapchat: 15, Google: 20, Programmatic: 5 }, "B2B": { Meta: 20, Google: 15, LinkedIn: 50, "X (Twitter)": 10, Programmatic: 5 }, "Full Funnel": { Meta: 30, TikTok: 15, Snapchat: 12, YouTube: 10, Google: 15, LinkedIn: 8, "X (Twitter)": 5, Programmatic: 5 } };
+                const cpms = { Meta: { UAE: 7, KSA: 9, Kuwait: 8, "GCC Wide": 8 }, TikTok: { UAE: 10, KSA: 12, Kuwait: 11, "GCC Wide": 11 }, Snapchat: { UAE: 6, KSA: 5, Kuwait: 5, "GCC Wide": 5.5 }, YouTube: { UAE: 10, KSA: 9, Kuwait: 10, "GCC Wide": 9.5 }, Google: { UAE: 8, KSA: 7, Kuwait: 8, "GCC Wide": 7.5 }, LinkedIn: { UAE: 35, KSA: 30, Kuwait: 32, "GCC Wide": 32 }, "X (Twitter)": { UAE: 12, KSA: 11, Kuwait: 12, "GCC Wide": 11.5 }, Programmatic: { UAE: 8, KSA: 6, Kuwait: 7, "GCC Wide": 7 } };
+                const mix = mixes[budgetObjective] || mixes["Full Funnel"];
+                const tier = budgetTotal < 15000 ? "Starter" : budgetTotal < 50000 ? "Growth" : budgetTotal < 150000 ? "Mid-Market" : budgetTotal < 400000 ? "Premium" : "Enterprise";
+
+                return (<>
+                  <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 16 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#7eb8ff", marginBottom: 4 }}>Tier: <span style={{ color: "#e2e8f0" }}>{tier}</span> · Market: <span style={{ color: "#e2e8f0" }}>{budgetMarket}</span> · Objective: <span style={{ color: "#e2e8f0" }}>{budgetObjective}</span></div>
+                  </Card>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
+                    {Object.entries(mix).map(([platform, pct]) => {
+                      const spend = Math.round(budgetTotal * pct / 100);
+                      const cpm = cpms[platform]?.[budgetMarket] || 10;
+                      const impressions = Math.round((spend / cpm) * 1000);
+                      const reach = Math.round(impressions * 0.6);
+                      return (
+                        <Card key={platform} style={{ padding: 14 }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0", marginBottom: 6 }}>{platform}</div>
+                          <div style={{ fontSize: 20, fontWeight: 800, color: "#7effb8" }}>${spend.toLocaleString()}</div>
+                          <div style={{ fontSize: 10, color: "#64748b" }}>{pct}% of budget</div>
+                          <div style={{ marginTop: 8, fontSize: 10, color: "#94a3b8" }}>
+                            Est. CPM: ${cpm}<br/>
+                            Impressions: {(impressions/1000).toFixed(0)}K<br/>
+                            Est. Reach: {(reach/1000).toFixed(0)}K
+                          </div>
+                          <ProgressBar value={pct} max={50} color="#3b82f6" />
+                        </Card>
+                      );
+                    })}
+                  </div>
+
+                  <Card style={{ marginTop: 16 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0", marginBottom: 8 }}>Total Estimated Reach</div>
+                    <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                      Total Impressions: <strong style={{ color: "#7effb8" }}>{(Object.entries(mix).reduce((a, [p, pct]) => a + ((budgetTotal * pct / 100) / (cpms[p]?.[budgetMarket] || 10)) * 1000, 0) / 1000000).toFixed(1)}M</strong> · 
+                      Note: Estimates based on directional GCC CPM benchmarks. Actual results will vary by creative quality, audience, season, and competition.
+                    </div>
+                  </Card>
+                </>);
+              })()}
+            </div>
+          )}
+
+          {/* BRIEF BUILDER */}
+          {activeSection === "briefbuilder" && (
+            <div>
+              <SectionTitle>Campaign Brief Builder</SectionTitle>
+              <SectionDesc>Fill in the fields below to generate a structured campaign brief. All fields auto-populate platform recommendations.</SectionDesc>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                {[
+                  { label: "Campaign Objective", key: "objective", type: "select", options: ["Awareness", "Video Views", "Traffic", "Lead Generation", "Conversions / E-commerce", "App Installs", "B2B / Thought Leadership"] },
+                  { label: "Target Audience", key: "audience", type: "text", placeholder: "e.g. Males 25-44, UAE & KSA, Arabic + English" },
+                  { label: "Budget (USD/month)", key: "budget", type: "text", placeholder: "e.g. $50,000" },
+                  { label: "Flight Dates", key: "dates", type: "text", placeholder: "e.g. 1 Mar – 30 Apr 2026" },
+                  { label: "Primary KPI & Target", key: "kpi", type: "text", placeholder: "e.g. CPL < $20, 500 leads/month" },
+                  { label: "Creative Status", key: "creative", type: "select", options: ["Not started", "In production", "Ready — needs adaptation", "Ready — all formats", "No creative budget"] },
+                ].map(f => (
+                  <Card key={f.key} style={{ padding: 12 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>{f.label}</div>
+                    {f.type === "select" ? (
+                      <select value={briefData[f.key]} onChange={e => setBriefData(p => ({...p, [f.key]: e.target.value}))} style={{ width: "100%", padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit" }}>
+                        {f.options.map(o => <option key={o} value={o}>{o}</option>)}
+                      </select>
+                    ) : (
+                      <input value={briefData[f.key]} onChange={e => setBriefData(p => ({...p, [f.key]: e.target.value}))} placeholder={f.placeholder} style={{ width: "100%", padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box" }} />
+                    )}
+                  </Card>
+                ))}
+              </div>
+
+              <Card key="markets" style={{ padding: 12, marginBottom: 16 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Target Markets</div>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {["UAE", "KSA", "Kuwait", "Qatar", "Bahrain", "Oman"].map(m => (
+                    <button key={m} onClick={() => setBriefData(p => ({...p, markets: p.markets?.includes(m) ? p.markets.filter(x => x !== m) : [...(p.markets||[]), m]}))} style={{ padding: "4px 12px", borderRadius: 16, border: briefData.markets?.includes(m) ? "1px solid #3b82f6" : "1px solid #1e2d45", background: briefData.markets?.includes(m) ? "#1a2744" : "transparent", color: briefData.markets?.includes(m) ? "#7eb8ff" : "#64748b", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{m}</button>
+                  ))}
+                </div>
+              </Card>
+
+              <Card style={{ padding: 12, marginBottom: 16 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>Additional Notes / Context</div>
+                <textarea value={briefData.notes} onChange={e => setBriefData(p => ({...p, notes: e.target.value}))} placeholder="Any additional context: past campaign learnings, creative constraints, blackout dates, Ramadan considerations..." style={{ width: "100%", minHeight: 60, padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", resize: "vertical", boxSizing: "border-box" }} />
+              </Card>
+
+              <Card style={{ background: "#0d1a14", border: "1px solid #2a5040", padding: 16 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#7effb8", marginBottom: 10 }}>📋 Generated Brief Summary</div>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                  <strong style={{ color: "#e2e8f0" }}>Objective:</strong> {briefData.objective}<br/>
+                  <strong style={{ color: "#e2e8f0" }}>Audience:</strong> {briefData.audience || "Not specified"}<br/>
+                  <strong style={{ color: "#e2e8f0" }}>Markets:</strong> {briefData.markets?.join(", ") || "Not selected"}<br/>
+                  <strong style={{ color: "#e2e8f0" }}>Budget:</strong> {briefData.budget || "Not specified"}<br/>
+                  <strong style={{ color: "#e2e8f0" }}>Flight:</strong> {briefData.dates || "Not specified"}<br/>
+                  <strong style={{ color: "#e2e8f0" }}>Primary KPI:</strong> {briefData.kpi || "Not specified"}<br/>
+                  <strong style={{ color: "#e2e8f0" }}>Creative:</strong> {briefData.creative}<br/>
+                  {briefData.notes && <><strong style={{ color: "#e2e8f0" }}>Notes:</strong> {briefData.notes}<br/></>}
+                  <br/>
+                  <strong style={{ color: "#ffcb7e" }}>Recommended Platforms:</strong> {
+                    briefData.objective === "B2B / Thought Leadership" ? "LinkedIn (primary), Meta, Google Demand Gen, X (Twitter)" :
+                    briefData.objective === "App Installs" ? "Meta, TikTok, Google UAC, Snapchat" :
+                    briefData.objective === "Conversions / E-commerce" ? "Meta Advantage+ Sales, Google PMax, TikTok DSA, Programmatic Retargeting" :
+                    briefData.objective === "Lead Generation" ? "Meta Lead Forms, LinkedIn Lead Gen, TikTok Instant Forms, Google Demand Gen" :
+                    "Meta, TikTok, YouTube, Snapchat" + (briefData.markets?.includes("KSA") || briefData.markets?.includes("Kuwait") ? " (Snapchat critical for KSA/Kuwait)" : "")
+                  }<br/>
+                  {briefData.creative === "No creative budget" && <span style={{ color: "#ff7e7e" }}>⚠️ No creative budget — recommend Spark Ads (TikTok) and UGC approach. Flag to client that creative is #1 performance variable.</span>}
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* CREATIVE REQUIREMENTS GENERATOR */}
+          {activeSection === "creativegen" && (
+            <div>
+              <SectionTitle>Creative Requirements Generator</SectionTitle>
+              <SectionDesc>Select platforms in your media plan — get a complete creative specs checklist for your creative team.</SectionDesc>
+
+              <Card style={{ padding: 12, marginBottom: 16 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Select platforms in your plan:</div>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {["Meta", "TikTok", "Snapchat", "YouTube", "LinkedIn", "X (Twitter)", "Pinterest", "Programmatic"].map(p => (
+                    <button key={p} onClick={() => setSelectedPlatforms(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p])} style={{ padding: "6px 14px", borderRadius: 20, border: selectedPlatforms.includes(p) ? "1px solid #3b82f6" : "1px solid #1e2d45", background: selectedPlatforms.includes(p) ? "#1a2744" : "transparent", color: selectedPlatforms.includes(p) ? "#7eb8ff" : "#64748b", fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
+                  ))}
+                </div>
+              </Card>
+
+              {(() => {
+                const reqs = {
+                  "Meta": [{ format: "Feed Image", size: "1080×1350 (4:5)", type: "Image", notes: "JPG/PNG, <30MB. Arabic + English versions." }, { format: "Feed Video", size: "1080×1350 (4:5)", type: "Video", notes: "15–60s, MP4, <4GB. Captions mandatory. Hook in 3s." }, { format: "Stories/Reels", size: "1080×1920 (9:16)", type: "Video", notes: "15–30s, vertical only. Safe zones: 250px top, 340px bottom." }, { format: "Carousel Cards", size: "1080×1080 (1:1)", type: "Image/Video", notes: "2–10 cards. First card is the hook." }],
+                  "TikTok": [{ format: "In-Feed Video", size: "1080×1920 (9:16)", type: "Video", notes: "15–60s, native/UGC style. Hook in 2s. Trending audio." }, { format: "Spark Ads", size: "Creator's format", type: "Video", notes: "Requires creator authorisation. UGC outperforms brand content by 70%." }],
+                  "Snapchat": [{ format: "Single Video/Image", size: "1080×1920 (9:16)", type: "Video/Image", notes: "3–180s video, <1GB. 6s Commercial for non-skip." }, { format: "AR Lens", size: "Lens Studio specs", type: "AR", notes: "Requires Lens Studio. Budget $15K–$50K for reservation." }],
+                  "YouTube": [{ format: "Horizontal Video", size: "1920×1080 (16:9)", type: "Video", notes: "TrueView (skip after 5s): 30s–3min. Bumper: 6s. Non-skip: 15–20s." }, { format: "Shorts", size: "1080×1920 (9:16)", type: "Video", notes: "Up to 60s vertical. Part of Demand Gen campaigns." }],
+                  "LinkedIn": [{ format: "Sponsored Image", size: "1080×1080 (1:1) or 1200×627 (1.91:1)", type: "Image", notes: "Professional tone. Square outperforms landscape on mobile." }, { format: "Sponsored Video", size: "Min 360px wide", type: "Video", notes: "15–60s. Captions essential (auto-plays muted)." }, { format: "Document Ad", size: "PDF/PPT", type: "Document", notes: "<100MB. Swipeable pages. Strong for thought leadership." }],
+                  "X (Twitter)": [{ format: "Promoted Image", size: "1200×675 (1.91:1) or 1080×1080 (1:1)", type: "Image", notes: "JPG/PNG/GIF, <5MB. Max 4 images per tweet." }, { format: "Promoted Video", size: "1920×1080 (16:9) or 1080×1080 (1:1)", type: "Video", notes: "Up to 2:20. 6–15s recommended." }],
+                  "Pinterest": [{ format: "Standard Pin", size: "1000×1500 (2:3)", type: "Image", notes: "Vertical format dominant. <20MB." }, { format: "Video Pin", size: "1080×1920 (9:16) or 1080×1080 (1:1)", type: "Video", notes: "4s–15min. Max-Width for full-screen impact." }],
+                  "Programmatic": [{ format: "Display Banners (5 sizes)", size: "300×250, 728×90, 160×600, 320×50, 300×600", type: "Image/HTML5", notes: "<150KB each. Arabic + English. All 5 sizes required." }, { format: "OLV Pre-Roll", size: "1920×1080 (16:9)", type: "Video", notes: "15s or 30s. VAST tag. For PMP deals." }, { format: "CTV", size: "1920×1080 (16:9)", type: "Video", notes: "15s or 30s. HD minimum. Non-skippable." }],
+                };
+                return selectedPlatforms.map(p => reqs[p] && (
+                  <Card key={p} style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 10 }}>{p}</div>
+                    {reqs[p].map((r, i) => (
+                      <div key={i} style={{ display: "flex", gap: 12, padding: "8px 0", borderBottom: i < reqs[p].length - 1 ? "1px solid #1e2d45" : "none", fontSize: 12 }}>
+                        <div style={{ minWidth: 120, fontWeight: 600, color: "#cbd5e1" }}>{r.format}</div>
+                        <div style={{ minWidth: 160, color: "#7effb8", fontFamily: "monospace", fontSize: 11 }}>{r.size}</div>
+                        <Chip color={r.type.includes("Video") ? "purple" : r.type.includes("Image") ? "blue" : "amber"}>{r.type}</Chip>
+                        <div style={{ color: "#64748b", flex: 1 }}>{r.notes}</div>
+                      </div>
+                    ))}
+                  </Card>
+                ));
+              })()}
+            </div>
+          )}
+
+          {/* PLATFORM COMPARISON */}
+          {activeSection === "comparison" && (
+            <div>
+              <SectionTitle>Platform Comparison Tool</SectionTitle>
+              <SectionDesc>Select 2–4 platforms to compare side-by-side.</SectionDesc>
+
+              <Card style={{ padding: 12, marginBottom: 16 }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  {platforms.map(p => (
+                    <button key={p.name} onClick={() => setComparePlatforms(prev => prev.includes(p.name) ? prev.filter(x => x !== p.name) : prev.length < 4 ? [...prev, p.name] : prev)} style={{ padding: "6px 12px", borderRadius: 20, border: comparePlatforms.includes(p.name) ? "1px solid #3b82f6" : "1px solid #1e2d45", background: comparePlatforms.includes(p.name) ? "#1a2744" : "transparent", color: comparePlatforms.includes(p.name) ? "#7eb8ff" : "#64748b", fontSize: 10, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>{p.name.split("(")[0].trim()}</button>
+                  ))}
+                </div>
+              </Card>
+
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                  <thead>
+                    <tr style={{ borderBottom: "2px solid #1e2d45" }}>
+                      <th style={{ padding: 8, textAlign: "left", color: "#64748b", fontSize: 9, fontWeight: 700 }}>CRITERIA</th>
+                      {comparePlatforms.map(name => <th key={name} style={{ padding: 8, textAlign: "left", color: "#7eb8ff", fontSize: 10, fontWeight: 700 }}>{name.split("(")[0].trim()}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {["minBudget", "audienceFit", "capabilities"].map(field => (
+                      <tr key={field} style={{ borderBottom: "1px solid #141c2e" }}>
+                        <td style={{ padding: 8, color: "#ffcb7e", fontWeight: 600, fontSize: 10, textTransform: "uppercase" }}>{field === "minBudget" ? "Min Budget" : field === "audienceFit" ? "Audience" : "Capabilities"}</td>
+                        {comparePlatforms.map(name => {
+                          const p = platforms.find(pl => pl.name === name);
+                          return <td key={name} style={{ padding: 8, color: "#94a3b8", fontSize: 11, maxWidth: 200 }}>{p ? (field === "minBudget" ? <span style={{ color: "#7effb8", fontWeight: 700 }}>{p[field]}</span> : p[field]) : "N/A"}</td>;
+                        })}
+                      </tr>
+                    ))}
+                    <tr style={{ borderBottom: "1px solid #141c2e" }}>
+                      <td style={{ padding: 8, color: "#ffcb7e", fontWeight: 600, fontSize: 10 }}>TOP KPIS</td>
+                      {comparePlatforms.map(name => {
+                        const p = platforms.find(pl => pl.name === name);
+                        return <td key={name} style={{ padding: 8, color: "#94a3b8", fontSize: 10, fontFamily: "monospace" }}>{p?.kpis?.slice(0,3).map((k,i) => <div key={i}>{k}</div>)}</td>;
+                      })}
+                    </tr>
+                    <tr>
+                      <td style={{ padding: 8, color: "#ffcb7e", fontWeight: 600, fontSize: 10 }}>GCC NOTES</td>
+                      {comparePlatforms.map(name => {
+                        const p = platforms.find(pl => pl.name === name);
+                        return <td key={name} style={{ padding: 8, color: "#64748b", fontSize: 10 }}>{p?.gcc || "N/A"}</td>;
+                      })}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* RAMADAN PLANNER */}
+          {activeSection === "ramadan" && (
+            <div>
+              <SectionTitle>Ramadan Planning Timeline</SectionTitle>
+              <SectionDesc>Week-by-week Ramadan planning guide. Covers booking, creative, launch, optimisation, and Eid conversion.</SectionDesc>
+
+              {[
+                { week: "8–10 Weeks Before", phase: "Planning & Booking", color: "#3b82f6", tasks: ["Lock reservation formats: TikTok TopView/TopReach, YouTube Masthead, Snap First Story", "Brief creative team — Arabic Ramadan creative is mandatory", "Confirm media plan and budget allocation with client", "Set up measurement framework — ensure CAPI/Events API live", "Build audience segments for warm-up campaigns"], platforms: "All — booking phase" },
+                { week: "4–6 Weeks Before", phase: "Pre-Ramadan Warm-Up", color: "#8b5cf6", tasks: ["Launch awareness campaigns to build audience pools", "Begin Ramadan-themed content seeding on TikTok and Reels", "Test creative variants — identify top performers before CPM spike", "Confirm all tracking pixels firing correctly", "Pre-build Ramadan campaign structures in ad managers"], platforms: "Meta, TikTok, YouTube, Snapchat" },
+                { week: "Week 1–2 of Ramadan", phase: "Launch & Brand Building", color: "#f59e0b", tasks: ["Activate all reserved formats (TopView, Masthead, First Story)", "Heavy video investment — post-Iftar primetime 8pm–12am", "Shift scheduling to evening hours across all platforms", "Monitor CPMs daily — expect 2–3x increase", "Community and values messaging — not hard-sell"], platforms: "All at max investment" },
+                { week: "Week 2–3 of Ramadan", phase: "Engagement & Consideration", color: "#f97316", tasks: ["Refresh creative — first wave will fatigue by now", "Increase retargeting of engaged audiences", "Launch product/offer consideration campaigns", "Monitor frequency — cap awareness at 3–4x/week", "Spark Ads and UGC content for authenticity"], platforms: "Meta, TikTok, Snapchat, YouTube" },
+                { week: "Last 10 Nights", phase: "Conversion Push", color: "#ef4444", tasks: ["Shift budget to conversion campaigns (Advantage+, PMax, TikTok DSA)", "Activate DPA/catalogue ads for e-commerce", "Laylat Al Qadr messaging — highest engagement nights", "Click-to-WhatsApp for high-intent leads", "Monitor ROAS daily and reallocate to top performers"], platforms: "Meta Advantage+, Google PMax, TikTok DSA" },
+                { week: "Eid Al-Fitr (3–5 days)", phase: "Eid Conversion Spike", color: "#22c55e", tasks: ["Maximum conversion deployment — biggest spending window of the year", "Retarget all Ramadan audiences with conversion creative", "Flash promotions, gifting, fashion, F&B, travel", "WhatsApp CTA for immediate purchase/booking", "Dynamic Ads for personalised product recommendations"], platforms: "Meta, Google, TikTok, Snap Dynamic Ads" },
+                { week: "Post-Eid (1–2 weeks)", phase: "Analysis & Learnings", color: "#64748b", tasks: ["Compile end-of-Ramadan campaign report", "Compare performance vs pre-Ramadan benchmarks", "Document learnings: what worked, what didn't, why", "Update internal benchmark database with Ramadan actuals", "Begin planning for next year's Ramadan"], platforms: "Reporting & analysis" },
+              ].map((phase, i) => (
+                <div key={i} style={{ display: "flex", gap: 12, marginBottom: 4 }}>
+                  <div style={{ width: 4, background: phase.color, borderRadius: 2, flexShrink: 0 }} />
+                  <Card style={{ flex: 1, marginBottom: 0 }} hoverable onClick={() => {}}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: phase.color }}>{phase.phase}</div>
+                        <div style={{ fontSize: 10, color: "#64748b" }}>{phase.week}</div>
+                      </div>
+                      <Chip color={i < 2 ? "blue" : i < 4 ? "amber" : i < 6 ? "red" : "green"}>{phase.platforms.split(",")[0].trim()}</Chip>
+                    </div>
+                    <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.7 }}>
+                      {phase.tasks.map((t, ti) => <div key={ti} style={{ marginBottom: 2 }}>• {t}</div>)}
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* CPM HEATMAP */}
+          {activeSection === "heatmap" && (
+            <div>
+              <SectionTitle>Seasonal CPM Heatmap</SectionTitle>
+              <SectionDesc>Expected CPM pressure by month across platforms. Green = low/efficient, Yellow = moderate, Red = high/expensive.</SectionDesc>
+
+              {(() => {
+                const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+                const heatData = {
+                  Meta:     [2,3,3,1,1,1,1,1,2,2,3,2],
+                  TikTok:   [2,3,3,1,1,1,1,1,2,2,3,2],
+                  Snapchat: [2,3,3,1,1,1,1,1,2,2,3,2],
+                  YouTube:  [2,3,3,1,1,1,1,1,2,2,3,2],
+                  LinkedIn: [1,2,2,1,1,1,1,1,2,2,2,2],
+                  Programmatic: [1,2,3,1,1,1,1,1,1,2,3,2],
+                };
+                const colors = { 1: "#1a3a2a", 2: "#3a3a1a", 3: "#3a1a1a" };
+                const labels = { 1: "Low", 2: "Med", 3: "High" };
+                const textColors = { 1: "#7effb8", 2: "#ffcb7e", 3: "#ff7e7e" };
+                const events = { 0: "Ramadan prep", 1: "Ramadan", 2: "Eid / Ramadan", 3: "Post-Eid", 4: "Low season", 5: "Summer", 6: "Eid Al-Adha", 7: "Back to school", 8: "Saudi Nat Day", 9: "Q4 build", 10: "White Friday", 11: "UAE Nat Day" };
+
+                return (
+                  <div style={{ overflowX: "auto" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead>
+                        <tr>
+                          <th style={{ padding: 8, fontSize: 9, color: "#64748b", textAlign: "left" }}>Platform</th>
+                          {months.map(m => <th key={m} style={{ padding: "8px 4px", fontSize: 9, color: "#64748b", textAlign: "center", minWidth: 45 }}>{m}</th>)}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Object.entries(heatData).map(([platform, data]) => (
+                          <tr key={platform}>
+                            <td style={{ padding: 8, fontSize: 11, fontWeight: 700, color: "#e2e8f0" }}>{platform}</td>
+                            {data.map((level, mi) => (
+                              <td key={mi} style={{ padding: 4, textAlign: "center" }}>
+                                <div style={{ background: colors[level], borderRadius: 4, padding: "4px 2px", fontSize: 8, color: textColors[level], fontWeight: 700 }}>{labels[level]}</div>
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                        <tr>
+                          <td style={{ padding: 8, fontSize: 9, color: "#64748b", fontWeight: 600 }}>Key Event</td>
+                          {months.map((m, i) => (
+                            <td key={i} style={{ padding: 4, textAlign: "center", fontSize: 7, color: "#475569" }}>{events[i]}</td>
+                          ))}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })()}
+
+              <Card style={{ marginTop: 16, background: "#1a1520", border: "1px solid #2a1a30" }}>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.7 }}>
+                  <strong style={{ color: "#ff7e7e" }}>🔴 High CPM months:</strong> Feb–Mar (Ramadan), Nov (White Friday). Budget 2–3x more or accept lower reach.<br/>
+                  <strong style={{ color: "#ffcb7e" }}>🟡 Medium:</strong> Jan (pre-Ramadan), Sep (Saudi National Day), Oct–Dec (Q4). Plan early, book reservations.<br/>
+                  <strong style={{ color: "#7effb8" }}>🟢 Low CPM months:</strong> Apr–Aug. Best time for reach-building, testing, and efficiency campaigns.
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* BENCHMARK TRACKER */}
+          {activeSection === "benchmark" && (
+            <div>
+              <SectionTitle>Benchmark Tracker</SectionTitle>
+              <SectionDesc>Input your actual campaign results and compare against the playbook benchmarks. Add rows for each platform.</SectionDesc>
+
+              <button onClick={() => setBenchmarkData(prev => [...prev, { platform: "Meta", kpi: "CPM", benchmark: "3–11", actual: "", id: Date.now() }])} style={{ padding: "8px 16px", borderRadius: 8, border: "1px solid #3b82f6", background: "#1a2744", color: "#7eb8ff", fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", marginBottom: 16 }}>+ Add Row</button>
+
+              {benchmarkData.length > 0 && (
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                    <thead>
+                      <tr style={{ borderBottom: "2px solid #1e2d45" }}>
+                        {["Platform", "KPI", "Benchmark Range", "Your Actual", "Status", ""].map(h => (
+                          <th key={h} style={{ padding: 8, textAlign: "left", color: "#64748b", fontSize: 9, fontWeight: 700 }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {benchmarkData.map((row, i) => {
+                        const benchNums = row.benchmark.match(/[\d.]+/g)?.map(Number) || [0, 0];
+                        const actual = parseFloat(row.actual);
+                        const status = !actual ? "—" : row.kpi === "ROAS" ? (actual >= benchNums[0] ? "✅ On track" : "⚠️ Below") : (actual <= benchNums[1] ? "✅ On track" : actual <= benchNums[1] * 1.3 ? "⚠️ Watch" : "🔴 Over");
+                        return (
+                          <tr key={row.id} style={{ borderBottom: "1px solid #141c2e" }}>
+                            <td style={{ padding: 6 }}>
+                              <select value={row.platform} onChange={e => setBenchmarkData(prev => prev.map((r,ri) => ri === i ? {...r, platform: e.target.value} : r))} style={{ background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 4, color: "#e2e8f0", padding: "4px 6px", fontSize: 11, fontFamily: "inherit" }}>
+                                {["Meta","TikTok","Snapchat","YouTube","LinkedIn","X (Twitter)","Programmatic"].map(p => <option key={p}>{p}</option>)}
+                              </select>
+                            </td>
+                            <td style={{ padding: 6 }}>
+                              <select value={row.kpi} onChange={e => { const benchmarks = { CPM: "3–11", CPC: "0.30–1.10", CPL: "5–30", ROAS: "2–5", CPV: "0.01–0.05", CTR: "0.8–2.5" }; setBenchmarkData(prev => prev.map((r,ri) => ri === i ? {...r, kpi: e.target.value, benchmark: benchmarks[e.target.value] || "—"} : r)); }} style={{ background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 4, color: "#e2e8f0", padding: "4px 6px", fontSize: 11, fontFamily: "inherit" }}>
+                                {["CPM","CPC","CPL","ROAS","CPV","CTR"].map(k => <option key={k}>{k}</option>)}
+                              </select>
+                            </td>
+                            <td style={{ padding: 6, color: "#7effb8", fontFamily: "monospace" }}>${row.benchmark}</td>
+                            <td style={{ padding: 6 }}>
+                              <input value={row.actual} onChange={e => setBenchmarkData(prev => prev.map((r,ri) => ri === i ? {...r, actual: e.target.value} : r))} placeholder="e.g. 8.50" style={{ width: 80, background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 4, color: "#e2e8f0", padding: "4px 6px", fontSize: 11, fontFamily: "inherit" }} />
+                            </td>
+                            <td style={{ padding: 6, fontSize: 11 }}>{status}</td>
+                            <td style={{ padding: 6 }}>
+                              <button onClick={() => setBenchmarkData(prev => prev.filter((_,ri) => ri !== i))} style={{ background: "transparent", border: "none", color: "#ff7e7e", cursor: "pointer", fontSize: 12 }}>✕</button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              {benchmarkData.length === 0 && <Card><div style={{ fontSize: 12, color: "#64748b", textAlign: "center", padding: 20 }}>Click "+ Add Row" to start comparing your campaign metrics against benchmarks.</div></Card>}
+            </div>
+          )}
+
+          {/* AI PLAN GENERATOR */}
+          {activeSection === "aiplanner" && (
+            <div>
+              <SectionTitle>AI Plan Generator</SectionTitle>
+              <SectionDesc>Describe your campaign brief in plain language — get an AI-generated media plan with platform recommendations, budget split, and creative requirements.</SectionDesc>
+
+              <Card style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Describe your campaign:</div>
+                <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder={"Example: I need to promote a luxury real estate development in Dubai targeting Chinese and Russian investors. Budget is $80K/month for 3 months. We have video creative in English and Mandarin but no Arabic. The goal is qualified leads — phone calls and WhatsApp inquiries."} style={{ width: "100%", minHeight: 100, padding: "10px 12px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 8, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6 }} />
+                <button onClick={async () => {
+                  if (!aiPrompt.trim()) return;
+                  setAiLoading(true); setAiResult("");
+                  try {
+                    const res = await fetch("https://api.anthropic.com/v1/messages", {
+                      method: "POST", headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514", max_tokens: 1000,
+                        messages: [{ role: "user", content: `You are a senior GCC digital media planner at a media agency in Dubai. Based on this campaign brief, provide a structured media plan recommendation. Include: 1) Recommended platforms with % budget split, 2) Key KPIs and benchmark targets, 3) Creative requirements, 4) Measurement setup needed, 5) GCC-specific considerations. Be specific with numbers and GCC market context. Keep it concise and actionable.\n\nBrief: ${aiPrompt}` }]
+                      })
+                    });
+                    const data = await res.json();
+                    setAiResult(data.content?.[0]?.text || "Error generating plan. Please try again.");
+                  } catch (e) { setAiResult("Error connecting to AI. Please try again."); }
+                  setAiLoading(false);
+                }} disabled={aiLoading} style={{ marginTop: 10, padding: "10px 24px", borderRadius: 8, border: "none", background: aiLoading ? "#334155" : "#3b82f6", color: "#fff", fontSize: 12, fontWeight: 700, cursor: aiLoading ? "wait" : "pointer", fontFamily: "inherit" }}>
+                  {aiLoading ? "Generating plan..." : "🤖 Generate Media Plan"}
+                </button>
+              </Card>
+
+              {aiResult && (
+                <Card style={{ background: "#0d1a14", border: "1px solid #2a5040" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#7effb8", marginBottom: 10 }}>🤖 AI-Generated Media Plan</div>
+                  <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{aiResult}</div>
+                </Card>
+              )}
+
+              {!aiResult && !aiLoading && (
+                <Card>
+                  <div style={{ fontSize: 12, color: "#64748b", textAlign: "center", padding: 20 }}>
+                    Describe your campaign above and click "Generate Media Plan" to get an AI-powered recommendation using GCC-specific data and media planning expertise.
+                  </div>
+                </Card>
+              )}
             </div>
           )}
 
