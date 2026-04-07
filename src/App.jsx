@@ -138,16 +138,15 @@ const planningStages = [
 ];
 
 const platforms = [
-  { name: "Meta", include: "Any objective at any budget tier. Audience 18–55+. Creative in 9:16 and 1:1. E-commerce with Pixel + CAPI.", exclude: "Landscape-only creative. No Pixel for conversions. Budget below $5K/month.", gcc: "Essential baseline for all GCC campaigns. Dual-language (AR+EN) recommended. Ramadan CPMs spike 2–3x.", color: "blue" },
-  { name: "TikTok", include: "Target 18–34. Native entertainment-first creative. Awareness or video view campaigns. UGC-style content.", exclude: "Target 45+. Corporate creative. Budget below $5K/month. Heavily regulated category.", gcc: "GCC TikTok usage among highest globally. Arabic content critical. Spark Ads outperform brand content. Book TopView 4–6 weeks ahead.", color: "purple" },
-  { name: "Snapchat", include: "KSA or Kuwait (non-negotiable). Audience 13–34. AR or experiential formats. Cultural moments.", exclude: "B2B or 45+ audience. Budget below $5K/month. No vertical creative. UAE-only campaign.", gcc: "KSA & Kuwait penetration 60–70%. Sponsored Snaps and Total Snap Takeover are new high-impact formats.", color: "amber" },
-  { name: "YouTube", include: "Video is primary format. Audience researches before buying. Awareness or demand gen objective.", exclude: "No video creative. Budget below $5K/month. Pure social engagement objective.", gcc: "#1 video platform in GCC. Arabic content consumption very high. Masthead book 4–8 weeks advance.", color: "red" },
-  { name: "Google Demand Gen", include: "Mid-to-lower funnel. Video/image creative available. Google Tag + GA4 in place. Budget $10K+/month.", exclude: "No conversion tracking. Budget below $5K/month. Pure awareness. Single static image only.", gcc: "Most versatile Google performance format for GCC. Strong for fashion, retail, travel. Replaces Discovery Ads.", color: "teal" },
-  { name: "Google PMax", include: "E-commerce at scale. Product feed available. 50+ monthly conversions. Enhanced Conversions implemented. Budget $15K+/month.", exclude: "Under 30–50 conversions/month. No server-side tracking. Need precise placement control. No product feed.", gcc: "Covers all Google inventory. GCC fashion, electronics, FMCG see strong ROAS. Not for early-stage brands.", color: "teal" },
-  { name: "LinkedIn", include: "B2B professionals, decision-makers. Lead generation or thought leadership. Budget accepts premium CPMs ($15–$60).", exclude: "B2C mass awareness. General consumers. Budget below $10K/month.", gcc: "Growing in UAE and KSA enterprise sectors. Thought Leader Ads underused but highly effective.", color: "blue" },
-  { name: "X (Twitter)", include: "Live event tie-in (sports, news). Real-time conversation. News-aware adults.", exclude: "E-commerce conversions. Budget below $5K/month. Brand safety is a concern.", gcc: "Strongest for live events: F1, Saudi National Day, FIFA. Trend Takeover+ owns national conversation.", color: "green" },
-  { name: "Pinterest", include: "Female 25–44. Home, fashion, beauty, weddings. Upper-to-mid funnel discovery.", exclude: "Not visually driven. Male-skewing. Immediate conversion at scale.", gcc: "GCC audience skews affluent female. Shopping Spotlight effective for peak retail.", color: "red" },
-  { name: "Programmatic", include: "Reach extension beyond social. Brand safety via PMPs. Retargeting. CTV/OTT or DOOH.", exclude: "Budget below $20K/month. No first-party data or pixel.", gcc: "Shahid & MBC offer premium Arabic video. DOOH in Dubai & Riyadh is premium. Always use PMPs.", color: "amber" },
+  { name: "Meta (Facebook + Instagram)", strengths: ["Broadest audience reach (18–55+) at any budget", "Most mature auction system — exits learning phase fastest", "Full-funnel: awareness through conversion in one platform", "Advantage+ / Andromeda AI optimises creative-to-audience matching", "CAPI enables strong server-side measurement", "WhatsApp Status + Threads extend reach further"], kpis: ["Awareness: CPM $3–$11, Reach, Frequency", "Traffic: CPC $0.30–$1.10, LPV, CTR", "Leads: CPL $5–$30, Form Completion Rate", "Conversions: ROAS 2–5x, CPA, CVR"], audienceFit: "Almost universal. Strongest 25–54 but effective across all demos. Both Arabic & English audiences. Expat + national reach in all GCC markets.", capabilities: "Full-funnel bidding (awareness→conversion). Pixel + CAPI tracking. Custom/Lookalike audiences. Catalogue/DPA. Lead Gen Forms. A/B testing. DCO. Advantage+ Sales for e-commerce.", evaluate: "Is our audience on Meta? → Almost certainly yes. Do we have Pixel + CAPI? → Required for conversion campaigns. Budget $5K+/month? → Minimum for learning phase. Creative in 9:16? → Needed for Reels/Stories (now 90% of inventory). Past performance? → Check historical CPA/ROAS benchmarks.", gcc: "Essential baseline for all GCC campaigns. Dual-language (AR+EN) recommended. Ramadan CPMs spike 2–3x — budget accordingly. Threads ads now live globally (Feb 2026). WhatsApp Status ads auto-activate in Traffic campaigns.", minBudget: "$5K/month", color: "blue" },
+  { name: "TikTok", strengths: ["Dominant for 18–34 audience in GCC", "Highest time-spent per session of any platform", "Creative IS targeting — algorithm finds audience based on content", "Spark Ads (creator content) drive 70% higher CTR than brand content", "New formats: Logo Takeover, Prime Time, TopReach, Pulse"], kpis: ["Awareness: CPM $5–$20, Reach, VCR", "Video Views: CPV $0.02–$0.08, Completion Rate", "Traffic: CPC $0.20–$1.00, LPV", "Conversions: ROAS 1.5–4x, CPA"], audienceFit: "Dominant 18–34. Growing 35–44. Weaker 45+. Arabic-language content critical. KSA & UAE are among highest TikTok usage globally. Entertainment-first audience mindset.", capabilities: "In-Feed video, TopView (CPM auction), Spark Ads, Branded Hashtag Challenges, Dynamic Showcase Ads. Events API for server-side tracking. Smart+ (AI automation). TikTok Shop not yet in GCC.", evaluate: "Is target audience 18–34? → Strong signal to include. Can we produce native/UGC-style creative? → Essential — polished TV-style underperforms. Events API implemented? → Required for conversion campaigns. Budget $5K+/month? → Minimum. Is there a cultural moment to leverage? → TikTok excels at moment-based campaigns.", gcc: "Among highest usage globally. Arabic content and trending sounds are critical. Book TopView/TopReach 4–6 weeks ahead for peak moments. Spark Ads are underused by GCC agencies.", minBudget: "$5K/month", color: "purple" },
+  { name: "Snapchat", strengths: ["60–70% penetration in KSA & Kuwait — non-negotiable for these markets", "Strongest AR/Lens capabilities of any platform", "New: Total Snap Takeover, Sponsored Snaps, Reminder Ads", "Inbox-first usage behaviour = high ad attention", "Smart Bidding + Smart Budget for automated optimisation"], kpis: ["Awareness: CPM $3–$10, Reach, Swipe-Up Rate", "Video: CPV $0.01–$0.05, Completion Rate", "Leads: CPL $8–$34, Form Completion Rate", "Conversions: ROAS 1.5–3.5x, CPA"], audienceFit: "Dominant 13–34 in KSA and Kuwait. Important but less dominant in UAE. Weaker for 45+ and B2B audiences. Arabic-speaking, mobile-native users.", capabilities: "AR Lenses (incl. AI Lenses), First Story, Commercials (non-skippable 6s), Dynamic Ads, Sponsored Snaps (inbox), Reminder Ads, Story Ads. Snap Pixel + CAPI.", evaluate: "Does the campaign target KSA or Kuwait? → Snapchat is mandatory, not optional. Audience 13–34? → Strong fit. AR or experiential component? → Snap is the leader. Budget to produce Snap-specific vertical creative? → Required. Past Snap performance in market? → Check historical CPMs and swipe rates.", gcc: "KSA & Kuwait penetration is 60–70% — cannot be excluded for these markets. Total Snap Takeover (Mar 2026) dominates entire app. Sponsored Snaps appear in Chat inbox.", minBudget: "$5K/month", color: "amber" },
+  { name: "YouTube / Google Video", strengths: ["#1 video platform in GCC by time-spent", "Massive Arabic content consumption", "Non-skippable formats guarantee message delivery", "Masthead for maximum single-day reach", "Demand Gen spans YouTube + Shorts + Gmail + Discover"], kpis: ["Awareness: CPM $5–$15, Reach, Brand Lift", "Video Views: CPV $0.01–$0.05, VTR, Completion Rate", "Demand Gen: CPC $0.50–$2.00, ROAS 2–6x"], audienceFit: "Broadest video audience in GCC. All ages. Strong for audiences that research before buying (auto, real estate, B2B, tech, travel). Both Arabic and English content consumption.", capabilities: "TrueView (skippable), Non-Skip (15–20s), Bumpers (6s), Shorts, Masthead. Demand Gen (multi-surface). PMax (all Google surfaces). YouTube Select (top 5% content).", evaluate: "Is video storytelling important for this campaign? → YouTube is the primary platform. Does the audience research before purchasing? → YouTube is in the consideration path. Budget for $5K+/month? → Minimum. Video assets available? → Required. Need guaranteed message delivery? → Use non-skip or bumpers.", gcc: "#1 video platform in GCC. Arabic content consumption is extremely high. Masthead book 4–8 weeks in advance. Demand Gen is strongest Google mid-funnel format for GCC.", minBudget: "$5K/month", color: "red" },
+  { name: "Google Performance Max", strengths: ["Covers ALL Google surfaces from one campaign", "AI-driven creative and audience optimisation", "Strong for e-commerce with product feeds", "Enhanced Conversions for accurate measurement"], kpis: ["Conversions: ROAS 3–8x (e-commerce), CPA varies", "New Customer Rate, Impression Share"], audienceFit: "Broad — lets Google AI find the right audience. Best for brands with existing conversion data (50+ monthly conversions). Strongest for e-commerce, travel, auto in GCC.", capabilities: "Automated across YouTube, Search, GDN, Gmail, Discover, Maps, Shopping. AI generates ad combinations from asset library. Requires product feed for shopping, Enhanced Conversions.", evaluate: "Is the objective e-commerce conversions? → PMax is Google's strongest format. Do we have 50+ monthly conversions? → Required for AI to optimise. Enhanced Conversions implemented? → Non-negotiable. Product feed available? → Required for Shopping inventory. Budget $15K+/month? → Minimum for meaningful AI learning.", gcc: "GCC fashion, electronics, FMCG see strong ROAS. Not suitable for early-stage brands without conversion history.", minBudget: "$15K/month", color: "teal" },
+  { name: "LinkedIn", strengths: ["Only platform for precise B2B professional targeting", "Job title, industry, company, seniority targeting", "Pre-filled Lead Gen Forms from profile data = high completion", "Thought Leader Ads amplify executive credibility", "Document Ads drive high engagement for thought leadership"], kpis: ["Awareness: CPM $10–$60", "Leads: CPL $30–$150, Form Completion Rate", "Conversions: CPA $50–$200+", "Engagement: CPE $0.50–$3.00"], audienceFit: "Business professionals, C-suite, decision-makers. BFSI, tech, government, consulting, real estate investors. Not suitable for B2C mass-market or general consumers.", capabilities: "Sponsored Content (image/video/carousel), Lead Gen Forms (pre-filled), Document Ads (PDF carousels), InMail, Thought Leader Ads. Insight Tag for tracking. ABM targeting.", evaluate: "Is this a B2B campaign? → LinkedIn is likely essential. Target audience is decision-makers or specific job titles? → Only LinkedIn can target this precisely. Budget accepts premium CPMs ($15–$60)? → LinkedIn is expensive — thin budgets produce minimal reach. Past performance data? → Check historical CPL and lead quality scores.", gcc: "Growing in UAE and KSA enterprise sectors. Government, BFSI, tech verticals perform well. Thought Leader Ads underused but highly effective.", minBudget: "$10K/month (practical minimum)", color: "blue" },
+  { name: "X (Twitter)", strengths: ["Strongest platform for real-time event moments", "Trend Takeover+ dominates national conversation", "Strong news, culture, finance, sports, and government audience", "Amplify Pre-Roll for brand-safe in-stream video"], kpis: ["Awareness: CPM $7–$19, Impressions, SOV", "Video: CPV $0.04–$0.15, Completion Rate", "Engagement: CPE $0.15–$0.60", "Traffic: CPC $0.60–$2.40"], audienceFit: "News-aware, politically and culturally engaged adults. Sports fans. Finance and government professionals. Weaker for e-commerce and direct response.", capabilities: "Promoted Ads, Video Ads, Website Cards, Trend Takeover+, Amplify Pre-Roll, Vertical Video Ads. Limited conversion optimisation vs Meta/TikTok.", evaluate: "Is this campaign tied to a live event (F1, FIFA, National Day, Ramadan)? → X is essential for real-time. Is the audience news/sports/finance-engaged? → Good fit. Is the objective e-commerce or app installs? → X is weak here — deprioritise. Budget for meaningful reach ($5K+/month)? → Brand safety is a concern — verify controls.", gcc: "Strongest for live events: F1 Abu Dhabi, Saudi National Day, FIFA. Trend Takeover+ is highly effective for owning a national conversation. Use primarily as moment-based buy, not always-on.", minBudget: "$5K/month", color: "green" },
+  { name: "Pinterest", strengths: ["High purchase-intent audience in planning/discovery mode", "Strong for visually-driven lifestyle categories", "Shopping Spotlight for peak retail moments", "Affluent female audience in GCC"], kpis: ["Awareness: CPM $4–$12, Saves, Closeups", "Traffic: CPC $0.50–$2.00, Outbound Clicks", "Conversions: ROAS 2–5x (with catalogue)"], audienceFit: "Female 25–44, interested in home, fashion, beauty, weddings, travel, lifestyle. Affluent. Users actively planning purchases — high intent.", capabilities: "Standard Pins, Video Pins, Max-Width Video, Shopping Ads, Dynamic Product Ads, Collections, Lead Ads. Pinterest Tag required for conversion tracking.", evaluate: "Is the category visually driven (fashion, beauty, home, weddings)? → Strong fit. Is the target audience female 25–44? → Pinterest's core demo. Do we have a product catalogue? → Enables Shopping Ads. Is the objective discovery-to-purchase? → Pinterest excels here. Direct response at scale? → Pinterest is a discovery platform, not DR.", gcc: "GCC audience skews affluent female. Shopping Spotlight effective for DSF, Eid gifting. Less developed than other platforms in GCC but growing.", minBudget: "$3K/month", color: "red" },
+  { name: "Programmatic (Display, CTV, DOOH, Audio)", strengths: ["Reach beyond social walled gardens", "Premium brand-safe inventory via PMPs", "CTV (Shahid, OSN+) for lean-back video", "DOOH for physical-world brand presence", "Retargeting across the open web", "DCO for personalised creative at scale"], kpis: ["Awareness: CPM $2–$30 (varies by inventory)", "Video: CPCV $0.05–$0.20, VCR", "Retargeting: CPC $0.30–$2.00, CVR", "CTV: CPM $15–$40, near-100% viewability"], audienceFit: "Broad — depends on inventory and data strategy. CTV reaches cord-cutters and streaming audiences. DOOH reaches commuters, shoppers, travellers. Display/native for retargeting and reach extension.", capabilities: "Display banners, native, OLV pre-roll, CTV/OTT, DOOH, audio (Spotify, Anghami). DCO. Retargeting. First-party data activation. Brand safety via DV/IAS. Needs DSP (DV360, TTD, MiQ).", evaluate: "Do we need reach beyond social platforms? → Programmatic extends across the open web + CTV + DOOH. Is retargeting a priority? → Programmatic display/native is the standard approach. Budget $20K+/month? → Minimum for meaningful programmatic. Verification (DV/IAS) in place? → Non-negotiable. First-party data available? → Significantly improves performance. Which DSP? → See Vendor Landscape section.", gcc: "Shahid & MBC offer premium Arabic CTV inventory. DOOH in Dubai Mall, SZR, Riyadh King Fahd Road is premium. Always use PMPs over open exchange for brand safety.", minBudget: "$20K/month", color: "amber" },
 ];
 
 const frameworkData = [
@@ -635,15 +634,54 @@ export default function App() {
           {/* PLATFORM SELECTION */}
           {activeSection === "platforms" && (
             <div>
-              <SectionTitle>Platform Selection Criteria</SectionTitle>
-              <SectionDesc>When to include or exclude each platform, with GCC-specific considerations.</SectionDesc>
+              <SectionTitle>Platform Evaluation & Selection</SectionTitle>
+              <SectionDesc>A holistic framework for evaluating each platform. Consider: Does our audience live here? Can the platform deliver on our KPIs? Do we have the right creative, tracking, and budget? What does past performance tell us?</SectionDesc>
+
+              <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 20 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>🎯 Platform Selection Framework — 5 Questions Before Adding Any Platform</div>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.9 }}>
+                  <strong style={{ color: "#7effb8" }}>1. Audience:</strong> Is our target audience actually on this platform in this market? (Don't assume — check platform data)<br/>
+                  <strong style={{ color: "#ffcb7e" }}>2. Capability:</strong> Can this platform deliver against our specific KPI? (Awareness ≠ Conversion ≠ Lead Gen)<br/>
+                  <strong style={{ color: "#c07eff" }}>3. Creative:</strong> Do we have the right creative format for this platform? (9:16 for TikTok/Snap, UGC-style, Arabic versions)<br/>
+                  <strong style={{ color: "#7eb8ff" }}>4. Measurement:</strong> Is tracking in place? (Pixel, CAPI, Events API, UTMs, GA4 — platform-specific)<br/>
+                  <strong style={{ color: "#ff7e7e" }}>5. Budget:</strong> Is budget sufficient for the platform to exit learning phase and deliver meaningful data?
+                </div>
+              </Card>
+
               {platforms.filter(p => !filterText || JSON.stringify(p).toLowerCase().includes(filterText)).map((p, i) => (
-                <Accordion key={i} title={p.name} badge={<Chip color={p.color}>{p.name}</Chip>}>
+                <Accordion key={i} title={p.name} badge={<Chip color={p.color}>{p.minBudget} min</Chip>}>
                   <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
-                    <InfoRow label="✅ Include when" value={p.include} />
-                    <InfoRow label="❌ Exclude when" value={p.exclude} />
-                    <div style={{ marginTop: 10, padding: 10, background: "#0f1726", borderRadius: 8, fontSize: 12 }}>
-                      <strong style={{ color: "#ffcb7e" }}>🌍 GCC Note:</strong> {p.gcc}
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontWeight: 700, color: "#7effb8", fontSize: 11, textTransform: "uppercase", marginBottom: 6 }}>Strengths</div>
+                      {p.strengths.map((s, si) => <div key={si} style={{ fontSize: 12, marginBottom: 3, paddingLeft: 12, position: "relative" }}><span style={{ position: "absolute", left: 0 }}>•</span> {s}</div>)}
+                    </div>
+
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontWeight: 700, color: "#ffcb7e", fontSize: 11, textTransform: "uppercase", marginBottom: 6 }}>KPIs & Benchmarks</div>
+                      {p.kpis.map((k, ki) => <div key={ki} style={{ fontSize: 12, marginBottom: 2, fontFamily: "monospace" }}>{k}</div>)}
+                    </div>
+
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontWeight: 700, color: "#c07eff", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>Audience Fit</div>
+                      <div style={{ fontSize: 12 }}>{p.audienceFit}</div>
+                    </div>
+
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ fontWeight: 700, color: "#7eb8ff", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>Platform Capabilities</div>
+                      <div style={{ fontSize: 12 }}>{p.capabilities}</div>
+                    </div>
+
+                    <div style={{ marginBottom: 12, padding: 12, background: "#0d1a14", borderRadius: 8, border: "1px solid #2a5040" }}>
+                      <div style={{ fontWeight: 700, color: "#7effb8", fontSize: 11, textTransform: "uppercase", marginBottom: 6 }}>📋 Should We Include This Platform? (Evaluation Checklist)</div>
+                      <div style={{ fontSize: 12, lineHeight: 1.8 }}>{p.evaluate}</div>
+                    </div>
+
+                    <div style={{ padding: 10, background: "#0f1726", borderRadius: 8, fontSize: 12 }}>
+                      <strong style={{ color: "#ffcb7e" }}>🌍 GCC Considerations:</strong> {p.gcc}
+                    </div>
+
+                    <div style={{ marginTop: 8 }}>
+                      <InfoRow label="Min Budget" value={<span style={{ color: "#7effb8", fontWeight: 700 }}>{p.minBudget}</span>} />
                     </div>
                   </div>
                 </Accordion>
@@ -1130,7 +1168,7 @@ export default function App() {
               <SectionDesc>Complete ad dimensions, formats, file requirements, and placement-specific specs across all platforms. {creativeSpecs.length} formats documented.</SectionDesc>
 
               <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
-                {["All", ...new Set(creativeSpecs.map(s => s.platform))].map(p => (
+                {["All"].concat(Array.from(new Set(creativeSpecs.map(s => s.platform)))).map(p => (
                   <button key={p} onClick={() => setCreativePlatform(p)} style={{
                     padding: "6px 14px", borderRadius: 20, border: creativePlatform === p ? "1px solid #3b82f6" : "1px solid #1e2d45",
                     background: creativePlatform === p ? "#1a2744" : "#0d1425", color: creativePlatform === p ? "#7eb8ff" : "#64748b",
@@ -1148,10 +1186,15 @@ export default function App() {
                 </div>
               </Card>
 
+              {(() => { const filtered = creativeSpecs.filter(s => creativePlatform === "All" || s.platform === creativePlatform).filter(s => !filterText || JSON.stringify(s).toLowerCase().includes(filterText)); return (
+                <div style={{ fontSize: 12, color: "#64748b", marginBottom: 16 }}>Showing <strong style={{ color: "#7eb8ff" }}>{filtered.length}</strong> of {creativeSpecs.length} formats {creativePlatform !== "All" ? `for ${creativePlatform}` : ""}</div>
+              ); })()}
+
               <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 14 }}>📱 Visual Format Examples</h3>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
 
                 {/* Phone: Feed 1:1 */}
+                {(creativePlatform === "All" || ["Meta","LinkedIn","X (Twitter)","Pinterest"].includes(creativePlatform)) && (
                 <Card style={{ padding: 16, textAlign: "center" }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>Feed Post — 1:1 Square</div>
                   <div style={{ width: 140, margin: "0 auto", background: "#0b1120", borderRadius: 16, border: "2px solid #334155", padding: "8px 6px", position: "relative" }}>
@@ -1171,9 +1214,10 @@ export default function App() {
                     <div style={{ width: 30, height: 3, borderRadius: 10, background: "#334155", margin: "8px auto 2px" }} />
                   </div>
                   <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta · LinkedIn · X · Pinterest</div>
-                </Card>
+                </Card>)}
 
                 {/* Phone: Feed 4:5 */}
+                {(creativePlatform === "All" || creativePlatform === "Meta") && (
                 <Card style={{ padding: 16, textAlign: "center" }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "#ffcb7e", marginBottom: 8 }}>Feed Post — 4:5 Vertical</div>
                   <div style={{ width: 140, margin: "0 auto", background: "#0b1120", borderRadius: 16, border: "2px solid #334155", padding: "8px 6px" }}>
@@ -1188,8 +1232,8 @@ export default function App() {
                     <div style={{ height: 3, background: "#1e2d45", borderRadius: 2, margin: "4px 20px 2px", width: "60%" }} />
                     <div style={{ width: 30, height: 3, borderRadius: 10, background: "#334155", margin: "6px auto 2px" }} />
                   </div>
-                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta Feed · Recommended for mobile</div>
-                </Card>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta Feed · Best for mobile</div>
+                </Card>)}
 
                 {/* Phone: Stories/Reels 9:16 */}
                 <Card style={{ padding: 16, textAlign: "center" }}>
