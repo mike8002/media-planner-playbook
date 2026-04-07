@@ -575,6 +575,8 @@ export default function App() {
   const [mobileNav, setMobileNav] = useState(false);
   const [vendorRegion, setVendorRegion] = useState("GCC / Dubai");
   const [creativePlatform, setCreativePlatform] = useState("All");
+  const [funnelJourney, setFunnelJourney] = useState("E-commerce");
+  const [funnelHover, setFunnelHover] = useState(null);
   const contentRef = useRef(null);
 
   const toggleCheck = (key) => setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
@@ -1081,6 +1083,134 @@ export default function App() {
             <div>
               <SectionTitle>Measurement & KPIs</SectionTitle>
               <SectionDesc>KPI framework by funnel stage, tracking setup requirements, and attribution caveats every planner must understand.</SectionDesc>
+
+              {(() => {
+                const journeys = {
+                  "E-commerce": {
+                    stages: [
+                      { name: "Awareness", width: "100%", color: "#3b82f6", kpi: "CPM $3–$20 · Reach · Frequency · Brand Lift", platforms: { mobile: ["Meta Reels", "TikTok TopView", "YouTube Bumper", "Snap Stories"], desktop: ["YouTube Masthead", "Meta Feed", "Programmatic Display"], ctv: ["Shahid CTV", "OSN+ CTV", "YouTube CTV"] }, tip: "Goal: Maximum reach among target audience. Use video-first formats. Budget 25–35% here. Measure unique reach and frequency (cap 2–3x/week). Arabic creative for KSA/Kuwait." },
+                      { name: "Consideration", width: "80%", color: "#8b5cf6", kpi: "CPC $0.20–$1.50 · CTR · LPV · Video VTR", platforms: { mobile: ["Meta Traffic", "TikTok In-Feed", "Google Demand Gen", "Pinterest"], desktop: ["YouTube TrueView", "LinkedIn Content", "Google Demand Gen"], ctv: ["YouTube Select"] }, tip: "Goal: Drive qualified traffic and product exploration. Optimise for Landing Page Views (not link clicks). Use carousel and video to showcase products. Budget 15–25%." },
+                      { name: "Conversion", width: "55%", color: "#f59e0b", kpi: "ROAS 2–8x · CPA · CVR · Add-to-Cart Rate", platforms: { mobile: ["Meta Advantage+ Sales", "Google PMax", "TikTok DSA", "Snap Dynamic Ads"], desktop: ["Google PMax", "Meta DPA", "Programmatic Retargeting"] }, tip: "Goal: Drive purchases. Use Advantage+ Sales (Meta) + PMax (Google) as primary. Retarget consideration audiences. Ensure CAPI/Enhanced Conversions. Budget 30–40%." },
+                      { name: "Retention", width: "35%", color: "#22c55e", kpi: "CPA (retargeting) · ROAS · LTV · Repeat Rate", platforms: { mobile: ["Meta Custom Audiences", "Google Retargeting", "WhatsApp CTA", "Email/CRM"], desktop: ["Programmatic Retargeting", "Google RLSA", "Meta DPA"] }, tip: "Goal: Re-engage buyers, increase LTV. Use CRM lists for Custom Audiences. WhatsApp for GCC (95%+ penetration). Frequency cap 5–7x/week. Budget 10–15%." },
+                    ]
+                  },
+                  "Lead Generation": {
+                    stages: [
+                      { name: "Awareness", width: "100%", color: "#3b82f6", kpi: "CPM $3–$20 · Reach · Video Views · Brand Lift", platforms: { mobile: ["Meta Video", "TikTok TopView", "YouTube Non-Skip", "Snap AR Lens"], desktop: ["LinkedIn Sponsored Content", "YouTube TrueView", "Programmatic OLV"] }, tip: "Goal: Build brand awareness before asking for leads. Video content that educates or inspires. LinkedIn for B2B awareness. Budget 20–30%." },
+                      { name: "Consideration", width: "80%", color: "#8b5cf6", kpi: "CTR · CPC · Engagement Rate · Content Views", platforms: { mobile: ["Meta Carousel", "TikTok Spark Ads", "LinkedIn Document Ads"], desktop: ["LinkedIn Thought Leader Ads", "Google Demand Gen", "Meta Traffic"] }, tip: "Goal: Educate and build trust. Document Ads on LinkedIn for B2B. Spark Ads for social proof. Drive to content pages or lead magnets. Budget 20–25%." },
+                      { name: "Lead Capture", width: "55%", color: "#f59e0b", kpi: "CPL $5–$150 · Form Completion Rate · Lead Quality", platforms: { mobile: ["Meta Lead Forms", "LinkedIn Lead Gen", "TikTok Instant Form", "Snap Lead Ads"], desktop: ["LinkedIn Lead Gen", "Google Demand Gen Lead Form", "Meta Lead Forms"] }, tip: "Goal: Capture qualified leads. Native in-platform forms convert 2–3x better than landing pages. Arabic form fields for KSA/Kuwait. Pre-filled LinkedIn forms for B2B. Budget 30–40%." },
+                      { name: "Nurture", width: "35%", color: "#22c55e", kpi: "SQL Rate · Meeting Booked Rate · Cost per SQL", platforms: { mobile: ["WhatsApp Follow-up", "Meta Retargeting", "Email Sequences"], desktop: ["LinkedIn InMail", "Google RLSA", "Programmatic Retargeting"] }, tip: "Goal: Convert leads to sales-qualified. WhatsApp follow-up is powerful in GCC. LinkedIn InMail for B2B. Retarget form openers who didn't complete. Budget 10–20%." },
+                    ]
+                  },
+                  "App Install": {
+                    stages: [
+                      { name: "Awareness", width: "100%", color: "#3b82f6", kpi: "CPM · Reach · Video Views · Brand Recall", platforms: { mobile: ["TikTok TopView", "Meta Reels", "Snap AR Lens", "YouTube Bumper"] }, tip: "Goal: Drive awareness of the app and its value prop. Video-first showing the app in action. TikTok and Reels for younger demos. Budget 20–25%." },
+                      { name: "Install", width: "70%", color: "#8b5cf6", kpi: "CPI $1–$6 · Install Rate · CTR-to-Install", platforms: { mobile: ["Meta App Promotion", "TikTok App Install", "Google UAC", "Snap App Install"] }, tip: "Goal: Drive app installs at efficient CPI. Google UAC covers Play Store + YouTube + GDN. Meta and TikTok for social installs. Use AppsFlyer/Adjust for attribution. Budget 40–50%." },
+                      { name: "Activation", width: "45%", color: "#f59e0b", kpi: "D1/D7 Retention · Registration Rate · First Action", platforms: { mobile: ["Meta App Events", "TikTok App Events", "Google UAC (in-app)", "Push Notifications"] }, tip: "Goal: Get installs to register and complete first action. Optimise toward in-app events, not just installs. Deep-link to specific content. Budget 15–20%." },
+                      { name: "Retention", width: "30%", color: "#22c55e", kpi: "D30 Retention · LTV · Re-engagement Rate", platforms: { mobile: ["Meta Retargeting", "Google App Campaigns", "Push/In-App", "Programmatic Retargeting"] }, tip: "Goal: Re-engage lapsed users and increase LTV. Retarget users who installed but didn't activate. Rewarded video for gaming. Budget 10–15%." },
+                    ]
+                  },
+                  "B2B": {
+                    stages: [
+                      { name: "Awareness", width: "100%", color: "#3b82f6", kpi: "CPM $10–$60 · Reach · Video Views · SOV", platforms: { mobile: ["LinkedIn Sponsored Content", "Meta Video", "YouTube TrueView"], desktop: ["LinkedIn Thought Leader Ads", "YouTube Select", "X (Twitter) Trends", "Programmatic OLV"] }, tip: "Goal: Build brand awareness among decision-makers. LinkedIn is primary — Thought Leader Ads from execs build credibility. YouTube for longer storytelling. Budget 25–30%." },
+                      { name: "Consideration", width: "75%", color: "#8b5cf6", kpi: "CTR · CPC $5–$15 · Document Opens · Engagement", platforms: { mobile: ["LinkedIn Document Ads", "Meta Carousel"], desktop: ["LinkedIn Document Ads", "Google Demand Gen", "X Amplify Pre-Roll", "Programmatic Native"] }, tip: "Goal: Educate decision-makers. LinkedIn Document Ads (PDF carousels) drive high engagement. Webinar/whitepaper distribution. Content-led native ads. Budget 20–25%." },
+                      { name: "Lead Gen", width: "50%", color: "#f59e0b", kpi: "CPL $30–$150 · Form Completion · Lead Quality Score", platforms: { mobile: ["LinkedIn Lead Gen Forms", "Meta Lead Forms"], desktop: ["LinkedIn Lead Gen Forms", "LinkedIn InMail", "Google Demand Gen", "Webinar Landing Pages"] }, tip: "Goal: Capture high-quality leads from qualified professionals. LinkedIn pre-filled forms convert best for B2B. InMail for ABM (1 per member per 45 days). Budget 30–35%." },
+                      { name: "Pipeline", width: "30%", color: "#22c55e", kpi: "SQL Rate · Pipeline Value · Meeting Rate · Deal Close", platforms: { mobile: ["LinkedIn InMail", "Email Sequences", "WhatsApp"], desktop: ["LinkedIn Retargeting", "Google RLSA", "ABM Display", "Programmatic Retargeting"] }, tip: "Goal: Convert MQLs to SQLs and pipeline. ABM retargeting on LinkedIn by company list. Sales team follow-up. Track through to pipeline value, not just lead volume. Budget 10–20%." },
+                    ]
+                  },
+                };
+
+                const journey = journeys[funnelJourney];
+
+                return (
+                  <div style={{ marginBottom: 28 }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 12 }}>🔻 Interactive Funnel — Platform & KPI by Stage</h3>
+                    <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+                      {Object.keys(journeys).map(j => (
+                        <button key={j} onClick={() => { setFunnelJourney(j); setFunnelHover(null); }} style={{
+                          padding: "6px 14px", borderRadius: 20, border: funnelJourney === j ? "1px solid #3b82f6" : "1px solid #1e2d45",
+                          background: funnelJourney === j ? "#1a2744" : "#0d1425", color: funnelJourney === j ? "#7eb8ff" : "#64748b",
+                          fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "inherit"
+                        }}>{j}</button>
+                      ))}
+                    </div>
+
+                    {/* Funnel Visual */}
+                    <div style={{ position: "relative" }}>
+                      {journey.stages.map((stage, si) => (
+                        <div key={si} style={{ display: "flex", alignItems: "stretch", marginBottom: 2, cursor: "pointer", position: "relative" }}
+                          onMouseEnter={() => setFunnelHover(si)} onMouseLeave={() => setFunnelHover(null)}>
+                          {/* Funnel bar */}
+                          <div style={{
+                            width: stage.width, minHeight: 70, background: funnelHover === si ? `${stage.color}30` : `${stage.color}18`,
+                            borderLeft: `4px solid ${stage.color}`, borderRadius: "0 12px 12px 0", padding: "12px 16px",
+                            transition: "all .2s", display: "flex", flexDirection: "column", justifyContent: "center",
+                            boxShadow: funnelHover === si ? `0 0 20px ${stage.color}20` : "none"
+                          }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                              <div style={{ fontSize: 14, fontWeight: 800, color: stage.color }}>{stage.name}</div>
+                              <div style={{ fontSize: 9, color: "#64748b", fontFamily: "monospace" }}>{stage.kpi.split("·")[0].trim()}</div>
+                            </div>
+                            <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                              {(stage.platforms.mobile || []).slice(0, 4).map((p, pi) => (
+                                <span key={pi} style={{ fontSize: 9, padding: "1px 6px", borderRadius: 8, background: `${stage.color}20`, color: stage.color, border: `1px solid ${stage.color}30` }}>{p}</span>
+                              ))}
+                              {(stage.platforms.mobile || []).length > 4 && <span style={{ fontSize: 9, color: "#64748b" }}>+{stage.platforms.mobile.length - 4}</span>}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Hover popup */}
+                      {funnelHover !== null && (
+                        <div style={{
+                          position: "absolute", right: 0, top: funnelHover * 72, width: 340, background: "#141c2e",
+                          border: `1px solid ${journey.stages[funnelHover].color}40`, borderRadius: 12, padding: 16, zIndex: 10,
+                          boxShadow: "0 8px 32px rgba(0,0,0,.5)", pointerEvents: "none"
+                        }}>
+                          <div style={{ fontSize: 13, fontWeight: 800, color: journey.stages[funnelHover].color, marginBottom: 8 }}>
+                            {journey.stages[funnelHover].name} — {funnelJourney}
+                          </div>
+
+                          <div style={{ fontSize: 10, color: "#94a3b8", marginBottom: 10, lineHeight: 1.5 }}>
+                            {journey.stages[funnelHover].tip}
+                          </div>
+
+                          <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", textTransform: "uppercase", marginBottom: 4 }}>KPIs</div>
+                          <div style={{ fontSize: 11, color: "#e2e8f0", fontFamily: "monospace", marginBottom: 10 }}>
+                            {journey.stages[funnelHover].kpi}
+                          </div>
+
+                          <div style={{ display: "grid", gridTemplateColumns: journey.stages[funnelHover].platforms.ctv ? "1fr 1fr 1fr" : "1fr 1fr", gap: 8 }}>
+                            <div>
+                              <div style={{ fontSize: 9, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>📱 MOBILE</div>
+                              {(journey.stages[funnelHover].platforms.mobile || []).map((p, i) => (
+                                <div key={i} style={{ fontSize: 10, color: "#cbd5e1", marginBottom: 2 }}>• {p}</div>
+                              ))}
+                            </div>
+                            <div>
+                              <div style={{ fontSize: 9, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>🖥️ DESKTOP</div>
+                              {(journey.stages[funnelHover].platforms.desktop || []).map((p, i) => (
+                                <div key={i} style={{ fontSize: 10, color: "#cbd5e1", marginBottom: 2 }}>• {p}</div>
+                              ))}
+                            </div>
+                            {journey.stages[funnelHover].platforms.ctv && (
+                              <div>
+                                <div style={{ fontSize: 9, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>📺 CTV</div>
+                                {journey.stages[funnelHover].platforms.ctv.map((p, i) => (
+                                  <div key={i} style={{ fontSize: 10, color: "#cbd5e1", marginBottom: 2 }}>• {p}</div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {funnelHover === null && <div style={{ fontSize: 10, color: "#475569", marginTop: 8, fontStyle: "italic" }}>Hover over a funnel stage to see platform recommendations, KPIs, and strategy tips split by device.</div>}
+                  </div>
+                );
+              })()}
 
               <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 12 }}>Funnel Stage KPIs</h3>
               {[
