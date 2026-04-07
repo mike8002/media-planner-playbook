@@ -6,8 +6,6 @@ const SECTIONS = [
   { id: "platforms", label: "Platform Selection", icon: "📱" },
   { id: "framework", label: "Media Framework", icon: "📊" },
   { id: "formats", label: "High Impact Formats", icon: "⚡" },
-  { id: "programmatic", label: "Programmatic Deep Dive", icon: "🖥️" },
-  { id: "vendors", label: "Vendor Landscape", icon: "🏢" },
   { id: "budget", label: "Budget & Channel Mix", icon: "💰" },
   { id: "measurement", label: "Measurement & KPIs", icon: "📡" },
   { id: "calendar", label: "GCC Calendar", icon: "📅" },
@@ -15,6 +13,8 @@ const SECTIONS = [
   { id: "caveats", label: "Caveats & Risks", icon: "⚠️" },
   { id: "checklist", label: "Pre-Launch QA", icon: "✅" },
   { id: "mistakes", label: "Common Mistakes", icon: "🚫" },
+  { id: "programmatic", label: "Programmatic Deep Dive", icon: "🖥️" },
+  { id: "vendors", label: "Vendor Landscape", icon: "🏢" },
   { id: "glossary", label: "KPI Glossary", icon: "📖" },
 ];
 
@@ -228,6 +228,69 @@ const programmaticEcosystem = [
   ]},
 ];
 
+const regionalVendors = {
+  "GCC / Dubai": { desc: "The core vendor ecosystem for programmatic advertising across UAE, KSA, Kuwait, Qatar, Bahrain, and Oman.", data: programmaticEcosystem },
+  "China": { desc: "China operates a completely separate digital ecosystem. Google, Meta, and Western DSPs do not function inside the Great Firewall. BAT (Baidu, Alibaba, Tencent) control ~90% of programmatic. All platforms require Chinese-language creative and local entity or agency partner.", data: [
+    { category: "Major Platforms (BAT Ecosystem)", description: "Baidu, Alibaba, and Tencent dominate ~90% of China's $163B digital ad market. Each operates as a closed ecosystem with its own DSP, DMP, and ad exchange.", vendors: [
+      { name: "Baidu Ads (Baidu Tuiguang)", type: "Search + Programmatic", what: "China's dominant search engine (66% market share). Baidu Ads covers search (PPC), display via Baidu Ad Network, video (iQIYI), and programmatic. Equivalent of Google Ads in China. Reaches 1B+ users.", gcc: "Essential for brands targeting Chinese tourists visiting GCC or Chinese investors in Dubai/Abu Dhabi real estate. Search ads are the entry point for any China-focused campaign. Requires Chinese landing pages.", bestFor: "Search ads, brand awareness, travel/real estate targeting Chinese audiences", minBudget: "$5K+/month (via local agency)" },
+      { name: "Tencent Ads (WeChat + QQ)", type: "Social + Programmatic", what: "Tencent's ad platform covering WeChat (1.4B MAU), QQ, Tencent Video, and Tencent News. WeChat Moments ads are equivalent to Facebook News Feed. WeChat mini-programs enable in-app e-commerce and lead gen. Tencent Ad Exchange (TAE) powers programmatic.", gcc: "WeChat is the #1 platform for reaching Chinese HNWI/UHNW audiences interested in GCC real estate, luxury, and hospitality. WeChat mini-programs are essential for lead gen funnels targeting Chinese buyers. Used by OMNIYAT, Emaar, and other GCC developers.", bestFor: "HNWI targeting, real estate, luxury, WeChat lead gen funnels", minBudget: "$10K+/month" },
+      { name: "Alibaba / Alimama (TANX)", type: "E-commerce + Programmatic", what: "Alibaba's ad ecosystem covers Taobao, Tmall, Youku, and the TANX ad exchange (one of China's largest). Alimama is the advertising arm. Programmatic buying via TANX reaches Alibaba's massive e-commerce audience. Enterprise DMP available.", gcc: "Relevant for GCC brands selling products to Chinese consumers. Fashion, beauty, and luxury GCC brands can advertise on Tmall Global (cross-border e-commerce). Less relevant for services/real estate.", bestFor: "E-commerce, product sales to Chinese consumers, Tmall brands", minBudget: "$15K+/month" },
+    ]},
+    { category: "Social & Video Platforms", description: "Beyond BAT, newer platforms dominate short-video, community, and content discovery.", vendors: [
+      { name: "Douyin (TikTok China)", type: "Short-Video + E-commerce", what: "The Chinese version of TikTok, operated by ByteDance. Massive reach among 18–45 demographics. Supports in-feed video ads, TopView, branded hashtag challenges, and live-stream shopping. Douyin Shop enables direct e-commerce. Ocean Engine is the ad platform.", gcc: "Critical for reaching younger Chinese audiences. GCC tourism, hospitality, and luxury brands use Douyin KOLs (influencers) for destination marketing. Live-streaming is key for product launches. Requires native Chinese content.", bestFor: "Video ads, influencer campaigns, e-commerce, tourism marketing", minBudget: "$5K+/month" },
+      { name: "Xiaohongshu (RED / RedNote)", type: "Community + Discovery", what: "Lifestyle and product discovery platform — 300M+ users, predominantly young urban women (Tier 1–2 cities). Combines social media with product reviews and e-commerce. Strong for beauty, fashion, travel, and luxury. KOL/KOC (influencer) marketing is primary strategy.", gcc: "Powerful for GCC luxury real estate, hospitality, and lifestyle brands targeting affluent Chinese women. User-generated content and KOC reviews drive trust. Essential for brands wanting word-of-mouth in China.", bestFor: "Luxury, lifestyle, beauty, travel, female audiences", minBudget: "$3K+/month (KOL seeding)" },
+      { name: "Weibo (Sina Weibo)", type: "Microblogging + Social", what: "China's equivalent of Twitter/Facebook hybrid. 580M+ MAU. Strong for brand awareness, trending topics, celebrity endorsements, and event marketing. Weibo Fans Headline and Fans Tunnel are key ad products.", gcc: "Good for broad awareness campaigns targeting Chinese audiences. Event-driven campaigns (Dubai Shopping Festival, Expo activations) perform well. Less precise targeting than WeChat or Douyin.", bestFor: "Brand awareness, trending campaigns, event marketing, celebrity endorsements", minBudget: "$5K+/month" },
+      { name: "Bilibili", type: "Gen Z Video Platform", what: "China's dominant Gen Z video platform (like YouTube for younger demographics). 340M+ MAU. Long-form video, anime, gaming, education, and lifestyle content. Growing ad platform with native video ads.", gcc: "Niche but growing — relevant for GCC brands targeting Gen Z Chinese tourists or students. Education and gaming verticals.", bestFor: "Gen Z, gaming, education, long-form video", minBudget: "$5K+/month" },
+    ]},
+    { category: "China DSPs & Specialist Vendors", description: "Independent DSPs and specialist platforms for reaching Chinese audiences programmatically.", vendors: [
+      { name: "iPinYou", type: "Independent China DSP", what: "China's leading independent DSP. Works with Baidu, JD.com, Ctrip, and other major publishers. Transparent trading platform (Optimus Prime). Integrates with IAS and Grapeshot for verification. Cross-data analysis across multiple Chinese publishers.", gcc: "Best independent option for GCC brands running programmatic in China without relying solely on BAT ecosystems. Supports cross-publisher optimisation.", bestFor: "Independent programmatic buying, cross-publisher reach", minBudget: "$15K+/month" },
+      { name: "EternityX", type: "China Cross-Border DSP", what: "Cross-border programmatic platform specialising in connecting international brands with Chinese audiences — both inside China and outbound Chinese travellers globally. Covers WeChat, Weibo, Baidu, Douyin, and Chinese-language inventory worldwide.", gcc: "Directly relevant for GCC real estate, luxury, and hospitality brands targeting Chinese investors and tourists. Operates in Dubai with GCC agency partnerships. Has worked with UM on OMNIYAT campaigns. Covers PIPL/GDPR compliance.", bestFor: "Cross-border China targeting, HNWI investors, GCC real estate", minBudget: "$10K+/month" },
+      { name: "Toutiao / Pangolin (ByteDance)", type: "Content Discovery + In-App", what: "ByteDance's news and content discovery platform (100M+ DAU). Pangolin is the in-app advertising network. AI-powered content recommendations with embedded ads. Part of the Ocean Engine ad platform alongside Douyin.", gcc: "Useful for content-driven campaigns targeting Chinese audiences. Strong for education, finance, and news-adjacent advertising.", bestFor: "Content discovery ads, news-adjacent, AI-powered targeting", minBudget: "$5K+/month" },
+    ]},
+    { category: "Key Considerations for China", description: "Critical rules for any brand advertising in or targeting China.", vendors: [
+      { name: "⚠️ China Planning Rules", type: "Must-Know Guidelines", what: "1) Google, Meta, YouTube, and Western DSPs (DV360, TTD) do not work inside China — the Great Firewall blocks them. 2) All creative must be in Mandarin Chinese. 3) You need a local agency partner or Chinese entity to open ad accounts on most platforms. 4) WeChat and Douyin are the two most important platforms for reaching HNWI audiences. 5) PIPL (China's data privacy law) requires data localisation — work with compliant vendors. 6) KOL/KOC influencer marketing is often more effective than paid ads for luxury and lifestyle brands. 7) Mini-programs (WeChat/Douyin) are essential for lead gen — Chinese users expect in-app experiences, not external websites.", gcc: "For GCC brands targeting Chinese buyers (real estate, luxury, hospitality): start with WeChat + Douyin, use KOLs for credibility, build a WeChat mini-program for lead capture, and work with EternityX or a specialist China agency. Budget: minimum $15K–$20K/month to be meaningful.", bestFor: "Planning reference", minBudget: "N/A" },
+    ]},
+  ]},
+  "Russia / CIS": { desc: "Since 2022, Google Ads and Meta Ads are blocked in Russia. The market runs on local platforms: Yandex (66% search share), VK, and Telegram. Over 90% of ad campaigns use domestic DSPs. Google Analytics replaced by Yandex Metrica.", data: [
+    { category: "Major Platforms", description: "Yandex and VK dominate Russia's digital advertising landscape, with Telegram emerging as a key channel.", vendors: [
+      { name: "Yandex Direct", type: "Search + Programmatic + Display", what: "Russia's dominant ad platform. Covers search ads (66% search market share), Yandex Advertising Network (YAN — 50K+ publisher sites), display, video, in-app, and programmatic buying. Reaches 102M monthly users (83% of Russia's population). Automated bidding, AI-powered ad creation, and deep audience targeting from Yandex's super-app ecosystem (Maps, Food, Music, Market).", gcc: "Essential for any brand targeting Russian-speaking audiences in GCC or Russia. Large Russian expat community in UAE makes Yandex relevant for Dubai real estate, luxury, hospitality, and tourism marketing. Yandex has a MENA-focused sales team.", bestFor: "Search ads, programmatic display, Russian-speaking audiences", minBudget: "$5K+/month" },
+      { name: "VK Ads", type: "Social + Display Network", what: "VK's ad platform covering VKontakte (Russia's largest social network), Odnoklassniki (OK.ru), Avito (classifieds), Dzen (content), and 50K+ partner sites. Display, video, native, and Stories ad formats. Advanced targeting. Budget auto-optimisation. Replaced Meta Ads as the primary social advertising platform.", gcc: "Relevant for targeting Russian consumers and the Russian expat community in UAE/GCC. VK is the primary social media platform in Russia. Strong for real estate, education, and tourism brands targeting Russian speakers.", bestFor: "Social media ads, Russian consumer targeting, broad reach", minBudget: "$3K+/month" },
+      { name: "Telegram Ads", type: "Messaging + Channel Ads", what: "Telegram has 50%+ daily penetration in Russia. Ads run in channels with 1,000+ subscribers — visible to non-Premium users. Short text + button format only. Can link to Telegram channel or external website. Available via Yandex Direct integration or Telegram's own ad platform.", gcc: "Telegram is widely used in GCC, especially among Russian and CIS expat communities. Relevant for real estate developers, hospitality, and luxury brands targeting Russian-speaking audiences in Dubai. Telegram bots can be used for lead gen.", bestFor: "Russian community targeting, channel advertising, lead gen via bots", minBudget: "$2K+/month" },
+    ]},
+    { category: "Independent Russian DSPs", description: "Since Google DV360 and The Trade Desk exited Russia, local DSPs have filled the gap. Over 90% of programmatic campaigns now run on domestic platforms.", vendors: [
+      { name: "HYBRID", type: "Independent Russian DSP", what: "Top-10 revenue DSP in Russia. Operates independently from Yandex, VK, and MTS ecosystems. Self-service model. Supports display, video, audio, CTV, and DOOH. Partners with major Russian publishers. Unified dashboard across all channels.", gcc: "Available for campaigns targeting Russian audiences. Offers CTV and DOOH formats that Yandex Direct does not cover natively.", bestFor: "Omnichannel programmatic, CTV, DOOH, independence from Yandex/VK", minBudget: "$10K+/month" },
+      { name: "Segmento (MTS)", type: "Telecom-Powered DSP", what: "MTS telecom's DSP with first-party mobile data from Russia's largest mobile operator. Deep audience targeting based on telecom data (location, app usage, demographics). Includes Buzzoola for native advertising.", gcc: "Strong for precision targeting of Russian mobile users. Telecom data provides unique audience signals unavailable on other platforms.", bestFor: "Telecom data targeting, precision audiences, native ads", minBudget: "$10K+/month" },
+      { name: "GetIntent", type: "Self-Service Russian DSP", what: "Self-service DSP with AI-powered campaign optimisation. Video tutorials and knowledge base for setup. Automated bidding across CPM, CPC, CPA models.", gcc: "Entry-level option for agencies testing Russian programmatic without committing to larger platforms.", bestFor: "Self-service programmatic, mid-market budgets", minBudget: "$5K+/month" },
+    ]},
+    { category: "Analytics & Measurement (Russia)", description: "Google Analytics does not function in Russia since 2022. Local alternatives have fully replaced it.", vendors: [
+      { name: "Yandex Metrica", type: "Web Analytics", what: "Russia's primary web analytics platform. Equivalent of Google Analytics. Heatmaps, session recordings, goal tracking, funnel visualisation. Fully integrated with Yandex Direct. Free to use.", gcc: "Required for any website targeting Russian audiences. Integrates with Yandex Direct for conversion tracking and audience building.", bestFor: "Web analytics, conversion tracking, Yandex integration", minBudget: "Free" },
+      { name: "Roistat", type: "End-to-End Marketing Analytics", what: "Comprehensive marketing analytics platform. Multi-channel attribution, ROI tracking, call tracking, CRM integration. Supports data imports from Yandex, VK Ads, Ozon, and third-party DSPs.", gcc: "Best option for brands needing cross-channel attribution in Russia. Replaces Google Analytics + GA4 functionality.", bestFor: "Cross-channel attribution, ROI tracking, CRM integration", minBudget: "Subscription-based" },
+      { name: "myTracker (VK)", type: "Mobile App Analytics", what: "VK's mobile measurement and analytics platform. Tracks app installs, in-app events, and user retention. Free alternative to AppsFlyer/Adjust for Russian market.", gcc: "Required for app campaigns targeting Russian users. Replaces Western MMPs for Russia-focused campaigns.", bestFor: "Mobile app tracking, install attribution", minBudget: "Free" },
+    ]},
+    { category: "Key Considerations for Russia", description: "Critical rules for any brand advertising in or targeting Russia/CIS markets.", vendors: [
+      { name: "⚠️ Russia Planning Rules", type: "Must-Know Guidelines", what: "1) Google Ads and Meta Ads are blocked — Yandex Direct and VK Ads are the primary platforms. 2) Google Analytics doesn't work — use Yandex Metrica. 3) Yandex holds 66% search share and is the #1 platform for performance marketing. 4) VK is the primary social media platform (Meta/Instagram require VPN). 5) Telegram is a major media channel — 50%+ daily penetration. 6) 42% of Russians use VPNs — targeting precision is reduced on non-logged-in platforms. 7) All creative must be in Russian. 8) Local agency partner recommended for account setup and management. 9) CIS markets (Kazakhstan, Belarus, Uzbekistan) can be reached via Yandex and VK but may need separate creative.", gcc: "For GCC brands targeting Russian-speaking audiences: Yandex Direct is the starting point. VK Ads for social reach. Telegram for community building. Large Russian expat community in Dubai — Yandex/VK still reach them. Budget: $10K+/month minimum to be meaningful.", bestFor: "Planning reference", minBudget: "N/A" },
+    ]},
+  ]},
+  "South & Southeast Asia": { desc: "Diverse markets with varying platform dominance. India is mobile-first with strong Google/Meta presence. Southeast Asia sees heavy social commerce via TikTok, Shopee, and Lazada. LINE dominates in Thailand, KakaoTalk in South Korea.", data: [
+    { category: "Major Platforms", description: "Google and Meta work across the region but local platforms have significant presence in specific markets.", vendors: [
+      { name: "Google Ads (incl. DV360)", type: "Search + Programmatic", what: "Google is the dominant search engine across South and Southeast Asia. Google Ads covers Search, Display, YouTube, and Demand Gen. DV360 available for enterprise programmatic. Strong in India, Indonesia, Philippines, Thailand, Vietnam.", gcc: "Standard tool for GCC brands targeting South Asian audiences (Indian, Filipino, Sri Lankan expat communities in UAE/GCC). Google Ads works the same as for GCC campaigns — no special setup needed.", bestFor: "Search, YouTube, display, broad APAC reach", minBudget: "$5K+/month" },
+      { name: "Meta (Facebook + Instagram)", type: "Social", what: "Facebook and Instagram remain the dominant social platforms across South and Southeast Asia. Facebook is #1 in Philippines, Indonesia, Vietnam, and India. Instagram strong for younger urban demographics. Messenger is a major commerce channel in Philippines.", gcc: "Standard tool for reaching South/Southeast Asian audiences. Same platform as GCC campaigns. Large Indian and Filipino communities in UAE are reachable via Meta.", bestFor: "Social advertising, broad APAC reach, e-commerce", minBudget: "$3K+/month" },
+      { name: "TikTok (+ TikTok Shop)", type: "Short-Video + Social Commerce", what: "TikTok is massive across Southeast Asia — Indonesia, Thailand, Vietnam, Philippines, and Malaysia. TikTok Shop is a major social commerce platform in the region (unlike GCC where it's not yet widely deployed). Live-stream shopping is a key format.", gcc: "TikTok Shop is transforming e-commerce in SEA. For GCC brands exporting to SEA or targeting SEA tourists, TikTok is essential. Same ad platform as GCC TikTok campaigns.", bestFor: "Social commerce, Gen Z/Millennial, live-stream shopping", minBudget: "$5K+/month" },
+    ]},
+    { category: "Regional & Market-Specific Platforms", description: "Platforms with dominance in specific Asian markets.", vendors: [
+      { name: "LINE Ads (Thailand, Japan, Taiwan)", type: "Messaging + Social", what: "LINE is the dominant messaging app in Thailand (50M+ users), Japan (95M+), and Taiwan (21M+). LINE Ads Platform supports display, video, and native ads within the LINE app ecosystem. LINE Official Accounts enable brand CRM and retargeting.", gcc: "Essential for any campaign targeting Thai audiences. Thai expat community in GCC is reachable. Requires local agency for account setup in most cases.", bestFor: "Thailand market, Japanese market, messaging ads", minBudget: "$3K+/month" },
+      { name: "KakaoTalk (South Korea)", type: "Messaging + Social", what: "South Korea's dominant messaging platform (47M+ MAU in a 52M population). Kakao Moment ads reach users across KakaoTalk, Daum (search), and Kakao's content ecosystem. Display, video, and commerce ad formats.", gcc: "Required for any campaign targeting South Korean audiences. Korean tourists are a significant segment in Dubai luxury/hospitality.", bestFor: "South Korean market, messaging ads, commerce", minBudget: "$5K+/month" },
+      { name: "Shopee & Lazada Ads", type: "E-commerce Marketplace", what: "Shopee (Sea Group) and Lazada (Alibaba) are the two dominant e-commerce platforms in Southeast Asia. Both offer in-platform advertising: sponsored products, display ads, and live-stream shopping. Shopee is #1 in most SEA markets.", gcc: "Relevant for GCC brands selling physical products into Southeast Asian markets. Not relevant for service-based GCC campaigns.", bestFor: "E-commerce, product sales into SEA markets", minBudget: "$3K+/month" },
+      { name: "Grab Ads", type: "Super-App Advertising", what: "Grab is Southeast Asia's leading super-app (ride-hailing, food delivery, payments). Grab Ads offers in-app display, native, and location-based targeting. Covers Singapore, Malaysia, Indonesia, Philippines, Thailand, Vietnam.", gcc: "Niche but growing — useful for targeting SEA consumers based on real-world behaviour (travel, dining). Location-based targeting is strong.", bestFor: "Location-based ads, in-app, super-app audience", minBudget: "$5K+/month" },
+    ]},
+    { category: "India-Specific", description: "India is the world's largest mobile-first market with 800M+ internet users. Google and Meta dominate, but local platforms are growing.", vendors: [
+      { name: "JioAds (Jio Platforms)", type: "Telecom + Super-App Ecosystem", what: "Reliance Jio's advertising platform covering Jio Cinema (streaming), JioSaavn (music), Jio News, and Jio's massive mobile user base (450M+ subscribers). Programmatic and direct buying. CTV inventory via Jio Cinema (formerly Voot).", gcc: "Relevant for GCC brands targeting Indian audiences — Jio reaches the broadest mobile audience in India. Indian expat community is the largest in UAE. Jio Cinema offers CTV-style inventory.", bestFor: "Indian mass-market reach, CTV, mobile-first", minBudget: "$10K+/month" },
+      { name: "Hotstar (Disney+ Hotstar)", type: "Premium CTV/OTT", what: "India's leading premium streaming platform. Cricket (IPL), movies, and series. Ad-supported tier with pre-roll, mid-roll, and sponsor formats. Massive reach during IPL cricket season.", gcc: "Strong for reaching Indian audiences during IPL season — cricket viewership in UAE is massive. Premium brand-safe environment.", bestFor: "Cricket/IPL advertising, premium Indian audiences, CTV", minBudget: "$15K+/month" },
+      { name: "InMobi", type: "Mobile-First DSP", what: "India-headquartered mobile-first DSP with global reach. Strong in-app advertising capabilities. Proprietary data from Glance (lock-screen) and mobile SDK integrations. Supports display, video, native, and rewarded ads.", gcc: "One of the few India-origin DSPs with genuine global scale. Useful for mobile-first campaigns targeting Indian and SEA audiences.", bestFor: "Mobile in-app advertising, India/SEA reach, performance", minBudget: "$10K+/month" },
+    ]},
+  ]},
+};
+
 const budgetTiers = [
   { tier: "Starter", budget: "$5K–$15K/mo", platforms: "Meta + 1 (TikTok or Snap)", mix: "Meta 70–80%, 1 secondary", max: 2, buying: "Auction only", reach: "50K–300K impressions/mo", constraint: "Too small for reservation formats" },
   { tier: "Growth", budget: "$15K–$50K/mo", platforms: "Meta + TikTok + Snap or YouTube", mix: "Meta 50–60%, TikTok 20–25%, Other 15–25%", max: 3, buying: "Auction + minor reservation", reach: "300K–1.5M impressions/mo", constraint: "Begin testing platform mix" },
@@ -398,6 +461,7 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [checkedItems, setCheckedItems] = useState({});
   const [mobileNav, setMobileNav] = useState(false);
+  const [vendorRegion, setVendorRegion] = useState("GCC / Dubai");
   const contentRef = useRef(null);
 
   const toggleCheck = (key) => setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
@@ -579,7 +643,7 @@ export default function App() {
           {activeSection === "programmatic" && (
             <div>
               <SectionTitle>Programmatic Deep Dive</SectionTitle>
-              <SectionDesc>Understanding the programmatic ecosystem: how DSPs, SSPs, ad servers, verification vendors, and data platforms work together to power automated media buying across display, video, CTV, audio, and DOOH.</SectionDesc>
+              <SectionDesc>The complete guide to programmatic advertising in the GCC: how it works, when to use it, the planning approach, what to watch out for, a pre-launch checklist, and the most common pitfalls.</SectionDesc>
 
               <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 24 }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#7eb8ff", marginBottom: 10 }}>🖥️ How Programmatic Works (Simple Version)</div>
@@ -603,8 +667,141 @@ export default function App() {
                 </div>
               </Card>
 
-              <Card style={{ marginBottom: 24, background: "#1a1520", border: "1px solid #2a1a30" }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#ff7e7e", marginBottom: 10 }}>⚠️ GCC Programmatic Rules of Thumb</div>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 12, marginTop: 28 }}>📋 Planning Approach — Step by Step</h3>
+              {[
+                { step: "1. Define Role in the Media Mix", detail: "Programmatic is not a replacement for social — it's complementary. Define whether programmatic is playing an awareness role (CTV, DOOH, OLV), a retargeting role (display, native), or a reach-extension role (beyond social walled gardens). This determines your DSP, inventory, and creative requirements.", output: "Written rationale for programmatic's role in the campaign" },
+                { step: "2. Select the Right DSP", detail: "Choose based on: budget (DV360 needs $10K+/month, TTD needs $25K+), inventory needs (YouTube = DV360, CTV-first = TTD or MiQ), data strategy (Google data = DV360, first-party via UID2 = TTD), and transparency requirements. One DSP per campaign unless budget justifies multi-DSP.", output: "DSP selection with rationale documented" },
+                { step: "3. Build Your Inventory Strategy", detail: "Decide: Open Exchange vs PMP vs Programmatic Guaranteed. For GCC, default to PMPs for brand safety. Build an inclusion list of approved publishers and domains. For CTV, secure PMP deals with Shahid, OSN+. For DOOH, book premium locations early. Avoid open exchange without verification.", output: "Inventory strategy document: deal IDs, publisher list, buying type per format" },
+                { step: "4. Set Up Audiences & Data", detail: "Layer audiences in priority order: (1) First-party data — CRM lists, website retargeting via pixel (highest value, 2–3x performance vs third-party), (2) Lookalike/similar audiences from first-party seeds, (3) Third-party data segments — contextual, intent, demographic. For GCC, ensure Arabic-language content targeting is configured.", output: "Audience strategy with segments, data sources, and priority ranking" },
+                { step: "5. Creative Requirements", detail: "Programmatic needs multiple sizes and formats: display (300×250, 728×90, 160×600, 320×50 minimum), video (15s and 30s, horizontal and vertical), native (headline + image + description), CTV (15s and 30s, 16:9), DOOH (varies by screen). Arabic + English versions for KSA/Kuwait. Use DCO where possible for personalisation.", output: "Creative matrix: format × size × language × message variant" },
+                { step: "6. Implement Verification & Tracking", detail: "Before launch: implement DV or IAS tags in the ad server (CM360 or Flashtalking). Configure brand safety categories — block content related to violence, politics, religion, adult. Set viewability threshold (70%+ industry standard). Enable IVT (invalid traffic) monitoring. Set up conversion pixels if running performance campaigns.", output: "Verification setup confirmed, brand safety categories documented" },
+                { step: "7. Launch, Monitor & Optimise", detail: "Week 1: monitor delivery, pacing, viewability, and brand safety incidents. Week 2+: optimise — pause underperforming domains/apps, shift budget to high-performing PMPs, refresh creative. Ongoing: review placement reports for low-quality sites, check frequency caps, monitor fraud rates. Report weekly.", output: "Weekly optimisation report with actions taken" },
+              ].map((s, i) => (
+                <Accordion key={i} title={s.step}>
+                  <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
+                    <div style={{ marginBottom: 10 }}>{s.detail}</div>
+                    <div style={{ padding: 10, background: "#0f1726", borderRadius: 8, fontSize: 12 }}>
+                      <strong style={{ color: "#7effb8" }}>📄 Output:</strong> {s.output}
+                    </div>
+                  </div>
+                </Accordion>
+              ))}
+
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 12, marginTop: 28 }}>🔍 What to Look Out For</h3>
+              {[
+                { area: "Viewability", what: "Industry average is 54–60% — meaning 40–46% of impressions you pay for are never seen.", action: "Use viewable CPM (vCPM) bidding. Set viewability threshold at 70%+. Use DV or IAS for independent measurement. CTV and DOOH have near-100% viewability — factor this into channel mix decisions.", metric: "Target: 70%+ viewability on display, 90%+ on video/CTV" },
+                { area: "Ad Fraud / Invalid Traffic (IVT)", what: "Ad fraud costs the industry ~$84 billion annually. Bots, click farms, and spoofed domains inflate impressions and clicks. GCC open exchange inventory has moderate fraud risk.", action: "Enable pre-bid fraud filtering in your DSP. Use DV/IAS for IVT monitoring. Build publisher inclusion lists instead of trying to block all bad inventory. Use PMPs over open exchange. Monitor for abnormally high CTRs with zero conversions.", metric: "Target: <3% IVT rate on PMPs, <5% on open exchange" },
+                { area: "Brand Safety Incidents", what: "Ads appearing next to inappropriate content — violence, misinformation, politically sensitive, or content contradicting Islamic values. Especially risky in GCC where cultural standards are strict.", action: "Configure DV/IAS brand safety categories per client. Block: violence, adult, political extremism, gambling, alcohol. Use custom keyword exclusion lists. Review placement reports weekly. For programmatic video, use PMPs only — open exchange video has highest brand safety risk.", metric: "Target: 0 brand safety incidents per campaign" },
+                { area: "Frequency Oversaturation", what: "Without proper caps, programmatic will hammer the same users repeatedly — leading to ad fatigue, negative brand perception, and wasted spend.", action: "Set frequency caps in the DSP: 3–5x/week for awareness, 7–10x/week for retargeting. Use cross-campaign frequency management via CM360. Monitor frequency distribution — if >20% of users see the ad 10+ times, you have a problem.", metric: "Target: 3–5x/week (awareness), 7–10x/week (retargeting)" },
+                { area: "Domain Spoofing & Low-Quality Inventory", what: "Some publishers misrepresent their domains to attract premium ad spend. Your ad thinks it's on a premium news site but it's actually on a low-quality content farm.", action: "Use ads.txt/app-ads.txt verification. Build inclusion lists of approved domains. Avoid buying on 'long-tail' open exchange without verification. Review placement reports — flag any domain you don't recognise.", metric: "Check placement reports weekly" },
+                { area: "Data Leakage", what: "Some DSPs and data partners may share your audience data or retargeting lists with competitors or across clients if not properly ring-fenced.", action: "Confirm data isolation with your DSP. Use clean rooms for sensitive first-party data. Read data partner terms carefully. Ask: 'Can other advertisers target my audience segments?'", metric: "Contractual data isolation confirmed" },
+                { area: "Hidden Fees / Non-Transparent Costs", what: "The programmatic supply chain can include 15–30% of spend going to intermediary fees (DSP, SSP, exchange, data, verification) before reaching the publisher.", action: "Demand cost transparency from your DSP. Understand the fee stack: DSP fee (10–20%) + data cost + verification cost + SSP take rate. With TTD, you can see the full breakdown. With DV360, less transparent. Ask your vendor to show working media vs. total spend.", metric: "Working media ratio: aim for 60%+ of spend reaching publishers" },
+              ].map((s, i) => (
+                <Accordion key={i} title={s.area} subtitle={s.metric}>
+                  <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
+                    <div style={{ marginBottom: 10 }}>
+                      <div style={{ fontWeight: 700, color: "#ff7e7e", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>The Risk</div>
+                      {s.what}
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: 700, color: "#7effb8", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>What To Do</div>
+                      {s.action}
+                    </div>
+                  </div>
+                </Accordion>
+              ))}
+
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 12, marginTop: 28 }}>✅ Programmatic Pre-Launch Checklist</h3>
+              {Object.entries({
+                "DSP & Inventory Setup": [
+                  "DSP selected with documented rationale",
+                  "PMP deals confirmed with deal IDs from publishers",
+                  "Inclusion list of approved domains/apps created",
+                  "Open exchange blocked or limited to verified inventory only",
+                  "CTV inventory secured (Shahid, OSN+, StarzPlay PMP deals)",
+                  "DOOH placements booked if applicable (lead time 2–4 weeks)",
+                ],
+                "Audiences & Data": [
+                  "First-party data uploaded (CRM lists, website audiences)",
+                  "Retargeting pixel installed and firing on client website",
+                  "Lookalike/similar audiences built from first-party seeds",
+                  "Third-party data segments selected and costed",
+                  "Audience exclusions configured (existing customers, converters)",
+                ],
+                "Creative & Ad Serving": [
+                  "All creative sizes produced (300×250, 728×90, 160×600, 320×50 minimum)",
+                  "Video creative available in 15s and 30s (horizontal + vertical)",
+                  "Arabic creative versions available for KSA/Kuwait campaigns",
+                  "DCO templates configured if using dynamic creative",
+                  "All creatives trafficked in ad server (CM360 / Flashtalking)",
+                  "Click-through URLs verified and UTM parameters applied",
+                ],
+                "Verification & Brand Safety": [
+                  "DV or IAS tags implemented in ad server",
+                  "Brand safety categories configured per client requirements",
+                  "Custom keyword exclusion list applied",
+                  "Viewability threshold set (70%+ display, 90%+ video)",
+                  "IVT / fraud monitoring enabled (pre-bid filtering on)",
+                  "Geographic targeting verified — correct GCC markets selected",
+                ],
+                "Campaign Settings": [
+                  "Frequency caps configured (3–5x/week awareness, 7–10x retargeting)",
+                  "Budget pacing set correctly (daily/weekly/flight)",
+                  "Bid strategy confirmed (CPM, vCPM, CPA target)",
+                  "Dayparting configured if required (e.g. post-Iftar for Ramadan)",
+                  "Campaign naming convention applied consistently",
+                  "Conversion tracking pixels verified if performance campaign",
+                ],
+                "Reporting & Sign-Off": [
+                  "Reporting template set up with agreed KPIs",
+                  "Placement report review scheduled (weekly minimum)",
+                  "Two-person internal QA completed before go-live",
+                  "Client sign-off received on plan and targeting",
+                ],
+              }).map(([category, items]) => (
+                <Card key={category} style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 12 }}>{category}</div>
+                  {items.map((item, i) => {
+                    const key = `prog_qa_${category}_${i}`;
+                    return <CheckItem key={key} checked={checkedItems[key]} onChange={() => toggleCheck(key)}>{item}</CheckItem>;
+                  })}
+                </Card>
+              ))}
+
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#ff7e7e", marginBottom: 12, marginTop: 28 }}>🚫 Common Programmatic Pitfalls</h3>
+              {[
+                { mistake: "Running open exchange without verification", why: "It's cheaper and easier to set up — planner skips DV/IAS to save on CPM costs or because it wasn't in the original plan.", impact: "Ads appear on low-quality content farms, fraud sites, or alongside culturally inappropriate content. Brand safety incident with the client. Inflated metrics from bot traffic.", fix: "Verification is non-negotiable. DV or IAS on every programmatic campaign. The $0.03–$0.15 CPM cost is insurance, not overhead.", rule: "No programmatic campaign goes live without DV or IAS. Ever." },
+                { mistake: "Using open exchange for GCC without an inclusion list", why: "Planner targets 'UAE' or 'KSA' in the DSP and lets it run across all available inventory in those geos.", impact: "Ads end up on obscure apps, made-for-advertising sites, and low-quality Arabic content. 40–60% of impressions may be non-viewable or fraudulent.", fix: "Build a curated inclusion list of 50–200 approved domains and apps. Use PMPs as the primary buying method. Open exchange only as supplementary reach with strict verification.", rule: "Inclusion lists before every programmatic campaign in GCC." },
+                { mistake: "Ignoring frequency caps", why: "DSP default settings often have no frequency cap, or caps are set too high. Planner doesn't configure them.", impact: "20–30% of budget wasted hammering the same users 15–20+ times. Negative brand perception. Audience fatigue. Creative burn-out.", fix: "Set caps at DSP level AND ad server level. Awareness: 3–5x/week. Retargeting: 7–10x/week max. Use CM360 for cross-campaign frequency management.", rule: "Frequency caps configured on every campaign. Review frequency distribution weekly." },
+                { mistake: "Not reviewing placement reports", why: "Campaign is set up, optimised on top-line metrics (CPM, CTR), but nobody checks where ads actually ran.", impact: "Budget bleeds to low-quality sites, mobile game apps, or MFA (made-for-advertising) sites that generate clicks but zero real engagement or conversions.", fix: "Review placement reports weekly. Flag and block any domain/app you wouldn't want the client to see their ad on. Create an exclusion list that grows over time.", rule: "Weekly placement report review is mandatory. Build a running exclusion list." },
+                { mistake: "Treating programmatic as 'set and forget'", why: "Campaign is launched, performing 'okay', and planner moves on to other tasks. Optimisation happens monthly instead of weekly.", impact: "Slow creative fatigue goes unnoticed. Budget shifts to underperforming inventory. CPMs creep up. Viewability drops. Performance degrades gradually.", fix: "Structured optimisation cadence: daily pacing checks, weekly full optimisation (creative, placement, audience, frequency), bi-weekly creative refresh, monthly strategy review.", rule: "Programmatic needs weekly active optimisation — not monthly check-ins." },
+                { mistake: "Buying CTV inventory on open exchange", why: "CTV CPMs on open exchange ($5–$15) look cheaper than PMP deals ($15–$40). Planner opts for scale.", impact: "Most 'CTV' inventory on open exchange is actually mobile in-app video or desktop pre-roll being misrepresented as CTV. You're paying CTV prices for non-CTV quality.", fix: "CTV must be bought via PMPs with verified publishers (Shahid, OSN+, StarzPlay) or through a managed service partner like MiQ. Verify device-type reporting.", rule: "CTV = PMPs only. No open exchange CTV buying in GCC." },
+                { mistake: "No conversion tracking on performance campaigns", why: "Programmatic retargeting or performance display launched without a working conversion pixel on the client's website.", impact: "DSP cannot optimise toward conversions. Campaign runs on CPM/CPC optimisation instead. ROAS is unmeasurable. Budget is wasted on users who never convert.", fix: "Conversion pixel must be installed and firing before campaign launch. Verify with the DSP's diagnostic tools. Test with a known conversion before go-live.", rule: "No performance programmatic without verified conversion tracking." },
+                { mistake: "Underestimating the minimum budget", why: "Client wants programmatic with a $5K/month budget. Planner adds it to the plan to look comprehensive.", impact: "DSP doesn't gather enough data to optimise. Results are statistically meaningless. Operational overhead (setup, trafficking, reporting) exceeds the value of the spend.", fix: "Minimum $20K/month for programmatic to be meaningful. Below that, the budget is better allocated to social platforms where learning algorithms are more efficient at lower spend.", rule: "$20K/month minimum. If budget doesn't allow it, don't include programmatic." },
+              ].map((m, i) => (
+                <Accordion key={i} title={m.mistake}>
+                  <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
+                    <div style={{ marginBottom: 8 }}>
+                      <div style={{ fontWeight: 700, color: "#64748b", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>Why It Happens</div>
+                      {m.why}
+                    </div>
+                    <div style={{ marginBottom: 8 }}>
+                      <div style={{ fontWeight: 700, color: "#ff7e7e", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>Impact</div>
+                      {m.impact}
+                    </div>
+                    <div style={{ marginBottom: 8 }}>
+                      <div style={{ fontWeight: 700, color: "#7effb8", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>The Fix</div>
+                      {m.fix}
+                    </div>
+                    <div style={{ padding: 10, background: "#1a2744", borderRadius: 8, border: "1px solid #2a4060", fontSize: 12 }}>
+                      <strong style={{ color: "#7eb8ff" }}>📌 Rule:</strong> {m.rule}
+                    </div>
+                  </div>
+                </Accordion>
+              ))}
+
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 12, marginTop: 28 }}>⚠️ GCC Programmatic Rules of Thumb</h3>
+              <Card style={{ background: "#1a1520", border: "1px solid #2a1a30" }}>
                 <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
                   • <strong style={{ color: "#e2e8f0" }}>Always use PMPs</strong> over open exchange for GCC campaigns — brand safety is non-negotiable<br/>
                   • <strong style={{ color: "#e2e8f0" }}>Minimum $20K/month</strong> for programmatic to generate meaningful optimisation data<br/>
@@ -612,7 +809,12 @@ export default function App() {
                   • <strong style={{ color: "#e2e8f0" }}>Arabic creative</strong> is essential for KSA/Kuwait programmatic — use DCO for AR+EN versioning<br/>
                   • <strong style={{ color: "#e2e8f0" }}>CTV is growing fast</strong> — Shahid AVOD tier is the #1 Arabic CTV inventory in GCC<br/>
                   • <strong style={{ color: "#e2e8f0" }}>DOOH</strong> in Dubai Mall, SZR, and Riyadh King Fahd Road are premium placements — book early for peak moments<br/>
-                  • <strong style={{ color: "#e2e8f0" }}>First-party data</strong> (CRM lists via LiveRamp) outperforms third-party data by 2–3x for conversions
+                  • <strong style={{ color: "#e2e8f0" }}>First-party data</strong> (CRM lists via LiveRamp) outperforms third-party data by 2–3x for conversions<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Viewability target</strong>: 70%+ for display, 90%+ for video and CTV<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Working media ratio</strong>: aim for 60%+ of total spend actually reaching publishers (rest is fees)<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Placement reports</strong>: review weekly, build a running exclusion list, never trust 'set and forget'<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>CTV buying</strong>: PMPs only — never buy CTV on open exchange in GCC<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Ramadan/peak CPMs</strong>: book PG deals 6–8 weeks ahead for premium inventory during Ramadan, Eid, and National Days
                 </div>
               </Card>
             </div>
@@ -621,24 +823,39 @@ export default function App() {
           {/* VENDOR LANDSCAPE */}
           {activeSection === "vendors" && (
             <div>
-              <SectionTitle>Vendor Landscape — GCC / Dubai</SectionTitle>
-              <SectionDesc>The complete vendor ecosystem for programmatic advertising in the GCC: DSPs, verification, CTV/OTT inventory, DOOH networks, ad servers, data platforms, and mobile measurement. {programmaticEcosystem.reduce((a, c) => a + c.vendors.length, 0)} vendors across {programmaticEcosystem.length} categories.</SectionDesc>
-              {programmaticEcosystem.filter(cat => !filterText || JSON.stringify(cat).toLowerCase().includes(filterText)).map((cat, ci) => (
+              <SectionTitle>Vendor Landscape by Region</SectionTitle>
+              <SectionDesc>Platform and vendor ecosystems across key markets. Each region has different dominant platforms, DSPs, and rules of engagement.</SectionDesc>
+
+              <div style={{ display: "flex", gap: 6, marginBottom: 24, flexWrap: "wrap" }}>
+                {Object.keys(regionalVendors).map(region => (
+                  <button key={region} onClick={() => setVendorRegion(region)} style={{
+                    padding: "8px 16px", borderRadius: 20, border: vendorRegion === region ? "1px solid #3b82f6" : "1px solid #1e2d45",
+                    background: vendorRegion === region ? "#1a2744" : "#0d1425", color: vendorRegion === region ? "#7eb8ff" : "#64748b",
+                    fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", transition: "all .15s"
+                  }}>{region}</button>
+                ))}
+              </div>
+
+              <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 24 }}>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6 }}>{regionalVendors[vendorRegion].desc}</div>
+              </Card>
+
+              {regionalVendors[vendorRegion].data.filter(cat => !filterText || JSON.stringify(cat).toLowerCase().includes(filterText)).map((cat, ci) => (
                 <div key={ci} style={{ marginBottom: 28 }}>
                   <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 4 }}>{cat.category}</h3>
                   <p style={{ fontSize: 12, color: "#64748b", marginBottom: 14 }}>{cat.description}</p>
                   {cat.vendors.map((v, vi) => (
-                    <Accordion key={vi} title={v.name} subtitle={v.type} badge={<Chip color={v.type.includes("DSP") ? "blue" : v.type.includes("Safety") || v.type.includes("Verif") ? "red" : v.type.includes("CTV") || v.type.includes("OTT") || v.type.includes("Audio") ? "purple" : v.type.includes("DOOH") || v.type.includes("Outdoor") ? "amber" : "teal"}>{v.type}</Chip>}>
+                    <Accordion key={vi} title={v.name} subtitle={v.type} badge={<Chip color={v.type.includes("DSP") || v.type.includes("Search") ? "blue" : v.type.includes("Safety") || v.type.includes("Verif") ? "red" : v.type.includes("CTV") || v.type.includes("OTT") || v.type.includes("Audio") || v.type.includes("Video") || v.type.includes("Social") ? "purple" : v.type.includes("DOOH") || v.type.includes("Outdoor") || v.type.includes("Commerce") ? "amber" : v.type.includes("Guideline") || v.type.includes("Must-Know") ? "red" : "teal"}>{v.type}</Chip>}>
                       <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
                         <div style={{ marginBottom: 10 }}>
                           <div style={{ fontWeight: 700, color: "#64748b", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>What It Does</div>
                           {v.what}
                         </div>
                         <div style={{ marginBottom: 10, padding: 10, background: "#0f1726", borderRadius: 8 }}>
-                          <strong style={{ color: "#ffcb7e" }}>🌍 GCC / Dubai Relevance:</strong><br/>{v.gcc}
+                          <strong style={{ color: "#ffcb7e" }}>🌍 GCC Relevance / How to Use:</strong><br/>{v.gcc}
                         </div>
                         <InfoRow label="Best For" value={v.bestFor} />
-                        {v.minBudget && <InfoRow label="Min Budget" value={<span style={{ color: "#7effb8", fontWeight: 600 }}>{v.minBudget}</span>} />}
+                        {v.minBudget && v.minBudget !== "N/A" && <InfoRow label="Min Budget" value={<span style={{ color: "#7effb8", fontWeight: 600 }}>{v.minBudget}</span>} />}
                       </div>
                     </Accordion>
                   ))}
