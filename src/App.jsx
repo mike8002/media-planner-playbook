@@ -6,6 +6,8 @@ const SECTIONS = [
   { id: "platforms", label: "Platform Selection", icon: "📱" },
   { id: "framework", label: "Media Framework", icon: "📊" },
   { id: "formats", label: "High Impact Formats", icon: "⚡" },
+  { id: "programmatic", label: "Programmatic Deep Dive", icon: "🖥️" },
+  { id: "vendors", label: "Vendor Landscape", icon: "🏢" },
   { id: "budget", label: "Budget & Channel Mix", icon: "💰" },
   { id: "measurement", label: "Measurement & KPIs", icon: "📡" },
   { id: "calendar", label: "GCC Calendar", icon: "📅" },
@@ -182,6 +184,48 @@ const highImpactFormats = [
   { platform: "YouTube", name: "Masthead", type: "Homepage Takeover", use: "Mass reach, product launches, Ramadan", cost: "$50K–$200K/day", specs: "Top of YouTube Home, auto-play muted", gcc: "Best for maximum GCC-wide reach. Book 6–8 weeks ahead.", isNew: false },
   { platform: "YouTube", name: "Demand Gen ★", type: "AI Multi-Surface", use: "E-commerce, lead gen, consideration", cost: "CPM/CPC/CPA/tROAS", specs: "YouTube + Shorts + Gmail + Discover in one", gcc: "Best Google format below Masthead. Strong for fashion, retail, travel.", isNew: true },
   { platform: "YouTube", name: "Performance Max ★", type: "Fully Automated Cross-Channel", use: "E-commerce, always-on conversions", cost: "CPA/tROAS automated", specs: "All Google surfaces, AI-generated combos", gcc: "Fashion, electronics, FMCG see strong ROAS. Needs 50+ conv/month.", isNew: true },
+];
+
+const programmaticEcosystem = [
+  { category: "DSPs (Demand-Side Platforms)", description: "Platforms advertisers use to buy programmatic ad inventory via real-time bidding across display, video, audio, CTV and DOOH.", vendors: [
+    { name: "Google DV360", type: "Enterprise DSP", what: "Google's enterprise DSP within Google Marketing Platform. Access to 80+ ad exchanges and SSPs, reaching 90%+ of global internet users. Native integration with YouTube, Gmail, Discover, and GDN.", gcc: "Best choice for YouTube-heavy GCC campaigns. Strong audience data from Google Search behaviour. Integrates with GA4 and CM360. Minimum ~$10K–$25K/month (often via agency).", bestFor: "YouTube reach, Google ecosystem, large-scale awareness, audience intelligence", minBudget: "$10K–$25K/month" },
+    { name: "The Trade Desk (TTD)", type: "Independent DSP", what: "Leading independent, publicly-traded DSP. Open-internet focus with transparent cost-plus pricing (~20% platform fee). Strong CTV/OTT capabilities. Supports Unified ID 2.0 for identity resolution.", gcc: "Growing in GCC. Excellent for CTV campaigns on Shahid, OSN+, and StarzPlay. Better transparency than DV360 on costs. Preferred by agencies wanting independence from Google ecosystem.", bestFor: "CTV/OTT, transparency, cross-channel, retail media", minBudget: "$25K+/month (higher entry point)" },
+    { name: "Amazon DSP", type: "E-commerce DSP", what: "Amazon's DSP leveraging purchase-intent data from Amazon shoppers. Strong for retargeting and lookalike audiences based on actual buying behaviour.", gcc: "Relevant for UAE brands selling on Amazon.ae. Purchase data targeting is unmatched. Strong during White Friday and DSF retail moments. Limited GCC-specific inventory outside Amazon properties.", bestFor: "E-commerce retargeting, purchase-intent audiences, Amazon sellers", minBudget: "$15K+/month" },
+    { name: "Excelate (MEmob+)", type: "GCC-Native DSP", what: "Mobility-native DSP built for MENA with offline intelligence and store-visit attribution built in. Integrates AllPings location data covering 2M+ points of interest. Digital-to-physical attribution without third-party stitching.", gcc: "Purpose-built for GCC. Strongest option for footfall attribution in Dubai/Riyadh malls, retail, and real estate. Covers UAE, KSA, and wider MENA. Privacy-compliant (GDPR, CCPA).", bestFor: "Footfall attribution, location targeting, mall/retail, real estate", minBudget: "Contact vendor" },
+    { name: "StackAdapt", type: "Mid-Market DSP", what: "Self-serve DSP popular with mid-market agencies. Multi-channel: display, native, video, CTV, audio, in-game, and DOOH. AI-powered contextual targeting.", gcc: "Growing MENA presence. Good entry point for agencies without DV360 or TTD access. Supports native and CTV formats.", bestFor: "Mid-market budgets, native ads, multi-channel", minBudget: "$5K–$15K/month" },
+  ]},
+  { category: "Brand Safety & Verification", description: "Third-party vendors that verify ad quality: viewability, brand safety, fraud prevention, and geographic accuracy. Non-negotiable for any serious programmatic buy.", vendors: [
+    { name: "DoubleVerify (DV)", type: "Verification & Brand Safety", what: "Industry-leading verification vendor. Pre-bid and post-bid controls for viewability, brand safety, fraud prevention, and geo-accuracy. Integrates with all major DSPs (DV360, TTD, Xandr). Custom contextual categories.", gcc: "Standard requirement for GCC programmatic campaigns. Essential for brand-safe delivery — blocks ads from appearing alongside extremist, political, or culturally inappropriate content. Used by most major GCC agencies.", bestFor: "Brand safety, viewability, fraud prevention, all DSPs", minBudget: "CPM-based (typically $0.03–$0.15 CPM)" },
+    { name: "Integral Ad Science (IAS)", type: "Verification & Brand Safety", what: "Major verification vendor alongside DV. Covers viewability, brand safety, invalid traffic (IVT), and contextual targeting. Integrates with DSPs, social platforms, and ad servers.", gcc: "Widely used across GCC agencies. Offers Arabic-language content classification for brand safety — important for culturally sensitive GCC markets. Integrates with Meta, TikTok, YouTube, and programmatic.", bestFor: "Brand safety, viewability, social media verification", minBudget: "CPM-based" },
+    { name: "MOAT (Oracle)", type: "Attention & Viewability", what: "Oracle's ad measurement tool focused on viewability, attention metrics, and invalid traffic. Provides attention-based analytics beyond binary viewability.", gcc: "Less prevalent than DV and IAS in GCC but available. Useful as a secondary verification layer or for attention measurement studies.", bestFor: "Attention metrics, viewability validation", minBudget: "CPM-based" },
+  ]},
+  { category: "Programmatic Specialists & Managed Service", description: "Companies that operate as outsourced programmatic desks, running campaigns on behalf of agencies or brands using multiple DSPs.", vendors: [
+    { name: "MiQ", type: "Programmatic Media Partner", what: "Leading independent programmatic specialist. Operates across multiple DSPs (agnostic). AI-powered platform MiQ Sigma unifies 300+ data feeds and 700 trillion consumer signals. Offers advanced TV, CTV, DOOH, display, video, and audio.", gcc: "MENAT office active (managed by Wassim Mneimneh). Partners with local telcos for direct mobile data — unique in GCC. Strong for CTV (Shahid, OSN+), DOOH, and multi-screen campaigns. First programmatic partner to license MENA telecom data.", bestFor: "CTV/Advanced TV, DOOH, multi-screen, managed programmatic", minBudget: "$20K+/month recommended" },
+  ]},
+  { category: "Ad Servers", description: "Platforms that host, deliver, and track ad creatives across campaigns. Required for trafficking, frequency capping, and unified cross-platform reporting.", vendors: [
+    { name: "Campaign Manager 360 (CM360)", type: "Enterprise Ad Server", what: "Google's enterprise ad server (formerly DoubleClick). Handles ad trafficking, conversion tracking, reach/frequency management, and unified reporting across all channels. Integrates natively with DV360.", gcc: "Standard ad server for major GCC agencies and large advertisers. Required for cross-channel frequency management and proper attribution. Essential for any campaign using DV360.", bestFor: "Cross-channel tracking, DV360 integration, attribution", minBudget: "License-based (via Google)" },
+    { name: "Flashtalking (Innovid)", type: "Independent Ad Server", what: "Independent ad server focused on creative analytics, dynamic creative optimisation (DCO), and cross-channel measurement. Acquired by Innovid in 2022.", gcc: "Used by agencies wanting independence from Google's ad serving stack. Strong DCO capabilities for personalised Arabic/English creative. Growing adoption in GCC premium campaigns.", bestFor: "DCO, creative analytics, independence from Google", minBudget: "License-based" },
+  ]},
+  { category: "CTV / OTT Inventory (GCC)", description: "Connected TV and streaming platforms offering ad-supported inventory in the GCC region.", vendors: [
+    { name: "Shahid (MBC Group)", type: "Premium Arabic CTV/OTT", what: "MBC Group's dominant streaming platform. Largest library of Arabic content globally. AVOD (ad-supported) tier available. Pre-roll and mid-roll video ads. Massive reach across UAE, KSA, and wider MENA.", gcc: "The #1 Arabic CTV/OTT platform for GCC campaigns. Brand-safe premium Arabic content. Essential for reaching Arabic-speaking audiences in lean-back CTV environments. Accessible via DV360, TTD, and MiQ.", bestFor: "Arabic content reach, premium video, brand-safe CTV", minBudget: "PMP deals — contact publisher" },
+    { name: "OSN+ (Orbit Showtime Network)", type: "Premium International CTV/OTT", what: "Premium streaming service with exclusive HBO, Paramount, and international content deals. Primarily SVOD but exploring AVOD/ad integration. Targets affluent, English-speaking audiences.", gcc: "Premium international content environment. Skews affluent, expat, English-speaking. Ideal for luxury, auto, hospitality, and BFSI brands. Limited ad inventory — premium pricing.", bestFor: "Affluent audiences, premium context, international content", minBudget: "Premium — contact publisher" },
+    { name: "StarzPlay (Lionsgate+)", type: "CTV/OTT", what: "Streaming platform with mix of Hollywood and Arabic content. AVOD tier available. Growing GCC user base.", gcc: "Third-tier CTV option after Shahid and OSN+. Useful for incremental CTV reach. Available programmatically via major DSPs.", bestFor: "Incremental CTV reach, mixed content", minBudget: "Via DSP/PMP" },
+    { name: "Anghami", type: "Audio Streaming", what: "Leading Arabic music and podcast streaming platform. Ad-supported tier with audio, display, and video ad formats. Programmatic access available.", gcc: "Dominant audio streaming in GCC. Strong for reach among younger Arabic-speaking audiences. Contextual targeting by mood, genre, time of day. Also offers high-impact display units on the platform.", bestFor: "Audio ads, Arabic youth, contextual targeting", minBudget: "Via DSP or direct" },
+  ]},
+  { category: "DOOH Vendors (GCC)", description: "Digital Out-of-Home networks and platforms for programmatic or direct billboard and screen buying in the GCC.", vendors: [
+    { name: "JCDecaux Middle East", type: "Premium DOOH Network", what: "Global DOOH leader. Dubai International Airport programmatic DOOH launched Feb 2025 — shopping corridors, boarding gates, baggage reclaim, VIP lounges across Terminals 1 and 3. Integrates with major DSPs.", gcc: "Premium airport and urban DOOH across Dubai. Programmatic buying via DV360 and TTD. Also covers Dubai Metro stations and premium urban locations. Highest-quality airport inventory in GCC.", bestFor: "Airport advertising, premium urban, tourists & business travelers", minBudget: "From ~$350/day (programmatic)" },
+    { name: "Vistar Media", type: "Programmatic DOOH Platform", what: "Programmatic DOOH buying platform connecting advertisers to digital screen networks. SSP for DOOH publishers. Supports geo-targeting, time-of-day, audience data integration.", gcc: "Active in Dubai and Riyadh. Connects to premium mall and urban screens including Dubai Mall, Mall of the Emirates, King Fahd Road Riyadh. Available via TTD and DV360 integrations.", bestFor: "Mall screens, geo-targeted DOOH, programmatic buying", minBudget: "$10K+/campaign" },
+    { name: "Hypermedia", type: "GCC DOOH Network", what: "One of the largest DOOH networks in the Middle East. Operates screens across malls, retail, residential, and outdoor locations in UAE and KSA.", gcc: "Strong mall and retail coverage — Dubai Mall, Mall of the Emirates, City Centre, and Riyadh malls. Direct deals or programmatic. High foot traffic locations.", bestFor: "Mall advertising, retail environments, high footfall", minBudget: "Contact vendor" },
+    { name: "BackLite Media", type: "UAE Premium Outdoor", what: "Premium outdoor and DOOH operator in UAE. Iconic locations including Sheikh Zayed Road and key Dubai arterial roads. Large-format digital billboards.", gcc: "Operates some of the most visible outdoor locations in Dubai. Sheikh Zayed Road billboards are among the most premium DOOH placements in the Middle East.", bestFor: "High-visibility outdoor, brand launches, SZR", minBudget: "Premium — contact vendor" },
+  ]},
+  { category: "Data & Audience Platforms", description: "Platforms for audience data, identity resolution, and customer data management.", vendors: [
+    { name: "LiveRamp", type: "Data Connectivity & Identity", what: "Leading data connectivity platform. Enables brands to onboard first-party CRM data into DSPs for targeting. Supports identity resolution across devices and channels.", gcc: "Essential for activating first-party data (email lists, CRM, loyalty) in programmatic campaigns. Works with DV360 and TTD. Growing adoption among GCC enterprise advertisers.", bestFor: "First-party data activation, CRM onboarding, identity", minBudget: "License-based" },
+    { name: "Lotame", type: "Data Management Platform (DMP)", what: "Independent DMP for audience data collection, segmentation, and activation. Curation platform for third-party data. Cookieless identity solution (Panorama ID).", gcc: "Available in MENA. Useful for brands building audience segments from web/app data. Panorama ID supports cookieless environments.", bestFor: "Audience segmentation, third-party data, DMP", minBudget: "License-based" },
+  ]},
+  { category: "Mobile Measurement Partners (MMPs)", description: "Platforms for measuring app install attribution, in-app events, and mobile campaign performance across channels.", vendors: [
+    { name: "AppsFlyer", type: "MMP", what: "Leading mobile measurement partner. Tracks app installs and in-app events across all ad networks. Fraud prevention suite. Deep linking and audience segmentation.", gcc: "Standard MMP for GCC app campaigns. Required for accurate CPI/CPA measurement across Meta, TikTok, Google UAC, and Snap app campaigns.", bestFor: "App install attribution, fraud prevention, deep linking", minBudget: "Tiered pricing by installs" },
+    { name: "Adjust", type: "MMP", what: "Mobile measurement and fraud prevention platform. Attribution, analytics, and audience segmentation for app marketers.", gcc: "Alternative to AppsFlyer. Used by several GCC e-commerce and super-app brands. Good fraud prevention suite.", bestFor: "App attribution, analytics, fraud prevention", minBudget: "Tiered pricing" },
+  ]},
 ];
 
 const budgetTiers = [
@@ -527,6 +571,78 @@ export default function App() {
                     </div>
                   </div>
                 </Accordion>
+              ))}
+            </div>
+          )}
+
+          {/* PROGRAMMATIC DEEP DIVE */}
+          {activeSection === "programmatic" && (
+            <div>
+              <SectionTitle>Programmatic Deep Dive</SectionTitle>
+              <SectionDesc>Understanding the programmatic ecosystem: how DSPs, SSPs, ad servers, verification vendors, and data platforms work together to power automated media buying across display, video, CTV, audio, and DOOH.</SectionDesc>
+
+              <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 24 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#7eb8ff", marginBottom: 10 }}>🖥️ How Programmatic Works (Simple Version)</div>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 2 }}>
+                  <strong style={{ color: "#e2e8f0" }}>1. Advertiser</strong> sets campaign goals, budgets, targeting, and creative in a <strong style={{ color: "#7effb8" }}>DSP</strong> (Demand-Side Platform)<br/>
+                  <strong style={{ color: "#e2e8f0" }}>2. Publisher</strong> makes ad inventory available via an <strong style={{ color: "#ffcb7e" }}>SSP</strong> (Supply-Side Platform)<br/>
+                  <strong style={{ color: "#e2e8f0" }}>3. Ad Exchange</strong> connects DSPs and SSPs — runs a real-time auction in milliseconds<br/>
+                  <strong style={{ color: "#e2e8f0" }}>4. Winning ad</strong> is served to the user — tracked by an <strong style={{ color: "#c07eff" }}>Ad Server</strong> (e.g. CM360)<br/>
+                  <strong style={{ color: "#e2e8f0" }}>5. Verification vendor</strong> (DV/IAS) confirms: was it viewable? Brand-safe? Real human? Right country?<br/>
+                  <strong style={{ color: "#e2e8f0" }}>6. All of this</strong> happens in under 100 milliseconds — before the page finishes loading
+                </div>
+              </Card>
+
+              <Card style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#e2e8f0", marginBottom: 10 }}>📌 Key Buying Types</div>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                  <strong style={{ color: "#7effb8" }}>Open Exchange (RTB)</strong> — Real-time bidding on open marketplace. Maximum scale, lower quality control. CPMs: $2–$10. Use with verification mandatory.<br/>
+                  <strong style={{ color: "#7eb8ff" }}>Private Marketplace (PMP)</strong> — Invite-only auction with selected premium publishers. Better quality, brand-safe. CPMs: $10–$30. Recommended for GCC.<br/>
+                  <strong style={{ color: "#ffcb7e" }}>Programmatic Guaranteed (PG)</strong> — Fixed price, guaranteed inventory, automated delivery. Premium pricing. Best for tentpole moments (Ramadan, National Days).<br/>
+                  <strong style={{ color: "#c07eff" }}>Preferred Deals</strong> — Fixed CPM with a specific publisher, non-guaranteed volume. Good for testing premium inventory before committing to PG.
+                </div>
+              </Card>
+
+              <Card style={{ marginBottom: 24, background: "#1a1520", border: "1px solid #2a1a30" }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#ff7e7e", marginBottom: 10 }}>⚠️ GCC Programmatic Rules of Thumb</div>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                  • <strong style={{ color: "#e2e8f0" }}>Always use PMPs</strong> over open exchange for GCC campaigns — brand safety is non-negotiable<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Minimum $20K/month</strong> for programmatic to generate meaningful optimisation data<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Verification (DV or IAS)</strong> is required on every programmatic buy — no exceptions<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Arabic creative</strong> is essential for KSA/Kuwait programmatic — use DCO for AR+EN versioning<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>CTV is growing fast</strong> — Shahid AVOD tier is the #1 Arabic CTV inventory in GCC<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>DOOH</strong> in Dubai Mall, SZR, and Riyadh King Fahd Road are premium placements — book early for peak moments<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>First-party data</strong> (CRM lists via LiveRamp) outperforms third-party data by 2–3x for conversions
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* VENDOR LANDSCAPE */}
+          {activeSection === "vendors" && (
+            <div>
+              <SectionTitle>Vendor Landscape — GCC / Dubai</SectionTitle>
+              <SectionDesc>The complete vendor ecosystem for programmatic advertising in the GCC: DSPs, verification, CTV/OTT inventory, DOOH networks, ad servers, data platforms, and mobile measurement. {programmaticEcosystem.reduce((a, c) => a + c.vendors.length, 0)} vendors across {programmaticEcosystem.length} categories.</SectionDesc>
+              {programmaticEcosystem.filter(cat => !filterText || JSON.stringify(cat).toLowerCase().includes(filterText)).map((cat, ci) => (
+                <div key={ci} style={{ marginBottom: 28 }}>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 4 }}>{cat.category}</h3>
+                  <p style={{ fontSize: 12, color: "#64748b", marginBottom: 14 }}>{cat.description}</p>
+                  {cat.vendors.map((v, vi) => (
+                    <Accordion key={vi} title={v.name} subtitle={v.type} badge={<Chip color={v.type.includes("DSP") ? "blue" : v.type.includes("Safety") || v.type.includes("Verif") ? "red" : v.type.includes("CTV") || v.type.includes("OTT") || v.type.includes("Audio") ? "purple" : v.type.includes("DOOH") || v.type.includes("Outdoor") ? "amber" : "teal"}>{v.type}</Chip>}>
+                      <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
+                        <div style={{ marginBottom: 10 }}>
+                          <div style={{ fontWeight: 700, color: "#64748b", fontSize: 11, textTransform: "uppercase", marginBottom: 4 }}>What It Does</div>
+                          {v.what}
+                        </div>
+                        <div style={{ marginBottom: 10, padding: 10, background: "#0f1726", borderRadius: 8 }}>
+                          <strong style={{ color: "#ffcb7e" }}>🌍 GCC / Dubai Relevance:</strong><br/>{v.gcc}
+                        </div>
+                        <InfoRow label="Best For" value={v.bestFor} />
+                        {v.minBudget && <InfoRow label="Min Budget" value={<span style={{ color: "#7effb8", fontWeight: 600 }}>{v.minBudget}</span>} />}
+                      </div>
+                    </Accordion>
+                  ))}
+                </div>
               ))}
             </div>
           )}
