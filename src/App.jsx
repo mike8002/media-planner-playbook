@@ -2143,17 +2143,17 @@ export default function App() {
           {activeSection === "aiplanner" && (
             <div>
               <SectionTitle>AI Plan Generator</SectionTitle>
-              <SectionDesc>Describe your campaign brief in plain language — get an AI-generated media plan with platform recommendations, budget split, and creative requirements.</SectionDesc>
+              <SectionDesc>Describe your campaign brief — get an AI-generated media plan you can download as a formatted Excel file.</SectionDesc>
 
               <Card style={{ marginBottom: 12, padding: 12, background: "#0d1425", border: "1px solid #1e2d45" }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>🔑 Anthropic API Key <span style={{ color: "#475569", fontWeight: 400 }}>(required — get one at console.anthropic.com)</span></div>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>🔑 Anthropic API Key <span style={{ color: "#475569", fontWeight: 400 }}>(get one at console.anthropic.com)</span></div>
                 <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style={{ width: "100%", padding: "8px 10px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "monospace", boxSizing: "border-box" }} />
-                <div style={{ fontSize: 9, color: "#334155", marginTop: 4 }}>Your key is never stored — it's only used for this session in your browser.</div>
+                <div style={{ fontSize: 9, color: "#334155", marginTop: 4 }}>Never stored — session only.</div>
               </Card>
 
               <Card style={{ marginBottom: 16 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Describe your campaign:</div>
-                <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder={"Example: I need to promote a luxury real estate development in Dubai targeting Chinese and Russian investors. Budget is $80K/month for 3 months. We have video creative in English and Mandarin but no Arabic. The goal is qualified leads — phone calls and WhatsApp inquiries."} style={{ width: "100%", minHeight: 100, padding: "10px 12px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 8, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6 }} />
+                <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder={"Example: Luxury real estate in Dubai, targeting Chinese and Russian UHNWI investors. Budget $80K/month, 3 months. Video creative in English and Mandarin. Goal: qualified leads via WhatsApp and phone calls. Markets: UAE, UK, China."} style={{ width: "100%", minHeight: 100, padding: "10px 12px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 8, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6 }} />
                 <button onClick={async () => {
                   const apiKey = document.getElementById("apiKeyInput")?.value;
                   if (!apiKey) { setAiResult("Please enter your Anthropic API key above."); return; }
@@ -2164,32 +2164,159 @@ export default function App() {
                       method: "POST",
                       headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
                       body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514", max_tokens: 2000,
-                        messages: [{ role: "user", content: `You are a senior GCC digital media planner at UM agency in Dubai. Based on this campaign brief, provide a structured media plan recommendation. Include:\n\n1) RECOMMENDED PLATFORMS with % budget split and monthly spend\n2) KEY KPIs and benchmark targets per platform\n3) CREATIVE REQUIREMENTS — formats, sizes, languages needed\n4) MEASUREMENT SETUP needed before launch\n5) GCC-SPECIFIC CONSIDERATIONS — cultural, seasonal, market nuances\n6) TIMELINE — phasing and milestones\n\nBe specific with numbers, USD benchmarks, and GCC market context. Format clearly with sections. Keep it actionable.\n\nBrief: ${aiPrompt}` }]
+                        model: "claude-sonnet-4-20250514", max_tokens: 3000,
+                        messages: [{ role: "user", content: `You are a senior GCC digital media planner. Based on this brief, generate a media plan as JSON ONLY. No markdown, no backticks, no explanation — ONLY valid JSON.\n\n${JSON.stringify({
+                          format: {
+                            campaign: { client: "string", brand: "string", campaign_name: "string", campaign_type: "string", objective: "string", target_audience: "string", market: "string", period: "string", total_budget_usd: "number" },
+                            line_items: [{ market: "string", platform: "string (e.g. META, Google Ads, TikTok, LinkedIn, Snapchat)", placement: "string (e.g. Feed + Stories + Reels, Google: Search, Google: PMax)", objective: "string", media_type: "string (e.g. Social Display, Google Ads, Programmatic)", buying_method: "Auction or Reservation", dates: "string", duration_months: "number", ad_format: "string", language: "string", device: "string", audience_description: "string", targeting_description: "string", buying_unit: "string (CPM, CPC, CPL, CPA)", currency: "USD", unit_cost: "number", estimated_impressions: "number", estimated_clicks: "number", ctr_percent: "number", media_cost_usd: "number", agency_fee_pct: 0.03, agency_fee_usd: "number", total_cost_usd: "number" }],
+                            notes: ["string — GCC considerations, creative requirements, measurement setup, key risks"],
+                            summary: { total_media_usd: "number", total_fees_usd: "number", total_investment_usd: "number" }
+                          }
+                        })}\n\nProvide 3-6 line items with realistic GCC benchmark numbers. Use real CPM/CPC/CPL ranges.\n\nBrief: ${aiPrompt}` }]
                       })
                     });
                     const data = await res.json();
-                    if (data.error) { setAiResult("Error: " + (data.error.message || JSON.stringify(data.error))); }
-                    else { setAiResult(data.content?.[0]?.text || "No response received."); }
-                  } catch (e) { setAiResult("Error: " + e.message + ". Check your API key and try again."); }
+                    if (data.error) { setAiResult("Error: " + (data.error.message || JSON.stringify(data.error))); return; }
+                    const text = data.content?.[0]?.text || "";
+                    try {
+                      const clean = text.replace(/```json|```/g, "").trim();
+                      const parsed = JSON.parse(clean);
+                      setAiResult(JSON.stringify(parsed));
+                    } catch { setAiResult(text); }
+                  } catch (e) { setAiResult("Error: " + e.message); }
                   setAiLoading(false);
                 }} disabled={aiLoading} style={{ marginTop: 10, padding: "10px 24px", borderRadius: 8, border: "none", background: aiLoading ? "#334155" : "#3b82f6", color: "#fff", fontSize: 12, fontWeight: 700, cursor: aiLoading ? "wait" : "pointer", fontFamily: "inherit" }}>
                   {aiLoading ? "⏳ Generating plan..." : "🤖 Generate Media Plan"}
                 </button>
               </Card>
 
-              {aiResult && (
-                <Card style={{ background: "#0d1a14", border: "1px solid #2a5040" }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#7effb8", marginBottom: 10 }}>🤖 AI-Generated Media Plan</div>
-                  <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{aiResult}</div>
-                </Card>
-              )}
+              {aiResult && (() => {
+                let plan = null;
+                try { plan = JSON.parse(aiResult); } catch {}
+
+                const downloadExcel = () => {
+                  if (!plan) return;
+                  const c = plan.campaign || {};
+                  const items = plan.line_items || [];
+                  const notes = plan.notes || [];
+                  const s = plan.summary || {};
+
+                  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"><style>td,th{font-family:Arial;font-size:10pt;padding:4px 8px;border:1px solid #ddd}th{background:#1a2744;color:white;font-weight:bold}.header{background:#0d1425;color:#7eb8ff;font-weight:bold;border:none;font-size:11pt}.label{color:#666;font-weight:bold}.money{color:#2d8a4e;font-weight:bold}.section{background:#f0f4f8;font-weight:bold}</style></head><body>
+                  <table><tr><td colspan="12" class="header" style="font-size:14pt;padding:12px">MEDIA PLAN</td></tr>
+                  <tr><td class="label">Client</td><td colspan="3">${c.client||""}</td><td class="label">Plan Date</td><td colspan="2">${new Date().toLocaleDateString()}</td></tr>
+                  <tr><td class="label">Brand</td><td colspan="3">${c.brand||""}</td><td class="label">Plan Status</td><td colspan="2">Draft</td></tr>
+                  <tr><td class="label">Campaign Type</td><td colspan="3">${c.campaign_type||""}</td><td class="label">Currency</td><td colspan="2">USD</td></tr>
+                  <tr><td class="label">Campaign Name</td><td colspan="3">${c.campaign_name||""}</td></tr>
+                  <tr><td class="label">Objective</td><td colspan="3">${c.objective||""}</td></tr>
+                  <tr><td class="label">Target Audience</td><td colspan="3">${c.target_audience||""}</td></tr>
+                  <tr><td class="label">Market</td><td colspan="3">${c.market||""}</td></tr>
+                  <tr><td class="label">Period</td><td colspan="3">${c.period||""}</td></tr>
+                  <tr><td class="label">Total Budget</td><td colspan="3" class="money">$${(c.total_budget_usd||0).toLocaleString()}</td></tr>
+                  <tr><td colspan="12"></td></tr>
+                  <tr><th>Market</th><th>Platform</th><th>Placement</th><th>Objective</th><th>Media Type</th><th>Buying Method</th><th>Ad Format</th><th>Buying Unit</th><th>Unit Cost</th><th>Est. Impressions</th><th>Est. Clicks</th><th>CTR%</th><th>Media Cost</th><th>Agency Fee (3%)</th><th>Total Cost</th></tr>
+                  ${items.map(r => `<tr><td>${r.market||""}</td><td>${r.platform||""}</td><td>${r.placement||""}</td><td>${r.objective||""}</td><td>${r.media_type||""}</td><td>${r.buying_method||""}</td><td>${r.ad_format||""}</td><td>${r.buying_unit||""}</td><td>$${(r.unit_cost||0).toFixed(2)}</td><td>${(r.estimated_impressions||0).toLocaleString()}</td><td>${(r.estimated_clicks||0).toLocaleString()}</td><td>${(r.ctr_percent||0).toFixed(2)}%</td><td class="money">$${(r.media_cost_usd||0).toLocaleString(undefined,{minimumFractionDigits:2})}</td><td>$${(r.agency_fee_usd||0).toLocaleString(undefined,{minimumFractionDigits:2})}</td><td class="money">$${(r.total_cost_usd||0).toLocaleString(undefined,{minimumFractionDigits:2})}</td></tr>`).join("")}
+                  <tr><td colspan="12"></td></tr>
+                  <tr class="section"><td colspan="12">TOTALS</td></tr>
+                  <tr><td class="label" colspan="2">Total Media Cost</td><td colspan="3" class="money">$${(s.total_media_usd||0).toLocaleString(undefined,{minimumFractionDigits:2})}</td></tr>
+                  <tr><td class="label" colspan="2">Total Agency Fees</td><td colspan="3">$${(s.total_fees_usd||0).toLocaleString(undefined,{minimumFractionDigits:2})}</td></tr>
+                  <tr><td class="label" colspan="2">Total Investment</td><td colspan="3" class="money" style="font-size:12pt">$${(s.total_investment_usd||0).toLocaleString(undefined,{minimumFractionDigits:2})}</td></tr>
+                  <tr><td colspan="12"></td></tr>
+                  <tr class="section"><td colspan="12">NOTES & GCC CONSIDERATIONS</td></tr>
+                  ${notes.map(n => `<tr><td colspan="12" style="color:#555">• ${n}</td></tr>`).join("")}
+                  </table></body></html>`;
+
+                  const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a"); a.href = url;
+                  a.download = `Media_Plan_${(c.client||"Campaign").replace(/\s+/g,"_")}_${new Date().toISOString().split("T")[0]}.xls`;
+                  a.click(); URL.revokeObjectURL(url);
+                };
+
+                if (plan) {
+                  const c = plan.campaign || {};
+                  const items = plan.line_items || [];
+                  const notes = plan.notes || [];
+                  const s = plan.summary || {};
+                  return (<>
+                    <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                      <button onClick={downloadExcel} style={{ padding: "10px 20px", borderRadius: 8, border: "1px solid #22c55e", background: "#1a3a1a", color: "#7effb8", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>📥 Download as Excel (.xls)</button>
+                      <button onClick={() => { navigator.clipboard.writeText(aiResult); }} style={{ padding: "10px 20px", borderRadius: 8, border: "1px solid #334155", background: "transparent", color: "#64748b", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>📋 Copy JSON</button>
+                    </div>
+
+                    <Card style={{ background: "#0d1a14", border: "1px solid #2a5040", marginBottom: 16 }}>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: "#7effb8", marginBottom: 12 }}>📋 Campaign Summary</div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, fontSize: 12 }}>
+                        {Object.entries(c).map(([k,v]) => <div key={k}><span style={{ color: "#64748b" }}>{k.replace(/_/g," ")}: </span><strong style={{ color: "#e2e8f0" }}>{typeof v === "number" ? `$${v.toLocaleString()}` : v}</strong></div>)}
+                      </div>
+                    </Card>
+
+                    <Card style={{ marginBottom: 16 }}>
+                      <div style={{ fontSize: 14, fontWeight: 800, color: "#e2e8f0", marginBottom: 12 }}>📊 Line Items</div>
+                      <div style={{ overflowX: "auto" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10 }}>
+                          <thead>
+                            <tr style={{ borderBottom: "2px solid #1e2d45" }}>
+                              {["Platform","Placement","Media Type","Buying","Unit Cost","Impressions","Clicks","CTR","Media Cost","Total"].map(h => <th key={h} style={{ padding: "6px 4px", textAlign: "left", color: "#64748b", fontSize: 9, fontWeight: 700 }}>{h}</th>)}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {items.map((r,i) => (
+                              <tr key={i} style={{ borderBottom: "1px solid #141c2e" }}>
+                                <td style={{ padding: "6px 4px", color: "#e2e8f0", fontWeight: 700 }}>{r.platform}</td>
+                                <td style={{ padding: "6px 4px", color: "#94a3b8" }}>{r.placement}</td>
+                                <td style={{ padding: "6px 4px", color: "#94a3b8" }}>{r.media_type}</td>
+                                <td style={{ padding: "6px 4px" }}><Chip color="blue">{r.buying_unit}</Chip></td>
+                                <td style={{ padding: "6px 4px", color: "#ffcb7e", fontFamily: "monospace" }}>${r.unit_cost}</td>
+                                <td style={{ padding: "6px 4px", color: "#94a3b8", fontFamily: "monospace" }}>{(r.estimated_impressions||0).toLocaleString()}</td>
+                                <td style={{ padding: "6px 4px", color: "#94a3b8", fontFamily: "monospace" }}>{(r.estimated_clicks||0).toLocaleString()}</td>
+                                <td style={{ padding: "6px 4px", color: "#94a3b8" }}>{r.ctr_percent}%</td>
+                                <td style={{ padding: "6px 4px", color: "#7effb8", fontWeight: 700, fontFamily: "monospace" }}>${(r.media_cost_usd||0).toLocaleString()}</td>
+                                <td style={{ padding: "6px 4px", color: "#7effb8", fontWeight: 700, fontFamily: "monospace" }}>${(r.total_cost_usd||0).toLocaleString()}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </Card>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
+                      <Card style={{ textAlign: "center", padding: 14 }}>
+                        <div style={{ fontSize: 10, color: "#64748b" }}>Total Media</div>
+                        <div style={{ fontSize: 18, fontWeight: 800, color: "#7effb8" }}>${(s.total_media_usd||0).toLocaleString()}</div>
+                      </Card>
+                      <Card style={{ textAlign: "center", padding: 14 }}>
+                        <div style={{ fontSize: 10, color: "#64748b" }}>Agency Fees</div>
+                        <div style={{ fontSize: 18, fontWeight: 800, color: "#ffcb7e" }}>${(s.total_fees_usd||0).toLocaleString()}</div>
+                      </Card>
+                      <Card style={{ textAlign: "center", padding: 14 }}>
+                        <div style={{ fontSize: 10, color: "#64748b" }}>Total Investment</div>
+                        <div style={{ fontSize: 18, fontWeight: 800, color: "#e2e8f0" }}>${(s.total_investment_usd||0).toLocaleString()}</div>
+                      </Card>
+                    </div>
+
+                    {notes.length > 0 && (
+                      <Card>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: "#ffcb7e", marginBottom: 8 }}>📝 Notes & GCC Considerations</div>
+                        {notes.map((n,i) => <div key={i} style={{ fontSize: 12, color: "#94a3b8", marginBottom: 4, lineHeight: 1.6 }}>• {n}</div>)}
+                      </Card>
+                    )}
+                  </>);
+                }
+
+                return (
+                  <Card style={{ background: "#0d1a14", border: "1px solid #2a5040" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#7effb8", marginBottom: 10 }}>🤖 AI Response</div>
+                    <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{aiResult}</div>
+                  </Card>
+                );
+              })()}
 
               {!aiResult && !aiLoading && (
                 <Card>
                   <div style={{ fontSize: 12, color: "#64748b", textAlign: "center", padding: 20 }}>
-                    Enter your API key, describe your campaign, and click "Generate Media Plan" to get an AI-powered recommendation.<br/><br/>
-                    <span style={{ fontSize: 10 }}>Get an API key at <strong style={{ color: "#7eb8ff" }}>console.anthropic.com</strong> → API Keys → Create Key</span>
+                    Enter your API key, describe your campaign, and click "Generate Media Plan".<br/>
+                    The AI will generate a structured plan with line items you can <strong style={{ color: "#7effb8" }}>download as Excel</strong>.<br/><br/>
+                    <span style={{ fontSize: 10 }}>Get an API key at <strong style={{ color: "#7eb8ff" }}>console.anthropic.com</strong></span>
                   </div>
                 </Card>
               )}
