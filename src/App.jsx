@@ -19,6 +19,56 @@ const SECTIONS = [
   { id: "glossary", label: "KPI Glossary", icon: "📖" },
 ];
 
+
+const PhoneMockup = ({ ratio, label, dims, color: bgColor = "#1a2744", children: overlay }) => (
+  <div style={{ width: 80, display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ width: 70, background: "#0b1120", borderRadius: 12, border: "1.5px solid #334155", padding: "5px 4px" }}>
+      <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#334155", margin: "0 auto 3px" }} />
+      <div style={{ display: "flex", alignItems: "center", gap: 2, marginBottom: 3 }}>
+        <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#1e2d45" }} />
+        <div style={{ height: 2, flex: 1, background: "#1e2d45", borderRadius: 1 }} />
+      </div>
+      <div style={{ width: "100%", paddingBottom: ratio === "9:16" ? "160%" : ratio === "4:5" ? "125%" : "100%", background: `linear-gradient(135deg, ${bgColor}, #0d1425)`, borderRadius: 3, position: "relative" }}>
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", color: "#94a3b8", fontSize: 7, fontWeight: 700, textAlign: "center", padding: 2 }}>
+          {overlay || <><span style={{ color: "#7eb8ff" }}>{ratio}</span><span style={{ fontSize: 6 }}>{dims}</span></>}
+        </div>
+      </div>
+      {ratio !== "9:16" && <div style={{ height: 2, background: "#1e2d45", borderRadius: 1, margin: "3px 8px 1px", width: "50%" }} />}
+      <div style={{ width: 16, height: 2, borderRadius: 8, background: "#334155", margin: "3px auto 1px" }} />
+    </div>
+    <div style={{ fontSize: 8, color: "#64748b", marginTop: 4, textAlign: "center", lineHeight: 1.2 }}>{label}</div>
+  </div>
+);
+const BannerMockup = ({ w, h, label }) => (
+  <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ width: Math.min(w/4, 90), height: Math.max(h/4, 14), background: "linear-gradient(90deg, #3a2a1a, #1a2744)", borderRadius: 2, border: "1px dashed #504020", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, color: "#ffcb7e", fontWeight: 600 }}>{w}x{h}</div>
+    <div style={{ fontSize: 7, color: "#64748b", marginTop: 2 }}>{label}</div>
+  </div>
+);
+const ScreenMockup = ({ type, label, children: overlay }) => (
+  <div style={{ width: 90, display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ width: "100%", background: "#0b1120", borderRadius: type === "tv" ? 4 : 6, border: type === "tv" ? "2.5px solid #334155" : "1.5px solid #334155", overflow: "hidden" }}>
+      {type === "browser" && <div style={{ display: "flex", gap: 2, padding: "2px 4px", background: "#141c2e", borderBottom: "1px solid #1e2d45" }}>{["#ff5f57","#febc2e","#28c840"].map((c,i) => <div key={i} style={{ width: 3, height: 3, borderRadius: "50%", background: c }} />)}</div>}
+      <div style={{ paddingBottom: type === "tv" ? "56%" : "65%", background: "linear-gradient(135deg, #1a2744, #0d1425)", position: "relative" }}>
+        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", fontSize: 7, color: "#94a3b8", fontWeight: 600 }}>{overlay}</div>
+      </div>
+    </div>
+    {type === "tv" && <><div style={{ width: 14, height: 4, background: "#334155", margin: "0 auto" }} /><div style={{ width: 30, height: 2, background: "#1e2d45", margin: "0 auto" }} /></>}
+    <div style={{ fontSize: 8, color: "#64748b", marginTop: 3, textAlign: "center" }}>{label}</div>
+  </div>
+);
+const platformMockups = {
+  "Meta (Facebook + Instagram)": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><PhoneMockup ratio="1:1" label="Feed 1:1" dims="1080x1080" /><PhoneMockup ratio="4:5" label="Feed 4:5" dims="1080x1350" color="#3a2a1a" /><PhoneMockup ratio="9:16" label="Stories" dims="1080x1920" color="#2a1a3a"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5,color:"#ff7e7e"}}>Safe zones</span></PhoneMockup><PhoneMockup ratio="9:16" label="Reels" dims="1080x1920" color="#2a1a3a"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5}}>Hook 2s</span></PhoneMockup><PhoneMockup ratio="1:1" label="Carousel" dims="1080x1080"><span style={{color:"#7eb8ff"}}>1:1</span><span style={{fontSize:5}}>2-10 cards</span></PhoneMockup><ScreenMockup type="browser" label="Desktop Feed"><span style={{color:"#7eb8ff"}}>16:9 / 1:1</span></ScreenMockup></div>),
+  "TikTok": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><PhoneMockup ratio="9:16" label="In-Feed" dims="1080x1920" color="#1a1520"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5}}>Sound ON</span><span style={{fontSize:5,color:"#ffcb7e"}}>Hook 2s</span></PhoneMockup><PhoneMockup ratio="9:16" label="TopView" dims="1080x1920" color="#2a1a3a"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5}}>App Open</span></PhoneMockup><PhoneMockup ratio="9:16" label="Spark Ads" dims="Creator post" color="#1a2520"><span style={{color:"#7effb8"}}>UGC</span><span style={{fontSize:5}}>70% CTR</span></PhoneMockup><PhoneMockup ratio="9:16" label="Brand Takeover" dims="Full screen" color="#3a1a1a"><span style={{color:"#ff7e7e"}}>3-5s</span><span style={{fontSize:5}}>1/day</span></PhoneMockup></div>),
+  "Snapchat": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><PhoneMockup ratio="9:16" label="Snap Ad" dims="1080x1920"><span style={{color:"#ffcb7e"}}>9:16</span><span style={{fontSize:5}}>Swipe Up</span></PhoneMockup><PhoneMockup ratio="9:16" label="Story Ads" dims="3-20 Snaps" color="#2a1a3a"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5}}>Multi-Snap</span></PhoneMockup><PhoneMockup ratio="9:16" label="Commercial" dims="6s non-skip" color="#1a3a2a"><span style={{color:"#7effb8"}}>6s</span><span style={{fontSize:5}}>Non-skip</span></PhoneMockup><PhoneMockup ratio="9:16" label="Sponsored Snap" dims="Chat inbox" color="#1a2520"><span style={{color:"#ffcb7e"}}>Inbox</span><span style={{fontSize:5}}>NEW</span></PhoneMockup><PhoneMockup ratio="1:1" label="AR Lens" dims="Camera" color="#2a1a3a"><span style={{fontSize:8}}>&#x1f52e;</span><span style={{fontSize:5}}>AR/AI</span></PhoneMockup></div>),
+  "YouTube / Google Video": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><ScreenMockup type="browser" label="TrueView (skip)"><span style={{color:"#7eb8ff"}}>16:9</span><span style={{fontSize:5}}>Skip 5s</span></ScreenMockup><ScreenMockup type="browser" label="Non-Skip 15-20s"><span style={{color:"#ff7e7e"}}>16:9</span><span style={{fontSize:5}}>Must watch</span></ScreenMockup><ScreenMockup type="browser" label="Bumper 6s"><span style={{color:"#ffcb7e"}}>16:9</span><span style={{fontSize:5}}>6s</span></ScreenMockup><PhoneMockup ratio="9:16" label="Shorts" dims="1080x1920"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5}}>Vertical</span></PhoneMockup><ScreenMockup type="tv" label="CTV / Masthead"><span style={{color:"#c07eff"}}>16:9</span><span style={{fontSize:5}}>HD/4K</span></ScreenMockup></div>),
+  "Google Performance Max": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><ScreenMockup type="browser" label="Search"><span style={{color:"#7eb8ff"}}>Text</span><span style={{fontSize:5}}>Auto</span></ScreenMockup><ScreenMockup type="browser" label="Display/Gmail"><span style={{color:"#ffcb7e"}}>Multi</span><span style={{fontSize:5}}>AI combo</span></ScreenMockup><PhoneMockup ratio="9:16" label="Shorts/Video" dims="AI selects"><span style={{color:"#c07eff"}}>Auto</span></PhoneMockup><ScreenMockup type="browser" label="Shopping"><span style={{color:"#7effb8"}}>Feed</span><span style={{fontSize:5}}>Products</span></ScreenMockup></div>),
+  "LinkedIn": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><PhoneMockup ratio="1:1" label="Feed Image" dims="1080x1080"><span style={{color:"#7eb8ff"}}>1:1</span></PhoneMockup><PhoneMockup ratio="4:5" label="Feed Video" dims="Captions!"><span style={{color:"#ffcb7e"}}>1:1/16:9</span><span style={{fontSize:5}}>Muted</span></PhoneMockup><PhoneMockup ratio="4:5" label="Document Ad" dims="PDF pages" color="#1a2520"><span style={{fontSize:7}}>&#x1f4c4;</span><span style={{fontSize:5}}>Swipe</span></PhoneMockup><PhoneMockup ratio="1:1" label="InMail" dims="300x250" color="#1a1520"><span style={{fontSize:7}}>&#x2709;&#xfe0f;</span></PhoneMockup></div>),
+  "X (Twitter)": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><PhoneMockup ratio="1:1" label="Promoted Ad" dims="1080x1080"><span style={{color:"#7eb8ff"}}>1:1</span></PhoneMockup><PhoneMockup ratio="4:5" label="Video Ad" dims="1920x1080"><span style={{color:"#ffcb7e"}}>16:9</span><span style={{fontSize:5}}>Muted</span></PhoneMockup><PhoneMockup ratio="1:1" label="Website Card" dims="CTA button" color="#1a3a2a"><span style={{color:"#7effb8"}}>1.91:1</span><span style={{fontSize:5}}>+CTA</span></PhoneMockup><ScreenMockup type="browser" label="Trend Takeover"><span style={{color:"#ff7e7e"}}>&#x1f525;</span><span style={{fontSize:5}}>$20K-55K</span></ScreenMockup></div>),
+  "Pinterest": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "12px 0" }}><PhoneMockup ratio="4:5" label="Standard Pin" dims="1000x1500" color="#3a2a1a"><span style={{color:"#ffcb7e"}}>2:3</span></PhoneMockup><PhoneMockup ratio="9:16" label="Max-Width Video" dims="Full width" color="#2a1a3a"><span style={{color:"#c07eff"}}>9:16</span><span style={{fontSize:5}}>Full screen</span></PhoneMockup><PhoneMockup ratio="1:1" label="Shopping" dims="Product grid" color="#1a3a2a"><span style={{color:"#7effb8"}}>1:1</span><span style={{fontSize:5}}>Catalogue</span></PhoneMockup></div>),
+  "Programmatic (Display, CTV, DOOH, Audio)": () => (<div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end", padding: "12px 0" }}><BannerMockup w={300} h={250} label="MPU" /><BannerMockup w={728} h={90} label="Leaderboard" /><BannerMockup w={160} h={600} label="Skyscraper" /><BannerMockup w={320} h={50} label="Mobile" /><ScreenMockup type="tv" label="CTV 16:9"><span style={{color:"#c07eff"}}>15-30s</span><span style={{fontSize:5}}>Sound ON</span></ScreenMockup><ScreenMockup type="browser" label="Native"><span style={{color:"#7effb8"}}>In-content</span></ScreenMockup></div>),
+};
+
 const Chip = ({ children, color = "blue" }) => {
   const colors = {
     blue: { bg: "#1a2744", text: "#7eb8ff", border: "#2a4060" },
@@ -548,7 +598,7 @@ export default function App() {
         <div style={{ padding: "20px 16px 12px", borderBottom: "1px solid #1a2540" }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: "#3b82f6", letterSpacing: "0.08em", textTransform: "uppercase" }}>GCC Digital Media</div>
           <div style={{ fontSize: 18, fontWeight: 800, color: "#e2e8f0", marginTop: 2 }}>Planning Playbook</div>
-          <div style={{ fontSize: 10, color: "#475569", marginTop: 4 }}>Updated March 2026</div>
+          <div style={{ fontSize: 10, color: "#475569", marginTop: 4 }}>Updated March 2026 · Michel Zaidan · UM</div>
         </div>
         <div style={{ flex: 1, overflowY: "auto", padding: "8px 8px" }}>
           {SECTIONS.map(s => (
@@ -651,6 +701,13 @@ export default function App() {
               {platforms.filter(p => !filterText || JSON.stringify(p).toLowerCase().includes(filterText)).map((p, i) => (
                 <Accordion key={i} title={p.name} badge={<Chip color={p.color}>{p.minBudget} min</Chip>}>
                   <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
+                    {platformMockups[p.name] && (
+                      <div style={{ marginBottom: 14, padding: "8px 0 8px", borderBottom: "1px solid #1e2d45" }}>
+                        <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", textTransform: "uppercase", marginBottom: 6 }}>Ad Format Examples</div>
+                        {platformMockups[p.name]()}
+                      </div>
+                    )}
+
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ fontWeight: 700, color: "#7effb8", fontSize: 11, textTransform: "uppercase", marginBottom: 6 }}>Strengths</div>
                       {p.strengths.map((s, si) => <div key={si} style={{ fontSize: 12, marginBottom: 3, paddingLeft: 12, position: "relative" }}><span style={{ position: "absolute", left: 0 }}>•</span> {s}</div>)}
