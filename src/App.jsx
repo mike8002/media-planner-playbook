@@ -1148,6 +1148,294 @@ export default function App() {
                 </div>
               </Card>
 
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginBottom: 14 }}>📱 Visual Format Examples</h3>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
+
+                {/* Phone: Feed 1:1 */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>Feed Post — 1:1 Square</div>
+                  <div style={{ width: 140, margin: "0 auto", background: "#0b1120", borderRadius: 16, border: "2px solid #334155", padding: "8px 6px", position: "relative" }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#334155", margin: "0 auto 6px" }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4, padding: "0 4px" }}>
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#1e2d45" }} />
+                      <div style={{ height: 4, flex: 1, background: "#1e2d45", borderRadius: 2 }} />
+                    </div>
+                    <div style={{ width: "100%", paddingBottom: "100%", background: "linear-gradient(135deg, #1a3a2a, #1a2744)", borderRadius: 4, position: "relative" }}>
+                      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#7effb8", fontSize: 10, fontWeight: 700 }}>1:1<br/>1080×1080</div>
+                    </div>
+                    <div style={{ padding: "4px", display: "flex", gap: 3, marginTop: 4 }}>
+                      {[1,2,3,4].map(i => <div key={i} style={{ width: 12, height: 12, borderRadius: "50%", background: "#1e2d45" }} />)}
+                    </div>
+                    <div style={{ height: 3, background: "#1e2d45", borderRadius: 2, margin: "4px 20px 2px", width: "60%" }} />
+                    <div style={{ height: 3, background: "#1e2d45", borderRadius: 2, margin: "2px 20px", width: "80%" }} />
+                    <div style={{ width: 30, height: 3, borderRadius: 10, background: "#334155", margin: "8px auto 2px" }} />
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta · LinkedIn · X · Pinterest</div>
+                </Card>
+
+                {/* Phone: Feed 4:5 */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#ffcb7e", marginBottom: 8 }}>Feed Post — 4:5 Vertical</div>
+                  <div style={{ width: 140, margin: "0 auto", background: "#0b1120", borderRadius: 16, border: "2px solid #334155", padding: "8px 6px" }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#334155", margin: "0 auto 6px" }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4, padding: "0 4px" }}>
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#1e2d45" }} />
+                      <div style={{ height: 4, flex: 1, background: "#1e2d45", borderRadius: 2 }} />
+                    </div>
+                    <div style={{ width: "100%", paddingBottom: "125%", background: "linear-gradient(135deg, #3a2a1a, #1a2744)", borderRadius: 4, position: "relative" }}>
+                      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#ffcb7e", fontSize: 10, fontWeight: 700 }}>4:5<br/>1080×1350</div>
+                    </div>
+                    <div style={{ height: 3, background: "#1e2d45", borderRadius: 2, margin: "4px 20px 2px", width: "60%" }} />
+                    <div style={{ width: 30, height: 3, borderRadius: 10, background: "#334155", margin: "6px auto 2px" }} />
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta Feed · Recommended for mobile</div>
+                </Card>
+
+                {/* Phone: Stories/Reels 9:16 */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#c07eff", marginBottom: 8 }}>Stories / Reels — 9:16</div>
+                  <div style={{ width: 120, margin: "0 auto", background: "linear-gradient(180deg, #2a1a3a, #1a2744)", borderRadius: 16, border: "2px solid #334155", height: 214, position: "relative", overflow: "hidden" }}>
+                    <div style={{ position: "absolute", top: 6, left: 8, right: 8, display: "flex", alignItems: "center", gap: 4, zIndex: 2 }}>
+                      <div style={{ width: 16, height: 16, borderRadius: "50%", border: "1.5px solid rgba(255,255,255,.3)" }} />
+                      <div style={{ height: 3, flex: 1, background: "rgba(255,255,255,.15)", borderRadius: 2 }} />
+                    </div>
+                    <div style={{ position: "absolute", top: 8, right: 8, display: "flex", flexDirection: "column", gap: 6, zIndex: 2 }}>
+                      {["♡","💬","↗"].map((e,i) => <div key={i} style={{ fontSize: 8, opacity: .4 }}>{e}</div>)}
+                    </div>
+                    <div style={{ position: "absolute", top: 20, left: 0, right: 0, height: 2, background: "rgba(126,184,255,.2)", margin: "0 8px" }}>
+                      <div style={{ width: "40%", height: "100%", background: "#7eb8ff", borderRadius: 1 }} />
+                    </div>
+                    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#c07eff", fontSize: 10, fontWeight: 700, flexDirection: "column" }}>
+                      <span>9:16</span>
+                      <span style={{ fontSize: 8 }}>1080×1920</span>
+                      <span style={{ fontSize: 7, color: "#ff7e7e", marginTop: 4 }}>⬆ 250px safe zone</span>
+                    </div>
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(0,0,0,.3)", padding: "6px 8px", zIndex: 2 }}>
+                      <div style={{ height: 3, background: "rgba(255,255,255,.2)", borderRadius: 2, marginBottom: 3, width: "70%" }} />
+                      <div style={{ background: "rgba(126,184,255,.3)", borderRadius: 4, padding: "3px 0", textAlign: "center", fontSize: 7, color: "#7eb8ff" }}>CTA Button</div>
+                      <div style={{ fontSize: 7, color: "#ff7e7e", textAlign: "center", marginTop: 2 }}>⬇ 340px safe zone</div>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta · TikTok · Snap · Shorts</div>
+                </Card>
+
+                {/* Phone: TikTok In-Feed */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#c07eff", marginBottom: 8 }}>TikTok In-Feed</div>
+                  <div style={{ width: 120, margin: "0 auto", background: "linear-gradient(180deg, #0b1120, #1a1520)", borderRadius: 16, border: "2px solid #334155", height: 214, position: "relative", overflow: "hidden" }}>
+                    <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#c07eff", fontSize: 10, fontWeight: 700, flexDirection: "column" }}>
+                      <span>9:16</span>
+                      <span style={{ fontSize: 8 }}>Full Screen</span>
+                      <span style={{ fontSize: 7, color: "#94a3b8", marginTop: 4 }}>Sound ON</span>
+                      <span style={{ fontSize: 7, color: "#ffcb7e" }}>Hook in 2s</span>
+                    </div>
+                    <div style={{ position: "absolute", right: 6, bottom: 40, display: "flex", flexDirection: "column", gap: 8, alignItems: "center" }}>
+                      {["♡","💬","↗","🎵"].map((e,i) => <div key={i} style={{ fontSize: 10, opacity: .3 }}>{e}</div>)}
+                    </div>
+                    <div style={{ position: "absolute", bottom: 6, left: 8, right: 30 }}>
+                      <div style={{ height: 3, background: "rgba(255,255,255,.15)", borderRadius: 2, marginBottom: 2, width: "60%" }} />
+                      <div style={{ height: 3, background: "rgba(255,255,255,.1)", borderRadius: 2, width: "80%" }} />
+                      <div style={{ height: 2, background: "rgba(255,255,255,.08)", borderRadius: 2, marginTop: 3, width: "40%" }} />
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>TikTok · Spark Ads · Prime Time</div>
+                </Card>
+
+                {/* Carousel */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>Carousel — Multi-Card</div>
+                  <div style={{ width: 140, margin: "0 auto", background: "#0b1120", borderRadius: 16, border: "2px solid #334155", padding: "8px 6px" }}>
+                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#334155", margin: "0 auto 6px" }} />
+                    <div style={{ display: "flex", gap: 4, overflow: "hidden" }}>
+                      {[1,2,3].map(i => (
+                        <div key={i} style={{ minWidth: i === 1 ? "85%" : "15%", paddingBottom: i === 1 ? "85%" : "15%", background: i === 1 ? "linear-gradient(135deg, #1a2744, #1a3a2a)" : "#141c2e", borderRadius: 4, position: "relative", flexShrink: 0 }}>
+                          {i === 1 && <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#7eb8ff", fontSize: 9, fontWeight: 700 }}>Card 1<br/>1:1</div>}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", gap: 3, marginTop: 6 }}>
+                      {[1,2,3,4,5].map(i => <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: i === 1 ? "#7eb8ff" : "#1e2d45" }} />)}
+                    </div>
+                    <div style={{ height: 3, background: "#1e2d45", borderRadius: 2, margin: "4px 10px 2px", width: "70%" }} />
+                    <div style={{ width: 30, height: 3, borderRadius: 10, background: "#334155", margin: "6px auto 2px" }} />
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta · LinkedIn · Pinterest</div>
+                </Card>
+
+                {/* Desktop: Browser Feed */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>Desktop Feed</div>
+                  <div style={{ width: "100%", background: "#0b1120", borderRadius: 8, border: "2px solid #334155", overflow: "hidden" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", background: "#141c2e", borderBottom: "1px solid #1e2d45" }}>
+                      {["#ff5f57","#febc2e","#28c840"].map((c,i) => <div key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: c }} />)}
+                      <div style={{ flex: 1, height: 10, background: "#0b1120", borderRadius: 4, margin: "0 10px" }} />
+                    </div>
+                    <div style={{ padding: 8, display: "flex", gap: 6 }}>
+                      <div style={{ flex: "0 0 30%", display: "flex", flexDirection: "column", gap: 3 }}>
+                        {[1,2,3].map(i => <div key={i} style={{ height: 4, background: "#1e2d45", borderRadius: 2, width: `${90-i*15}%` }} />)}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 4 }}>
+                          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#1e2d45" }} />
+                          <div style={{ height: 3, flex: 1, background: "#1e2d45", borderRadius: 2 }} />
+                          <div style={{ fontSize: 6, color: "#334155" }}>Sponsored</div>
+                        </div>
+                        <div style={{ paddingBottom: "55%", background: "linear-gradient(135deg, #1a2744, #1a3a2a)", borderRadius: 4, position: "relative" }}>
+                          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#7eb8ff", fontSize: 9, fontWeight: 700 }}>16:9 or 1:1</div>
+                        </div>
+                        <div style={{ display: "flex", gap: 3, marginTop: 4 }}>
+                          {[1,2,3].map(i => <div key={i} style={{ height: 3, flex: 1, background: "#1e2d45", borderRadius: 2 }} />)}
+                        </div>
+                      </div>
+                      <div style={{ flex: "0 0 20%" }}>
+                        <div style={{ paddingBottom: "180%", background: "linear-gradient(180deg, #1a2744, #141c2e)", borderRadius: 4, position: "relative" }}>
+                          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#64748b", fontSize: 7 }}>Right<br/>Column</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Meta · LinkedIn · X (Desktop)</div>
+                </Card>
+
+                {/* Display Banners */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#ffcb7e", marginBottom: 8 }}>Display Banners</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
+                    <div style={{ width: "100%", height: 22, background: "linear-gradient(90deg, #3a2a1a, #1a2744)", borderRadius: 3, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, color: "#ffcb7e", fontWeight: 600, border: "1px dashed #504020" }}>728 × 90 — Leaderboard</div>
+                    <div style={{ display: "flex", gap: 6, width: "100%", justifyContent: "center" }}>
+                      <div style={{ width: 70, height: 58, background: "linear-gradient(135deg, #3a2a1a, #1a2744)", borderRadius: 3, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, color: "#ffcb7e", fontWeight: 600, border: "1px dashed #504020" }}>300×250<br/>MPU</div>
+                      <div style={{ width: 28, height: 80, background: "linear-gradient(180deg, #3a2a1a, #1a2744)", borderRadius: 3, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 6, color: "#ffcb7e", fontWeight: 600, border: "1px dashed #504020", writingMode: "vertical-rl" }}>160×600</div>
+                    </div>
+                    <div style={{ width: "80%", height: 14, background: "linear-gradient(90deg, #3a2a1a, #1a2744)", borderRadius: 3, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 7, color: "#ffcb7e", fontWeight: 600, border: "1px dashed #504020" }}>320 × 50 — Mobile</div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Programmatic · GDN · Display</div>
+                </Card>
+
+                {/* Interstitial */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#ff7e7e", marginBottom: 8 }}>Interstitial / Takeover</div>
+                  <div style={{ width: 120, margin: "0 auto", background: "#0b1120", borderRadius: 16, border: "2px solid #334155", height: 200, position: "relative", overflow: "hidden" }}>
+                    <div style={{ position: "absolute", inset: 8, background: "linear-gradient(135deg, #3a1a1a, #1a2744)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", border: "1px dashed #502a2a" }}>
+                      <div style={{ fontSize: 8, color: "#ff7e7e", fontWeight: 700 }}>Full Screen</div>
+                      <div style={{ fontSize: 7, color: "#94a3b8" }}>Overlay</div>
+                      <div style={{ fontSize: 7, color: "#ffcb7e", marginTop: 4 }}>320×480 or</div>
+                      <div style={{ fontSize: 7, color: "#ffcb7e" }}>1080×1920</div>
+                    </div>
+                    <div style={{ position: "absolute", top: 12, right: 12, width: 14, height: 14, borderRadius: "50%", background: "rgba(255,255,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8, color: "#94a3b8" }}>✕</div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Programmatic · In-App · Rich Media</div>
+                </Card>
+
+                {/* Native Ad */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#7effb8", marginBottom: 8 }}>Native / In-Content</div>
+                  <div style={{ width: "100%", background: "#0b1120", borderRadius: 8, border: "1px solid #1e2d45", padding: 8 }}>
+                    {[1,2].map(i => <div key={i} style={{ height: 3, background: "#1e2d45", borderRadius: 2, marginBottom: 3, width: `${95-i*10}%` }} />)}
+                    <div style={{ border: "1px dashed #2a5040", borderRadius: 6, padding: 8, margin: "6px 0", background: "#0d1a14" }}>
+                      <div style={{ display: "flex", gap: 6 }}>
+                        <div style={{ width: 45, height: 35, background: "linear-gradient(135deg, #1a3a2a, #1a2744)", borderRadius: 3, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 6, color: "#7effb8" }}>Image</div>
+                        <div>
+                          <div style={{ height: 3, background: "#2a5040", borderRadius: 2, width: 60, marginBottom: 3 }} />
+                          <div style={{ height: 2, background: "#1e2d45", borderRadius: 2, width: 50, marginBottom: 2 }} />
+                          <div style={{ height: 2, background: "#1e2d45", borderRadius: 2, width: 40 }} />
+                          <div style={{ fontSize: 6, color: "#7effb8", marginTop: 3 }}>Sponsored</div>
+                        </div>
+                      </div>
+                    </div>
+                    {[1,2,3].map(i => <div key={i} style={{ height: 3, background: "#1e2d45", borderRadius: 2, marginBottom: 3, width: `${100-i*8}%` }} />)}
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Taboola · Outbrain · Programmatic</div>
+                </Card>
+
+                {/* CTV */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#c07eff", marginBottom: 8 }}>CTV / OTT — 16:9</div>
+                  <div style={{ width: "100%", background: "#0b1120", borderRadius: 4, border: "3px solid #334155", overflow: "hidden", position: "relative" }}>
+                    <div style={{ paddingBottom: "56.25%", background: "linear-gradient(135deg, #2a1a3a, #0d1425)", position: "relative" }}>
+                      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                        <div style={{ fontSize: 9, color: "#c07eff", fontWeight: 700 }}>16:9</div>
+                        <div style={{ fontSize: 8, color: "#94a3b8" }}>1920×1080 HD</div>
+                        <div style={{ fontSize: 7, color: "#ffcb7e", marginTop: 4 }}>15s or 30s</div>
+                        <div style={{ fontSize: 7, color: "#7effb8" }}>Non-skippable</div>
+                        <div style={{ fontSize: 7, color: "#64748b" }}>Sound ON</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ width: 30, height: 8, background: "#334155", margin: "0 auto", borderRadius: "0 0 4px 4px" }} />
+                  <div style={{ width: 60, height: 3, background: "#1e2d45", margin: "0 auto", borderRadius: "0 0 2px 2px" }} />
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>Shahid · OSN+ · YouTube CTV</div>
+                </Card>
+
+                {/* DOOH */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#ffcb7e", marginBottom: 8 }}>DOOH — Billboard</div>
+                  <div style={{ position: "relative" }}>
+                    <div style={{ width: "100%", background: "linear-gradient(135deg, #3a2a1a, #1a2744)", borderRadius: 3, border: "3px solid #504020", overflow: "hidden" }}>
+                      <div style={{ paddingBottom: "50%", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                          <div style={{ fontSize: 9, color: "#ffcb7e", fontWeight: 700 }}>Landscape / Portrait</div>
+                          <div style={{ fontSize: 8, color: "#94a3b8" }}>Varies by screen</div>
+                          <div style={{ fontSize: 7, color: "#64748b", marginTop: 2 }}>10–15s loops</div>
+                          <div style={{ fontSize: 7, color: "#ff7e7e" }}>No audio</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ width: 6, height: 20, background: "#504020", margin: "0 auto" }} />
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 4 }}>Dubai Mall · SZR · Riyadh</div>
+                </Card>
+
+                {/* YouTube Masthead */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#ff7e7e", marginBottom: 8 }}>YouTube Masthead</div>
+                  <div style={{ width: "100%", background: "#0b1120", borderRadius: 8, border: "2px solid #334155", overflow: "hidden" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", background: "#141c2e", borderBottom: "1px solid #1e2d45" }}>
+                      <div style={{ fontSize: 8, color: "#ff7e7e" }}>▶</div>
+                      <div style={{ flex: 1, height: 10, background: "#0b1120", borderRadius: 4 }} />
+                    </div>
+                    <div style={{ padding: "0 8px 8px" }}>
+                      <div style={{ paddingBottom: "35%", background: "linear-gradient(90deg, #3a1a1a, #1a2744)", borderRadius: 4, position: "relative", marginTop: 8 }}>
+                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
+                          <div style={{ fontSize: 8, color: "#ff7e7e", fontWeight: 700 }}>MASTHEAD</div>
+                          <div style={{ fontSize: 7, color: "#94a3b8" }}>Homepage Takeover</div>
+                          <div style={{ fontSize: 6, color: "#ffcb7e" }}>$50K–$200K/day</div>
+                        </div>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, marginTop: 6 }}>
+                        {[1,2,3].map(i => <div key={i} style={{ paddingBottom: "60%", background: "#141c2e", borderRadius: 3 }} />)}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>YouTube · Book 6–8 weeks ahead</div>
+                </Card>
+
+                {/* LinkedIn Document Ad */}
+                <Card style={{ padding: 16, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>Document Ad (Swipeable)</div>
+                  <div style={{ width: 140, margin: "0 auto", background: "#0b1120", borderRadius: 8, border: "1px solid #1e2d45", padding: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 6 }}>
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#1e2d45" }} />
+                      <div><div style={{ height: 3, background: "#1e2d45", borderRadius: 2, width: 50, marginBottom: 2 }} /><div style={{ height: 2, background: "#141c2e", borderRadius: 2, width: 35 }} /></div>
+                    </div>
+                    <div style={{ display: "flex", gap: 3, overflow: "hidden" }}>
+                      {[1,2].map(i => (
+                        <div key={i} style={{ minWidth: i === 1 ? "88%" : "12%", paddingBottom: i === 1 ? "110%" : "20%", background: i === 1 ? "#141c2e" : "#0d1425", borderRadius: 4, border: "1px solid #1e2d45", position: "relative", flexShrink: 0 }}>
+                          {i === 1 && <div style={{ position: "absolute", inset: 6, display: "flex", flexDirection: "column", gap: 3 }}>
+                            <div style={{ height: 3, background: "#1e2d45", borderRadius: 2, width: "80%" }} />
+                            <div style={{ height: 2, background: "#1e2d45", borderRadius: 2, width: "60%" }} />
+                            <div style={{ height: 2, background: "#1e2d45", borderRadius: 2, width: "90%" }} />
+                            <div style={{ height: 2, background: "#1e2d45", borderRadius: 2, width: "70%" }} />
+                            <div style={{ flex: 1, background: "linear-gradient(135deg, #1a2744, #141c2e)", borderRadius: 3, marginTop: 3 }} />
+                          </div>}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ fontSize: 7, color: "#7eb8ff", textAlign: "center", marginTop: 4 }}>← Swipe through pages →</div>
+                  </div>
+                  <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>LinkedIn · PDF/PPT · B2B</div>
+                </Card>
+              </div>
+
               <div style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
                   <thead>
