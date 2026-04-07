@@ -18,10 +18,8 @@ const SECTIONS = [
   { id: "creativespecs", label: "Creative Specs", icon: "🎨" },
   { id: "divider", label: "─── TOOLS ───", icon: "" },
   { id: "budgetcalc", label: "Budget Calculator", icon: "🧮" },
-  { id: "briefbuilder", label: "Brief Builder", icon: "📝" },
   { id: "creativegen", label: "Creative Generator", icon: "🖼️" },
   { id: "comparison", label: "Platform Compare", icon: "⚖️" },
-  { id: "ramadan", label: "Ramadan Planner", icon: "🌙" },
   { id: "heatmap", label: "CPM Heatmap", icon: "🗓️" },
   { id: "benchmark", label: "Benchmark Tracker", icon: "📈" },
   { id: "aiplanner", label: "AI Plan Generator", icon: "🤖" },
@@ -593,9 +591,8 @@ export default function App() {
   const [selectedPlatforms, setSelectedPlatforms] = useState(["Meta", "TikTok"]);
   const [comparePlatforms, setComparePlatforms] = useState(["Meta (Facebook + Instagram)", "TikTok", "Snapchat"]);
   const [benchmarkData, setBenchmarkData] = useState([]);
-  const [aiPrompt, setAiPrompt] = useState("");
-  const [aiResult, setAiResult] = useState("");
-  const [aiLoading, setAiLoading] = useState(false);
+  const [planInputs, setPlanInputs] = useState({ objective: "Conversions / E-commerce", budget: 50000, markets: ["UAE"], duration: 2, audience: "25-44", vertical: "Real Estate", hasCreative: true, hasTracking: true });
+  const [planGenerated, setPlanGenerated] = useState(false);
   const contentRef = useRef(null);
 
   const toggleCheck = (key) => setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
@@ -1925,73 +1922,6 @@ export default function App() {
             </div>
           )}
 
-          {/* BRIEF BUILDER */}
-          {activeSection === "briefbuilder" && (
-            <div>
-              <SectionTitle>Campaign Brief Builder</SectionTitle>
-              <SectionDesc>Fill in the fields below to generate a structured campaign brief. All fields auto-populate platform recommendations.</SectionDesc>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-                {[
-                  { label: "Campaign Objective", key: "objective", type: "select", options: ["Awareness", "Video Views", "Traffic", "Lead Generation", "Conversions / E-commerce", "App Installs", "B2B / Thought Leadership"] },
-                  { label: "Target Audience", key: "audience", type: "text", placeholder: "e.g. Males 25-44, UAE & KSA, Arabic + English" },
-                  { label: "Budget (USD/month)", key: "budget", type: "text", placeholder: "e.g. $50,000" },
-                  { label: "Flight Dates", key: "dates", type: "text", placeholder: "e.g. 1 Mar – 30 Apr 2026" },
-                  { label: "Primary KPI & Target", key: "kpi", type: "text", placeholder: "e.g. CPL < $20, 500 leads/month" },
-                  { label: "Creative Status", key: "creative", type: "select", options: ["Not started", "In production", "Ready — needs adaptation", "Ready — all formats", "No creative budget"] },
-                ].map(f => (
-                  <Card key={f.key} style={{ padding: 12 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>{f.label}</div>
-                    {f.type === "select" ? (
-                      <select value={briefData[f.key]} onChange={e => setBriefData(p => ({...p, [f.key]: e.target.value}))} style={{ width: "100%", padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit" }}>
-                        {f.options.map(o => <option key={o} value={o}>{o}</option>)}
-                      </select>
-                    ) : (
-                      <input value={briefData[f.key]} onChange={e => setBriefData(p => ({...p, [f.key]: e.target.value}))} placeholder={f.placeholder} style={{ width: "100%", padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box" }} />
-                    )}
-                  </Card>
-                ))}
-              </div>
-
-              <Card key="markets" style={{ padding: 12, marginBottom: 16 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Target Markets</div>
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                  {["UAE", "KSA", "Kuwait", "Qatar", "Bahrain", "Oman"].map(m => (
-                    <button key={m} onClick={() => setBriefData(p => ({...p, markets: p.markets?.includes(m) ? p.markets.filter(x => x !== m) : [...(p.markets||[]), m]}))} style={{ padding: "4px 12px", borderRadius: 16, border: briefData.markets?.includes(m) ? "1px solid #3b82f6" : "1px solid #1e2d45", background: briefData.markets?.includes(m) ? "#1a2744" : "transparent", color: briefData.markets?.includes(m) ? "#7eb8ff" : "#64748b", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{m}</button>
-                  ))}
-                </div>
-              </Card>
-
-              <Card style={{ padding: 12, marginBottom: 16 }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>Additional Notes / Context</div>
-                <textarea value={briefData.notes} onChange={e => setBriefData(p => ({...p, notes: e.target.value}))} placeholder="Any additional context: past campaign learnings, creative constraints, blackout dates, Ramadan considerations..." style={{ width: "100%", minHeight: 60, padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", resize: "vertical", boxSizing: "border-box" }} />
-              </Card>
-
-              <Card style={{ background: "#0d1a14", border: "1px solid #2a5040", padding: 16 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#7effb8", marginBottom: 10 }}>📋 Generated Brief Summary</div>
-                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
-                  <strong style={{ color: "#e2e8f0" }}>Objective:</strong> {briefData.objective}<br/>
-                  <strong style={{ color: "#e2e8f0" }}>Audience:</strong> {briefData.audience || "Not specified"}<br/>
-                  <strong style={{ color: "#e2e8f0" }}>Markets:</strong> {briefData.markets?.join(", ") || "Not selected"}<br/>
-                  <strong style={{ color: "#e2e8f0" }}>Budget:</strong> {briefData.budget || "Not specified"}<br/>
-                  <strong style={{ color: "#e2e8f0" }}>Flight:</strong> {briefData.dates || "Not specified"}<br/>
-                  <strong style={{ color: "#e2e8f0" }}>Primary KPI:</strong> {briefData.kpi || "Not specified"}<br/>
-                  <strong style={{ color: "#e2e8f0" }}>Creative:</strong> {briefData.creative}<br/>
-                  {briefData.notes && <><strong style={{ color: "#e2e8f0" }}>Notes:</strong> {briefData.notes}<br/></>}
-                  <br/>
-                  <strong style={{ color: "#ffcb7e" }}>Recommended Platforms:</strong> {
-                    briefData.objective === "B2B / Thought Leadership" ? "LinkedIn (primary), Meta, Google Demand Gen, X (Twitter)" :
-                    briefData.objective === "App Installs" ? "Meta, TikTok, Google UAC, Snapchat" :
-                    briefData.objective === "Conversions / E-commerce" ? "Meta Advantage+ Sales, Google PMax, TikTok DSA, Programmatic Retargeting" :
-                    briefData.objective === "Lead Generation" ? "Meta Lead Forms, LinkedIn Lead Gen, TikTok Instant Forms, Google Demand Gen" :
-                    "Meta, TikTok, YouTube, Snapchat" + (briefData.markets?.includes("KSA") || briefData.markets?.includes("Kuwait") ? " (Snapchat critical for KSA/Kuwait)" : "")
-                  }<br/>
-                  {briefData.creative === "No creative budget" && <span style={{ color: "#ff7e7e" }}>⚠️ No creative budget — recommend Spark Ads (TikTok) and UGC approach. Flag to client that creative is #1 performance variable.</span>}
-                </div>
-              </Card>
-            </div>
-          )}
-
           {/* CREATIVE REQUIREMENTS GENERATOR */}
           {activeSection === "creativegen" && (
             <div>
@@ -2084,40 +2014,6 @@ export default function App() {
                   </tbody>
                 </table>
               </div>
-            </div>
-          )}
-
-          {/* RAMADAN PLANNER */}
-          {activeSection === "ramadan" && (
-            <div>
-              <SectionTitle>Ramadan Planning Timeline</SectionTitle>
-              <SectionDesc>Week-by-week Ramadan planning guide. Covers booking, creative, launch, optimisation, and Eid conversion.</SectionDesc>
-
-              {[
-                { week: "8–10 Weeks Before", phase: "Planning & Booking", color: "#3b82f6", tasks: ["Lock reservation formats: TikTok TopView/TopReach, YouTube Masthead, Snap First Story", "Brief creative team — Arabic Ramadan creative is mandatory", "Confirm media plan and budget allocation with client", "Set up measurement framework — ensure CAPI/Events API live", "Build audience segments for warm-up campaigns"], platforms: "All — booking phase" },
-                { week: "4–6 Weeks Before", phase: "Pre-Ramadan Warm-Up", color: "#8b5cf6", tasks: ["Launch awareness campaigns to build audience pools", "Begin Ramadan-themed content seeding on TikTok and Reels", "Test creative variants — identify top performers before CPM spike", "Confirm all tracking pixels firing correctly", "Pre-build Ramadan campaign structures in ad managers"], platforms: "Meta, TikTok, YouTube, Snapchat" },
-                { week: "Week 1–2 of Ramadan", phase: "Launch & Brand Building", color: "#f59e0b", tasks: ["Activate all reserved formats (TopView, Masthead, First Story)", "Heavy video investment — post-Iftar primetime 8pm–12am", "Shift scheduling to evening hours across all platforms", "Monitor CPMs daily — expect 2–3x increase", "Community and values messaging — not hard-sell"], platforms: "All at max investment" },
-                { week: "Week 2–3 of Ramadan", phase: "Engagement & Consideration", color: "#f97316", tasks: ["Refresh creative — first wave will fatigue by now", "Increase retargeting of engaged audiences", "Launch product/offer consideration campaigns", "Monitor frequency — cap awareness at 3–4x/week", "Spark Ads and UGC content for authenticity"], platforms: "Meta, TikTok, Snapchat, YouTube" },
-                { week: "Last 10 Nights", phase: "Conversion Push", color: "#ef4444", tasks: ["Shift budget to conversion campaigns (Advantage+, PMax, TikTok DSA)", "Activate DPA/catalogue ads for e-commerce", "Laylat Al Qadr messaging — highest engagement nights", "Click-to-WhatsApp for high-intent leads", "Monitor ROAS daily and reallocate to top performers"], platforms: "Meta Advantage+, Google PMax, TikTok DSA" },
-                { week: "Eid Al-Fitr (3–5 days)", phase: "Eid Conversion Spike", color: "#22c55e", tasks: ["Maximum conversion deployment — biggest spending window of the year", "Retarget all Ramadan audiences with conversion creative", "Flash promotions, gifting, fashion, F&B, travel", "WhatsApp CTA for immediate purchase/booking", "Dynamic Ads for personalised product recommendations"], platforms: "Meta, Google, TikTok, Snap Dynamic Ads" },
-                { week: "Post-Eid (1–2 weeks)", phase: "Analysis & Learnings", color: "#64748b", tasks: ["Compile end-of-Ramadan campaign report", "Compare performance vs pre-Ramadan benchmarks", "Document learnings: what worked, what didn't, why", "Update internal benchmark database with Ramadan actuals", "Begin planning for next year's Ramadan"], platforms: "Reporting & analysis" },
-              ].map((phase, i) => (
-                <div key={i} style={{ display: "flex", gap: 12, marginBottom: 4 }}>
-                  <div style={{ width: 4, background: phase.color, borderRadius: 2, flexShrink: 0 }} />
-                  <Card style={{ flex: 1, marginBottom: 0 }} hoverable onClick={() => {}}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
-                      <div>
-                        <div style={{ fontSize: 13, fontWeight: 700, color: phase.color }}>{phase.phase}</div>
-                        <div style={{ fontSize: 10, color: "#64748b" }}>{phase.week}</div>
-                      </div>
-                      <Chip color={i < 2 ? "blue" : i < 4 ? "amber" : i < 6 ? "red" : "green"}>{phase.platforms.split(",")[0].trim()}</Chip>
-                    </div>
-                    <div style={{ fontSize: 11, color: "#94a3b8", lineHeight: 1.7 }}>
-                      {phase.tasks.map((t, ti) => <div key={ti} style={{ marginBottom: 2 }}>• {t}</div>)}
-                    </div>
-                  </Card>
-                </div>
-              ))}
             </div>
           )}
 
@@ -2239,46 +2135,58 @@ export default function App() {
             </div>
           )}
 
+
           {/* AI PLAN GENERATOR */}
           {activeSection === "aiplanner" && (
             <div>
               <SectionTitle>AI Plan Generator</SectionTitle>
               <SectionDesc>Describe your campaign brief in plain language — get an AI-generated media plan with platform recommendations, budget split, and creative requirements.</SectionDesc>
 
+              <Card style={{ marginBottom: 12, padding: 12, background: "#0d1425", border: "1px solid #1e2d45" }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 4 }}>🔑 Anthropic API Key <span style={{ color: "#475569", fontWeight: 400 }}>(required — get one at console.anthropic.com)</span></div>
+                <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style={{ width: "100%", padding: "8px 10px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 12, fontFamily: "monospace", boxSizing: "border-box" }} />
+                <div style={{ fontSize: 9, color: "#334155", marginTop: 4 }}>Your key is never stored — it's only used for this session in your browser.</div>
+              </Card>
+
               <Card style={{ marginBottom: 16 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Describe your campaign:</div>
                 <textarea value={aiPrompt} onChange={e => setAiPrompt(e.target.value)} placeholder={"Example: I need to promote a luxury real estate development in Dubai targeting Chinese and Russian investors. Budget is $80K/month for 3 months. We have video creative in English and Mandarin but no Arabic. The goal is qualified leads — phone calls and WhatsApp inquiries."} style={{ width: "100%", minHeight: 100, padding: "10px 12px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 8, color: "#e2e8f0", fontSize: 12, fontFamily: "inherit", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6 }} />
                 <button onClick={async () => {
+                  const apiKey = document.getElementById("apiKeyInput")?.value;
+                  if (!apiKey) { setAiResult("Please enter your Anthropic API key above."); return; }
                   if (!aiPrompt.trim()) return;
                   setAiLoading(true); setAiResult("");
                   try {
                     const res = await fetch("https://api.anthropic.com/v1/messages", {
-                      method: "POST", headers: { "Content-Type": "application/json" },
+                      method: "POST",
+                      headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
                       body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514", max_tokens: 1000,
-                        messages: [{ role: "user", content: `You are a senior GCC digital media planner at a media agency in Dubai. Based on this campaign brief, provide a structured media plan recommendation. Include: 1) Recommended platforms with % budget split, 2) Key KPIs and benchmark targets, 3) Creative requirements, 4) Measurement setup needed, 5) GCC-specific considerations. Be specific with numbers and GCC market context. Keep it concise and actionable.\n\nBrief: ${aiPrompt}` }]
+                        model: "claude-sonnet-4-20250514", max_tokens: 2000,
+                        messages: [{ role: "user", content: `You are a senior GCC digital media planner at UM agency in Dubai. Based on this campaign brief, provide a structured media plan recommendation. Include:\n\n1) RECOMMENDED PLATFORMS with % budget split and monthly spend\n2) KEY KPIs and benchmark targets per platform\n3) CREATIVE REQUIREMENTS — formats, sizes, languages needed\n4) MEASUREMENT SETUP needed before launch\n5) GCC-SPECIFIC CONSIDERATIONS — cultural, seasonal, market nuances\n6) TIMELINE — phasing and milestones\n\nBe specific with numbers, USD benchmarks, and GCC market context. Format clearly with sections. Keep it actionable.\n\nBrief: ${aiPrompt}` }]
                       })
                     });
                     const data = await res.json();
-                    setAiResult(data.content?.[0]?.text || "Error generating plan. Please try again.");
-                  } catch (e) { setAiResult("Error connecting to AI. Please try again."); }
+                    if (data.error) { setAiResult("Error: " + (data.error.message || JSON.stringify(data.error))); }
+                    else { setAiResult(data.content?.[0]?.text || "No response received."); }
+                  } catch (e) { setAiResult("Error: " + e.message + ". Check your API key and try again."); }
                   setAiLoading(false);
                 }} disabled={aiLoading} style={{ marginTop: 10, padding: "10px 24px", borderRadius: 8, border: "none", background: aiLoading ? "#334155" : "#3b82f6", color: "#fff", fontSize: 12, fontWeight: 700, cursor: aiLoading ? "wait" : "pointer", fontFamily: "inherit" }}>
-                  {aiLoading ? "Generating plan..." : "🤖 Generate Media Plan"}
+                  {aiLoading ? "⏳ Generating plan..." : "🤖 Generate Media Plan"}
                 </button>
               </Card>
 
               {aiResult && (
                 <Card style={{ background: "#0d1a14", border: "1px solid #2a5040" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: "#7effb8", marginBottom: 10 }}>🤖 AI-Generated Media Plan</div>
-                  <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{aiResult}</div>
+                  <div style={{ fontSize: 12, color: "#cbd5e1", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{aiResult}</div>
                 </Card>
               )}
 
               {!aiResult && !aiLoading && (
                 <Card>
                   <div style={{ fontSize: 12, color: "#64748b", textAlign: "center", padding: 20 }}>
-                    Describe your campaign above and click "Generate Media Plan" to get an AI-powered recommendation using GCC-specific data and media planning expertise.
+                    Enter your API key, describe your campaign, and click "Generate Media Plan" to get an AI-powered recommendation.<br/><br/>
+                    <span style={{ fontSize: 10 }}>Get an API key at <strong style={{ color: "#7eb8ff" }}>console.anthropic.com</strong> → API Keys → Create Key</span>
                   </div>
                 </Card>
               )}
