@@ -15,6 +15,7 @@ const SECTIONS = [
   { id: "mistakes", label: "Common Mistakes", icon: "🚫" },
   { id: "programmatic", label: "Programmatic Deep Dive", icon: "🖥️" },
   { id: "vendors", label: "Vendor Landscape", icon: "🏢" },
+  { id: "creativespecs", label: "Creative Specs", icon: "🎨" },
   { id: "glossary", label: "KPI Glossary", icon: "📖" },
 ];
 
@@ -291,6 +292,68 @@ const regionalVendors = {
   ]},
 };
 
+const creativeSpecs = [
+  // META
+  { platform: "Meta", placement: "Feed (FB + IG)", device: "Mobile + Desktop", format: "Image", ratio: "1:1", dimensions: "1080 × 1080 px", alt: "4:5 (1080×1350) recommended for mobile", duration: "N/A", fileSize: "30 MB max", fileType: "JPG, PNG", notes: "4:5 takes up more screen on mobile — higher engagement. Avoid heavy text overlays." },
+  { platform: "Meta", placement: "Feed (FB + IG)", device: "Mobile + Desktop", format: "Video", ratio: "4:5", dimensions: "1080 × 1350 px", alt: "1:1 (1080×1080) also supported", duration: "Up to 241 min (15–60s recommended)", fileSize: "4 GB max", fileType: "MP4, MOV", notes: "H.264 compression, AAC audio. Captions boost watch time by 12%. Hook in first 3s." },
+  { platform: "Meta", placement: "Feed Carousel", device: "Mobile + Desktop", format: "Image/Video", ratio: "1:1", dimensions: "1080 × 1080 px", alt: "All cards must share same ratio", duration: "Up to 240 min per card", fileSize: "30 MB image / 4 GB video", fileType: "JPG, PNG, MP4, MOV", notes: "2–10 cards. First card is the hook. Min 3 cards recommended. Strong for product showcase." },
+  { platform: "Meta", placement: "Stories (FB + IG)", device: "Mobile only", format: "Image/Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "1440 × 2560 for sharper quality", duration: "Up to 120s (5–15s recommended)", fileSize: "30 MB image / 4 GB video", fileType: "JPG, PNG, MP4, MOV", notes: "Full-screen vertical. Safe zone: keep text 250px from top, 340px from bottom (UI overlays). Sound-on environment." },
+  { platform: "Meta", placement: "Reels (FB + IG)", device: "Mobile only", format: "Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "No landscape — 9:16 mandatory", duration: "Up to 90s (15–30s sweet spot)", fileSize: "4 GB max", fileType: "MP4, MOV", notes: "Must feel native — UGC-style outperforms polished. Hook in first 2s. Trending audio helps. Auto-plays with sound." },
+  { platform: "Meta", placement: "Right Column", device: "Desktop only", format: "Image", ratio: "1:1", dimensions: "1200 × 1200 px", alt: "Minimum 254 × 133 px", duration: "N/A", fileSize: "30 MB max", fileType: "JPG, PNG", notes: "Desktop-only placement. Small format — keep visuals simple and text minimal." },
+  { platform: "Meta", placement: "Collection / Instant Experience", device: "Mobile only", format: "Image/Video", ratio: "1:1", dimensions: "1080 × 1080 px", alt: "Cover image/video + product grid", duration: "Video up to 120s", fileSize: "30 MB image / 4 GB video", fileType: "JPG, PNG, MP4, MOV", notes: "Full-screen post-click experience. Product images auto-pulled from catalogue (1:1 crop). Min 4 products." },
+  { platform: "Meta", placement: "Threads", device: "Mobile + Desktop", format: "Image/Video", ratio: "1:1 or 16:9", dimensions: "1080 × 1080 px", alt: "Same specs as Feed", duration: "Same as Feed", fileSize: "Same as Feed", fileType: "JPG, PNG, MP4, MOV", notes: "NEW (Feb 2026). 400M+ MAU. Can run ads without a Threads profile using IG/FB creative." },
+  { platform: "Meta", placement: "WhatsApp Status", device: "Mobile only", format: "Image/Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Same as Stories", duration: "Up to 60s", fileSize: "Same as Stories", fileType: "JPG, PNG, MP4, MOV", notes: "NEW. Auto-activates in Traffic campaigns via Advantage+. 95%+ WhatsApp penetration in GCC." },
+
+  // TIKTOK
+  { platform: "TikTok", placement: "In-Feed Video", device: "Mobile only", format: "Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "1:1 and 16:9 supported but penalised", duration: "5s–10 min (15–60s recommended)", fileSize: "500 MB max", fileType: "MP4, MOV, AVI", notes: "Native feel essential. Hook in first 2s. Trending sounds boost reach. UGC-style > polished. Now supports up to 10 min." },
+  { platform: "TikTok", placement: "TopView", device: "Mobile only", format: "Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Full-screen, auto-play, sound-on", duration: "Up to 60s", fileSize: "500 MB max", fileType: "MP4, MOV", notes: "First ad on app open. Now CPM/auction (not reservation). Book 4–6 weeks for peak GCC moments." },
+  { platform: "TikTok", placement: "Brand Takeover", device: "Mobile only", format: "Image/Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Static 3s or GIF 3–5s", duration: "3–5s", fileSize: "500 MB max", fileType: "JPG, PNG, MP4, GIF", notes: "Full-screen on app open. 1 advertiser per day per category. Reservation only ($30K–$100K/day). No engagement." },
+  { platform: "TikTok", placement: "Spark Ads", device: "Mobile only", format: "Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Uses existing organic creator post", duration: "Same as original post", fileSize: "N/A (uses existing post)", fileType: "N/A", notes: "Amplify creator/influencer content as paid ads. 70% higher CTR vs standard brand content. Requires creator authorisation code." },
+  { platform: "TikTok", placement: "Branded Hashtag Challenge", device: "Mobile only", format: "Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Challenge page + UGC content", duration: "6-day package", fileSize: "N/A", fileType: "N/A", notes: "Reservation ($100K–$200K). Drives massive UGC. Combine with creator seeding. GCC users highly participatory." },
+  { platform: "TikTok", placement: "Logo Takeover ★", device: "Mobile only", format: "Logo/Image", ratio: "Custom", dimensions: "Per TikTok spec (TBC)", alt: "App splash screen co-brand", duration: "App open moment", fileSize: "TBC", fileType: "TBC", notes: "NEW Mar 2026. Highest-impact format. Brand logo on TikTok splash. GCC availability — check with rep." },
+
+  // SNAPCHAT
+  { platform: "Snapchat", placement: "Single Image / Video", device: "Mobile only", format: "Image/Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Full-screen vertical only", duration: "3–180s video (6–15s recommended)", fileSize: "5 MB image / 1 GB video", fileType: "JPG, PNG, MP4, MOV", notes: "Between Stories placement. Swipe-up CTA. 6s Commercials are non-skippable and drive strong recall in GCC." },
+  { platform: "Snapchat", placement: "Story Ads", device: "Mobile only", format: "Image/Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "3–20 Snaps in a series", duration: "Each Snap 3–180s", fileSize: "5 MB image / 1 GB video per Snap", fileType: "JPG, PNG, MP4, MOV", notes: "Swipeable multi-Snap experience in Discover. Tile creative is the hook — make it visually arresting." },
+  { platform: "Snapchat", placement: "AR Lens / AI Lens", device: "Mobile only", format: "AR/3D", ratio: "Full-screen", dimensions: "Per Lens Studio specs", alt: "Generative AI Lens (new)", duration: "Interactive (user-controlled)", fileSize: "Per Lens Studio", fileType: "Lens Studio project", notes: "Reservation ($15K–$50K+). AI Lenses use generative AI for personalised brand experiences. High earned media." },
+  { platform: "Snapchat", placement: "Sponsored Snaps ★", device: "Mobile only", format: "Image/Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Appears in Chat/Inbox", duration: "Short-form", fileSize: "5 MB image / 1 GB video", fileType: "JPG, PNG, MP4, MOV", notes: "NEW 2025. Ads in users' inbox. High native feel. Strong for KSA/Kuwait (inbox-first usage behaviour)." },
+  { platform: "Snapchat", placement: "Dynamic Product Ads", device: "Mobile only", format: "Auto-generated", ratio: "9:16", dimensions: "Auto from product feed", alt: "Requires product catalogue + Snap Pixel", duration: "N/A", fileSize: "N/A", fileType: "Product feed (XML/CSV)", notes: "Auto-generates ads from catalogue. Personalised per user. Strong for fashion/retail retargeting in GCC." },
+
+  // YOUTUBE
+  { platform: "YouTube", placement: "TrueView In-Stream (Skippable)", device: "Mobile + Desktop + CTV", format: "Video", ratio: "16:9", dimensions: "1920 × 1080 px (HD)", alt: "4K (3840×2160) supported", duration: "No max (30s–3min recommended)", fileSize: "256 GB max", fileType: "MP4, MOV, AVI, WMV", notes: "Skippable after 5s. CTA overlay + end screen. Paid only if 30s+ viewed. Arabic CTAs boost GCC performance." },
+  { platform: "YouTube", placement: "Non-Skippable In-Stream", device: "Mobile + Desktop + CTV", format: "Video", ratio: "16:9", dimensions: "1920 × 1080 px", alt: "Vertical (9:16) for Shorts placement", duration: "15–20s (max 20s)", fileSize: "256 GB max", fileType: "MP4, MOV", notes: "Viewer must watch in full. Creative must be compelling throughout — no skip option. CPM: $6–$18." },
+  { platform: "YouTube", placement: "Bumper Ads", device: "Mobile + Desktop + CTV", format: "Video", ratio: "16:9", dimensions: "1920 × 1080 px", alt: "", duration: "6s max (non-skippable)", fileSize: "256 GB max", fileType: "MP4, MOV", notes: "Short, punchy. Pairs with TrueView for sequencing (awareness → recall). Cost-efficient GCC reach." },
+  { platform: "YouTube", placement: "YouTube Shorts", device: "Mobile only", format: "Video", ratio: "9:16", dimensions: "1080 × 1920 px", alt: "Vertical mandatory", duration: "Up to 60s", fileSize: "256 GB max", fileType: "MP4, MOV", notes: "Part of Demand Gen campaigns. Full-screen vertical. Competes with TikTok/Reels. Growing rapidly in GCC." },
+  { platform: "YouTube", placement: "Masthead", device: "Mobile + Desktop + CTV", format: "Video", ratio: "16:9", dimensions: "1920 × 1080 px", alt: "Auto-plays muted on desktop", duration: "Up to 30s auto-play", fileSize: "Per Google spec", fileType: "MP4", notes: "Homepage takeover. Reservation $50K–$200K/day. Maximum reach. Book 6–8 weeks ahead for GCC." },
+  { platform: "YouTube", placement: "Demand Gen (Multi-Surface)", device: "Mobile + Desktop", format: "Video/Image/Carousel", ratio: "16:9 (video), 1:1 or 4:5 (image)", dimensions: "1920×1080 (video), 1080×1080 (image)", alt: "Carousel: 1200×628 landscape", duration: "15–30s video recommended", fileSize: "4 GB video / 5 MB image", fileType: "MP4, MOV, JPG, PNG", notes: "Spans YouTube, Shorts, Gmail & Discover. AI selects format per user. Requires Google Tag + GA4." },
+
+  // LINKEDIN
+  { platform: "LinkedIn", placement: "Sponsored Content (Feed)", device: "Mobile + Desktop", format: "Image", ratio: "1.91:1 or 1:1", dimensions: "1200 × 627 px (landscape) or 1080 × 1080 px (square)", alt: "", duration: "N/A", fileSize: "5 MB max", fileType: "JPG, PNG", notes: "Square (1:1) now outperforms landscape on mobile. Professional tone essential." },
+  { platform: "LinkedIn", placement: "Sponsored Content (Feed)", device: "Mobile + Desktop", format: "Video", ratio: "1:1, 16:9, or 9:16", dimensions: "Min 360px wide", alt: "Vertical (9:16) growing", duration: "3s–30 min (15–60s recommended)", fileSize: "200 MB max", fileType: "MP4", notes: "Auto-plays muted — captions essential. Hook in first 3s. Arabic captions for KSA campaigns." },
+  { platform: "LinkedIn", placement: "Document Ads", device: "Mobile + Desktop", format: "Document (PDF)", ratio: "Vertical pages", dimensions: "Per document", alt: "Appears as swipeable carousel", duration: "N/A", fileSize: "100 MB max", fileType: "PDF, DOC, DOCX, PPT, PPTX", notes: "High engagement for thought leadership. Users swipe through pages like a carousel. Strong for B2B in GCC." },
+  { platform: "LinkedIn", placement: "InMail / Message Ads", device: "Mobile + Desktop", format: "Text + Banner", ratio: "Banner: 300 × 250", dimensions: "300 × 250 px", alt: "Text body + CTA button + optional banner", duration: "N/A", fileSize: "2 MB banner", fileType: "JPG, PNG, GIF (non-animated)", notes: "Direct to inbox. 1 InMail per member per 45 days. Personalisation boosts open rates." },
+  { platform: "LinkedIn", placement: "Thought Leader Ads", device: "Mobile + Desktop", format: "Organic post (boosted)", ratio: "Per original post", dimensions: "Per original post", alt: "Boosts personal profile post as ad", duration: "Per original post", fileSize: "Per original post", fileType: "Per original post", notes: "Amplify exec posts. Drives credibility. Underused in GCC but highly effective for B2B." },
+
+  // X (TWITTER)
+  { platform: "X (Twitter)", placement: "Promoted Ad (Timeline)", device: "Mobile + Desktop", format: "Image", ratio: "1.91:1 or 1:1", dimensions: "1200 × 675 px (landscape) or 1080 × 1080 px (square)", alt: "", duration: "N/A", fileSize: "5 MB max", fileType: "JPG, PNG", notes: "GIF also supported (up to 15 MB). Max 4 images per tweet." },
+  { platform: "X (Twitter)", placement: "Promoted Video", device: "Mobile + Desktop", format: "Video", ratio: "16:9, 1:1, or 9:16", dimensions: "1920 × 1080 px (16:9) or 1080 × 1080 px (1:1)", alt: "Vertical (9:16) growing", duration: "Up to 2:20 (6–15s recommended)", fileSize: "1 GB max", fileType: "MP4, MOV", notes: "Auto-plays muted in timeline. Sound-on for in-stream pre-roll. Shorter = stronger for GCC live events." },
+  { platform: "X (Twitter)", placement: "Website Card", device: "Mobile + Desktop", format: "Image/Video + CTA", ratio: "1.91:1", dimensions: "800 × 418 px (min)", alt: "Includes headline + URL + CTA button", duration: "Video up to 2:20", fileSize: "5 MB image / 1 GB video", fileType: "JPG, PNG, MP4, MOV", notes: "Image + CTA button drives higher CTR than plain promoted tweets. Strong for traffic campaigns." },
+  { platform: "X (Twitter)", placement: "Trend Takeover+", device: "Mobile + Desktop", format: "Video/Image + Hashtag", ratio: "16:9", dimensions: "1200 × 675 px min", alt: "Dominates Trending tab for 24hrs", duration: "Up to 6s (GIF/Video)", fileSize: "Per format", fileType: "JPG, PNG, MP4, GIF", notes: "Reservation $20K–$55K/day. Drives earned hashtag usage. Powerful for F1, Saudi National Day, FIFA." },
+
+  // PINTEREST
+  { platform: "Pinterest", placement: "Standard Pin", device: "Mobile + Desktop", format: "Image", ratio: "2:3", dimensions: "1000 × 1500 px", alt: "1:1 supported but 2:3 preferred", duration: "N/A", fileSize: "20 MB max", fileType: "JPG, PNG", notes: "Vertical format dominates on Pinterest. Users are in planning/discovery mode — high purchase intent." },
+  { platform: "Pinterest", placement: "Video Pin", device: "Mobile + Desktop", format: "Video", ratio: "1:1, 2:3, or 9:16", dimensions: "1080 × 1080 px (1:1) or 1080 × 1920 px (9:16)", alt: "Max-Width Video takes full mobile width", duration: "4s–15 min (6–15s recommended)", fileSize: "2 GB max", fileType: "MP4, MOV", notes: "Auto-plays muted. Max-Width Video (full screen) is highest impact. Strong for lifestyle/design brands." },
+  { platform: "Pinterest", placement: "Shopping / Collections", device: "Mobile + Desktop", format: "Image", ratio: "1:1", dimensions: "1080 × 1080 px", alt: "Hero image + 3 secondary product images", duration: "N/A", fileSize: "20 MB max", fileType: "JPG, PNG", notes: "Requires product catalogue + Pinterest Tag. Hero image is the hook. Strong for fashion/home/beauty in UAE." },
+
+  // PROGRAMMATIC
+  { platform: "Programmatic", placement: "Display Banners", device: "Mobile + Desktop", format: "Image/HTML5", ratio: "Various", dimensions: "300×250, 728×90, 160×600, 320×50, 300×600", alt: "These 5 sizes cover 90%+ of inventory", duration: "N/A (HTML5: 15–30s loops)", fileSize: "150 KB (standard) / 200 KB (rich media)", fileType: "JPG, PNG, GIF, HTML5", notes: "Always produce all 5 core sizes. Arabic + English versions for KSA/Kuwait. Use DCO for personalisation." },
+  { platform: "Programmatic", placement: "Native Ads", device: "Mobile + Desktop", format: "Image + Text", ratio: "1.91:1 or 1:1", dimensions: "1200 × 627 px (landscape) or 1200 × 1200 px (square)", alt: "Headline (25 chars) + Description (90 chars) + Image", duration: "N/A", fileSize: "1 MB max", fileType: "JPG, PNG", notes: "Blends with publisher content. Via Taboola/Outbrain. Strong for BFSI, real estate, government in GCC." },
+  { platform: "Programmatic", placement: "Pre-Roll / Mid-Roll (OLV)", device: "Mobile + Desktop", format: "Video", ratio: "16:9", dimensions: "1920 × 1080 px", alt: "640×360 minimum", duration: "15s or 30s (non-skippable)", fileSize: "Per publisher spec", fileType: "MP4, MOV, VAST tag", notes: "Premium publisher video. Via PMP deals (Shahid, MBC, Zawya). VAST/VPAID tags for ad serving." },
+  { platform: "Programmatic", placement: "CTV / OTT", device: "Smart TV / Streaming", format: "Video", ratio: "16:9", dimensions: "1920 × 1080 px (HD) or 3840 × 2160 px (4K)", alt: "Full-screen non-skippable", duration: "15s or 30s", fileSize: "Per publisher", fileType: "MP4, VAST tag", notes: "Shahid, OSN+, StarzPlay. Full-screen, sound-on, lean-back. Near-100% viewability. PMPs only in GCC." },
+  { platform: "Programmatic", placement: "DOOH", device: "Digital Screens", format: "Image/Video", ratio: "Varies by screen", dimensions: "Varies: 1920×1080, 1080×1920, 3840×2160", alt: "Check screen specs per location", duration: "10–15s video loops", fileSize: "Per network (typically <50 MB)", fileType: "JPG, PNG, MP4", notes: "Dubai Mall, SZR, airport, Riyadh screens. Always confirm exact specs with DOOH vendor. No audio on most screens." },
+  { platform: "Programmatic", placement: "Audio (Spotify, Anghami)", device: "Mobile + Desktop", format: "Audio + Companion", ratio: "Companion: 1:1", dimensions: "Companion: 640 × 640 px", alt: "Audio: 15s or 30s", duration: "15s or 30s audio", fileSize: "Audio: 1 MB / Companion: 200 KB", fileType: "MP3, WAV (audio) / JPG, PNG (companion)", notes: "Anghami is the leading Arabic audio platform. Companion display shown during audio ad. Contextual targeting by mood/genre." },
+];
+
 const budgetTiers = [
   { tier: "Starter", budget: "$5K–$15K/mo", platforms: "Meta + 1 (TikTok or Snap)", mix: "Meta 70–80%, 1 secondary", max: 2, buying: "Auction only", reach: "50K–300K impressions/mo", constraint: "Too small for reservation formats" },
   { tier: "Growth", budget: "$15K–$50K/mo", platforms: "Meta + TikTok + Snap or YouTube", mix: "Meta 50–60%, TikTok 20–25%, Other 15–25%", max: 3, buying: "Auction + minor reservation", reach: "300K–1.5M impressions/mo", constraint: "Begin testing platform mix" },
@@ -462,6 +525,7 @@ export default function App() {
   const [checkedItems, setCheckedItems] = useState({});
   const [mobileNav, setMobileNav] = useState(false);
   const [vendorRegion, setVendorRegion] = useState("GCC / Dubai");
+  const [creativePlatform, setCreativePlatform] = useState("All");
   const contentRef = useRef(null);
 
   const toggleCheck = (key) => setCheckedItems(prev => ({ ...prev, [key]: !prev[key] }));
@@ -1056,6 +1120,103 @@ export default function App() {
                   </div>
                 </Accordion>
               ))}
+            </div>
+          )}
+
+          {/* CREATIVE SPECS */}
+          {activeSection === "creativespecs" && (
+            <div>
+              <SectionTitle>Creative Specs by Platform</SectionTitle>
+              <SectionDesc>Complete ad dimensions, formats, file requirements, and placement-specific specs across all platforms. {creativeSpecs.length} formats documented.</SectionDesc>
+
+              <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
+                {["All", ...new Set(creativeSpecs.map(s => s.platform))].map(p => (
+                  <button key={p} onClick={() => setCreativePlatform(p)} style={{
+                    padding: "6px 14px", borderRadius: 20, border: creativePlatform === p ? "1px solid #3b82f6" : "1px solid #1e2d45",
+                    background: creativePlatform === p ? "#1a2744" : "#0d1425", color: creativePlatform === p ? "#7eb8ff" : "#64748b",
+                    fontSize: 11, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", transition: "all .15s"
+                  }}>{p}</button>
+                ))}
+              </div>
+
+              <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 20 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#7eb8ff", marginBottom: 8 }}>🎯 Quick Reference — The 3 Must-Have Ratios</div>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                  <strong style={{ color: "#7effb8" }}>1:1 Square (1080×1080)</strong> — Works across 80% of placements. Safe default for Feed on all platforms.<br/>
+                  <strong style={{ color: "#ffcb7e" }}>4:5 Vertical (1080×1350)</strong> — Best for mobile Feed. Takes up more screen. Higher engagement vs square.<br/>
+                  <strong style={{ color: "#c07eff" }}>9:16 Full Vertical (1080×1920)</strong> — Mandatory for Reels, Stories, TikTok, Snapchat, Shorts. Non-negotiable in 2026.
+                </div>
+              </Card>
+
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
+                  <thead>
+                    <tr style={{ borderBottom: "2px solid #1e2d45" }}>
+                      {["Platform", "Placement", "Device", "Format", "Ratio", "Dimensions", "Duration", "File", "Notes"].map(h => (
+                        <th key={h} style={{ padding: "8px 6px", textAlign: "left", color: "#64748b", fontWeight: 700, fontSize: 9, textTransform: "uppercase", letterSpacing: ".04em", whiteSpace: "nowrap" }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {creativeSpecs
+                      .filter(s => creativePlatform === "All" || s.platform === creativePlatform)
+                      .filter(s => !filterText || JSON.stringify(s).toLowerCase().includes(filterText))
+                      .map((s, i) => (
+                      <tr key={i} style={{ borderBottom: "1px solid #141c2e", background: i % 2 === 0 ? "#0d1425" : "transparent" }}>
+                        <td style={{ padding: "7px 6px", fontWeight: 700, color: "#e2e8f0", whiteSpace: "nowrap" }}>{s.platform}</td>
+                        <td style={{ padding: "7px 6px", color: "#cbd5e1", fontSize: 11 }}>{s.placement}</td>
+                        <td style={{ padding: "7px 6px", color: "#64748b", fontSize: 10 }}>{s.device}</td>
+                        <td style={{ padding: "7px 6px" }}><Chip color={s.format.includes("Video") ? "purple" : s.format.includes("Image") ? "blue" : s.format.includes("Audio") ? "teal" : "amber"}>{s.format}</Chip></td>
+                        <td style={{ padding: "7px 6px", color: "#7effb8", fontWeight: 700, fontFamily: "monospace", fontSize: 11 }}>{s.ratio}</td>
+                        <td style={{ padding: "7px 6px", color: "#ffcb7e", fontFamily: "monospace", fontSize: 10, whiteSpace: "nowrap" }}>{s.dimensions}</td>
+                        <td style={{ padding: "7px 6px", color: "#94a3b8", fontSize: 10 }}>{s.duration}</td>
+                        <td style={{ padding: "7px 6px", color: "#64748b", fontSize: 10 }}>{s.fileType}</td>
+                        <td style={{ padding: "7px 6px", color: "#64748b", fontSize: 10, maxWidth: 200 }}>{s.notes}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#7eb8ff", marginTop: 28, marginBottom: 12 }}>📐 Detailed Specs by Platform</h3>
+              {[...new Set(creativeSpecs.filter(s => creativePlatform === "All" || s.platform === creativePlatform).map(s => s.platform))].map(platform => (
+                <div key={platform} style={{ marginBottom: 24 }}>
+                  <h4 style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0", marginBottom: 10, paddingBottom: 6, borderBottom: "1px solid #1e2d45" }}>{platform}</h4>
+                  {creativeSpecs.filter(s => s.platform === platform).filter(s => !filterText || JSON.stringify(s).toLowerCase().includes(filterText)).map((s, i) => (
+                    <Accordion key={i} title={s.placement} subtitle={`${s.format} · ${s.device}`} badge={<Chip color={s.format.includes("Video") ? "purple" : s.format.includes("Image") ? "blue" : "amber"}>{s.ratio}</Chip>}>
+                      <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
+                        <InfoRow label="Dimensions" value={<span style={{ color: "#ffcb7e", fontWeight: 600, fontFamily: "monospace" }}>{s.dimensions}</span>} />
+                        <InfoRow label="Aspect Ratio" value={<span style={{ color: "#7effb8", fontWeight: 600 }}>{s.ratio}</span>} />
+                        {s.alt && <InfoRow label="Alternative" value={s.alt} />}
+                        <InfoRow label="Format" value={s.format} />
+                        <InfoRow label="File Type" value={s.fileType} />
+                        <InfoRow label="File Size" value={s.fileSize} />
+                        <InfoRow label="Duration" value={s.duration} />
+                        <InfoRow label="Device" value={s.device} />
+                        <div style={{ marginTop: 10, padding: 10, background: "#0f1726", borderRadius: 8, fontSize: 12 }}>
+                          <strong style={{ color: "#ffcb7e" }}>📝 Notes:</strong> {s.notes}
+                        </div>
+                      </div>
+                    </Accordion>
+                  ))}
+                </div>
+              ))}
+
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: "#ff7e7e", marginTop: 28, marginBottom: 12 }}>⚠️ Creative Checklist Reminders</h3>
+              <Card style={{ background: "#1a1520", border: "1px solid #2a1a30" }}>
+                <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                  • <strong style={{ color: "#e2e8f0" }}>9:16 vertical is the 2026 default</strong> — Meta confirmed 90% of inventory will be vertical. Produce 9:16 first, adapt from there.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Safe zones</strong> — Stories/Reels: keep text 250px from top, 340px from bottom (UI overlays cover these areas).<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Hook in first 2 seconds</strong> — TikTok, Reels, and Snap users decide instantly whether to watch or swipe.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Captions always</strong> — 80%+ of feed video is watched muted. Captions boost watch time by 12%.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Arabic versions</strong> — Mandatory for KSA and Kuwait campaigns. Use DCO for AR+EN versioning on programmatic.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Minimum 3 creative variants</strong> — Algorithms need variety. Andromeda (Meta) uses creative as targeting signal.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Platform-native &gt; polished</strong> — UGC-style creative outperforms TV-style on TikTok and Reels.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Programmatic display: 5 core sizes</strong> — 300×250, 728×90, 160×600, 320×50, 300×600 covers 90%+ of inventory.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>CTV is always 16:9</strong> — No vertical on TV screens. 15s and 30s are standard durations.<br/>
+                  • <strong style={{ color: "#e2e8f0" }}>Test before launch</strong> — Preview in-platform before going live. What looks good in Canva may crop badly in-feed.
+                </div>
+              </Card>
             </div>
           )}
 
