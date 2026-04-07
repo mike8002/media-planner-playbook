@@ -591,6 +591,9 @@ export default function App() {
   const [selectedPlatforms, setSelectedPlatforms] = useState(["Meta", "TikTok"]);
   const [comparePlatforms, setComparePlatforms] = useState(["Meta (Facebook + Instagram)", "TikTok", "Snapchat"]);
   const [benchmarkData, setBenchmarkData] = useState([]);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiResult, setAiResult] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
   const [planInputs, setPlanInputs] = useState({ objective: "Conversions / E-commerce", budget: 50000, markets: ["UAE"], duration: 2, audience: "25-44", vertical: "Real Estate", hasCreative: true, hasTracking: true });
   const [planGenerated, setPlanGenerated] = useState(false);
   const contentRef = useRef(null);
@@ -2190,6 +2193,183 @@ export default function App() {
                   </div>
                 </Card>
               )}
+            </div>
+          )}
+
+          {/* PLAN GENERATOR */}
+          {activeSection === "aiplanner" && (
+            <div>
+              <SectionTitle>Media Plan Generator</SectionTitle>
+              <SectionDesc>Configure your campaign parameters — get an instant media plan with platform split, budget allocation, KPIs, creative requirements, and GCC-specific recommendations.</SectionDesc>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                <Card style={{ padding: 14 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Objective</div>
+                  {["Brand Awareness", "Video Views", "Traffic", "Lead Generation", "Conversions / E-commerce", "App Installs", "B2B / Thought Leadership"].map(o => (
+                    <button key={o} onClick={() => setPlanInputs(p => ({...p, objective: o}))} style={{ display: "block", width: "100%", padding: "5px 8px", margin: "2px 0", border: planInputs.objective === o ? "1px solid #3b82f6" : "1px solid transparent", borderRadius: 6, background: planInputs.objective === o ? "#1a2744" : "transparent", color: planInputs.objective === o ? "#7eb8ff" : "#64748b", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", textAlign: "left" }}>{o}</button>
+                  ))}
+                </Card>
+                <div>
+                  <Card style={{ padding: 14, marginBottom: 12 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Monthly Budget (USD)</div>
+                    <input type="range" min={5000} max={500000} step={5000} value={planInputs.budget} onChange={e => setPlanInputs(p => ({...p, budget: Number(e.target.value)}))} style={{ width: "100%", accentColor: "#3b82f6" }} />
+                    <div style={{ fontSize: 20, fontWeight: 800, color: "#7eb8ff" }}>${planInputs.budget.toLocaleString()}<span style={{ fontSize: 11, color: "#64748b" }}>/mo × {planInputs.duration} months = ${(planInputs.budget * planInputs.duration).toLocaleString()}</span></div>
+                  </Card>
+                  <Card style={{ padding: 14, marginBottom: 12 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Duration (months)</div>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      {[1,2,3,4,6,12].map(d => (
+                        <button key={d} onClick={() => setPlanInputs(p => ({...p, duration: d}))} style={{ flex: 1, padding: "6px 0", borderRadius: 6, border: planInputs.duration === d ? "1px solid #3b82f6" : "1px solid #1e2d45", background: planInputs.duration === d ? "#1a2744" : "transparent", color: planInputs.duration === d ? "#7eb8ff" : "#64748b", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>{d}</button>
+                      ))}
+                    </div>
+                  </Card>
+                  <Card style={{ padding: 14 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Markets</div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                      {["UAE", "KSA", "Kuwait", "Qatar", "GCC Wide"].map(m => (
+                        <button key={m} onClick={() => setPlanInputs(p => ({...p, markets: p.markets.includes(m) ? p.markets.filter(x => x !== m) : [...p.markets, m]}))} style={{ padding: "4px 10px", borderRadius: 14, border: planInputs.markets.includes(m) ? "1px solid #3b82f6" : "1px solid #1e2d45", background: planInputs.markets.includes(m) ? "#1a2744" : "transparent", color: planInputs.markets.includes(m) ? "#7eb8ff" : "#64748b", fontSize: 10, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{m}</button>
+                      ))}
+                    </div>
+                  </Card>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
+                <Card style={{ padding: 14 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Vertical / Industry</div>
+                  <select value={planInputs.vertical} onChange={e => setPlanInputs(p => ({...p, vertical: e.target.value}))} style={{ width: "100%", padding: "6px 8px", background: "#0b1120", border: "1px solid #1e2d45", borderRadius: 6, color: "#e2e8f0", fontSize: 11, fontFamily: "inherit" }}>
+                    {["Real Estate", "Fashion / Retail", "FMCG", "Auto", "Travel / Hospitality", "F&B", "Finance / BFSI", "Tech / SaaS", "Education", "Gaming", "Healthcare", "Government", "Luxury", "Entertainment"].map(v => <option key={v}>{v}</option>)}
+                  </select>
+                </Card>
+                <Card style={{ padding: 14 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Creative Ready?</div>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    {[true, false].map(v => (
+                      <button key={String(v)} onClick={() => setPlanInputs(p => ({...p, hasCreative: v}))} style={{ flex: 1, padding: "6px 0", borderRadius: 6, border: planInputs.hasCreative === v ? "1px solid #3b82f6" : "1px solid #1e2d45", background: planInputs.hasCreative === v ? "#1a2744" : "transparent", color: planInputs.hasCreative === v ? "#7eb8ff" : "#64748b", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{v ? "Yes" : "No"}</button>
+                    ))}
+                  </div>
+                </Card>
+                <Card style={{ padding: 14 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", marginBottom: 6 }}>Tracking in Place?</div>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    {[true, false].map(v => (
+                      <button key={String(v)} onClick={() => setPlanInputs(p => ({...p, hasTracking: v}))} style={{ flex: 1, padding: "6px 0", borderRadius: 6, border: planInputs.hasTracking === v ? "1px solid #3b82f6" : "1px solid #1e2d45", background: planInputs.hasTracking === v ? "#1a2744" : "transparent", color: planInputs.hasTracking === v ? "#7eb8ff" : "#64748b", fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>{v ? "Yes" : "No"}</button>
+                    ))}
+                  </div>
+                </Card>
+              </div>
+
+              <button onClick={() => setPlanGenerated(true)} style={{ padding: "12px 32px", borderRadius: 8, border: "none", background: "#3b82f6", color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", marginBottom: 20 }}>⚡ Generate Media Plan</button>
+
+              {planGenerated && (() => {
+                const b = planInputs.budget;
+                const obj = planInputs.objective;
+                const isB2B = obj === "B2B / Thought Leadership";
+                const isEcom = obj === "Conversions / E-commerce";
+                const isApp = obj === "App Installs";
+                const isLead = obj === "Lead Generation";
+                const isAwareness = obj === "Brand Awareness" || obj === "Video Views";
+                const hasKSA = planInputs.markets.includes("KSA") || planInputs.markets.includes("GCC Wide");
+                const hasKuwait = planInputs.markets.includes("Kuwait") || planInputs.markets.includes("GCC Wide");
+                const tier = b < 15000 ? "Starter" : b < 50000 ? "Growth" : b < 150000 ? "Mid-Market" : b < 400000 ? "Premium" : "Enterprise";
+
+                const mix = isB2B ? { LinkedIn: 45, Meta: 20, Google: 15, "X (Twitter)": 10, Programmatic: 10 }
+                  : isEcom ? { Meta: 40, Google: 25, TikTok: 15, ...(hasKSA || hasKuwait ? { Snapchat: 10 } : {}), Programmatic: 10 }
+                  : isApp ? { Meta: 35, TikTok: 25, Google: 20, Snapchat: 15, Programmatic: 5 }
+                  : isLead ? { Meta: 35, LinkedIn: 20, TikTok: 15, ...(hasKSA || hasKuwait ? { Snapchat: 10 } : {}), Google: 15, ...(!(hasKSA || hasKuwait) ? { "X (Twitter)": 5 } : {}) }
+                  : isAwareness ? { Meta: 25, TikTok: 20, YouTube: 20, ...(hasKSA || hasKuwait ? { Snapchat: 15 } : { Snapchat: 10 }), Programmatic: 10, "X (Twitter)": 5, ...(!(hasKSA || hasKuwait) ? { Programmatic: 15 } : {}) }
+                  : { Meta: 30, TikTok: 15, YouTube: 10, Snapchat: 12, Google: 15, LinkedIn: 8, "X (Twitter)": 5, Programmatic: 5 };
+
+                const totalPct = Object.values(mix).reduce((a, v) => a + v, 0);
+                const cpms = { Meta: 8, TikTok: 12, Snapchat: 6, YouTube: 10, Google: 8, LinkedIn: 35, "X (Twitter)": 12, Programmatic: 8 };
+                const kpiMap = { Meta: isEcom ? "ROAS 2–5x" : isLead ? "CPL $5–30" : "CPM $3–11", TikTok: isEcom ? "ROAS 1.5–4x" : "CPV $0.02–0.08", Snapchat: isLead ? "CPL $8–34" : "CPM $3–10", YouTube: "CPV $0.01–0.05", Google: isEcom ? "ROAS 3–8x" : "CPC $0.50–2", LinkedIn: isLead ? "CPL $30–150" : "CPM $10–60", "X (Twitter)": "CPM $7–19", Programmatic: "CPM $2–30" };
+
+                const warnings = [];
+                if (!planInputs.hasCreative) warnings.push("⚠️ No creative ready — this is the #1 risk. Brief creative team immediately. Consider UGC/Spark Ads approach for TikTok.");
+                if (!planInputs.hasTracking) warnings.push("⚠️ No tracking in place — implement Meta Pixel + CAPI, TikTok Events API, Google Tag + GA4 BEFORE launching any conversion campaign.");
+                if (b < 15000) warnings.push("⚠️ Budget is in Starter tier ($5K–$15K). Recommend maximum 2 platforms. Meta should be primary.");
+                if (hasKSA && !mix.Snapchat) warnings.push("⚠️ KSA market selected but no Snapchat — Snap has 60–70% penetration in KSA. Consider adding.");
+                if (hasKuwait && !mix.Snapchat) warnings.push("⚠️ Kuwait market selected but no Snapchat — Snap penetration is 60–70% in Kuwait.");
+                Object.entries(mix).forEach(([p, pct]) => { if ((b * pct / totalPct / 100) < 3000 && p !== "X (Twitter)") warnings.push(`⚠️ ${p} allocation ($${Math.round(b * pct / totalPct).toLocaleString()}) is below $3K — may not generate meaningful data.`); });
+
+                return (
+                  <div>
+                    <Card style={{ background: "linear-gradient(135deg, #1a2744 0%, #0d1425 100%)", border: "1px solid #2a4060", marginBottom: 16, padding: 20 }}>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: "#e2e8f0", marginBottom: 4 }}>Generated Media Plan</div>
+                      <div style={{ fontSize: 11, color: "#64748b" }}>{obj} · {planInputs.markets.join(", ")} · ${b.toLocaleString()}/mo × {planInputs.duration} months · {tier} tier · {planInputs.vertical}</div>
+                    </Card>
+
+                    {warnings.length > 0 && (
+                      <Card style={{ background: "#1a1520", border: "1px solid #2a1a30", marginBottom: 16 }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#ff7e7e", marginBottom: 8 }}>Flags & Warnings</div>
+                        {warnings.map((w, i) => <div key={i} style={{ fontSize: 11, color: "#94a3b8", marginBottom: 4 }}>{w}</div>)}
+                      </Card>
+                    )}
+
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: "#7eb8ff", marginBottom: 12 }}>Platform Split & Budget Allocation</h3>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 10, marginBottom: 20 }}>
+                      {Object.entries(mix).map(([platform, pct]) => {
+                        const spend = Math.round(b * pct / totalPct);
+                        const cpm = cpms[platform] || 10;
+                        const impressions = Math.round((spend / cpm) * 1000);
+                        return (
+                          <Card key={platform} style={{ padding: 14 }}>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0" }}>{platform}</div>
+                            <div style={{ fontSize: 20, fontWeight: 800, color: "#7effb8" }}>${spend.toLocaleString()}</div>
+                            <div style={{ fontSize: 10, color: "#64748b", marginBottom: 6 }}>{Math.round(pct / totalPct * 100)}% · {(impressions/1000).toFixed(0)}K impr.</div>
+                            <div style={{ fontSize: 10, color: "#ffcb7e", fontFamily: "monospace" }}>{kpiMap[platform]}</div>
+                            <div style={{ marginTop: 6 }}><ProgressBar value={pct} max={50} color="#3b82f6" /></div>
+                          </Card>
+                        );
+                      })}
+                    </div>
+
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: "#7eb8ff", marginBottom: 12 }}>Creative Requirements</h3>
+                    <Card style={{ marginBottom: 20 }}>
+                      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                        {mix.Meta && <>• <strong style={{ color: "#e2e8f0" }}>Meta:</strong> Feed image/video 1080×1350 (4:5) + Stories/Reels 1080×1920 (9:16) + Carousel 1080×1080 (1:1){hasKSA || hasKuwait ? " · Arabic versions required" : ""}<br/></>}
+                        {mix.TikTok && <>• <strong style={{ color: "#e2e8f0" }}>TikTok:</strong> In-Feed 1080×1920 (9:16), native/UGC style, hook in 2s, sound-on. Consider Spark Ads with creators.<br/></>}
+                        {mix.Snapchat && <>• <strong style={{ color: "#e2e8f0" }}>Snapchat:</strong> Single video 1080×1920 (9:16), 6–15s recommended. AR Lens if budget allows.<br/></>}
+                        {mix.YouTube && <>• <strong style={{ color: "#e2e8f0" }}>YouTube:</strong> TrueView/Non-Skip 1920×1080 (16:9) 15–30s + Shorts 1080×1920 (9:16) for Demand Gen.<br/></>}
+                        {mix.Google && <>• <strong style={{ color: "#e2e8f0" }}>Google:</strong> {isEcom ? "PMax: video + image + text + product feed" : "Demand Gen: video 15–30s + image 1080×1080 + carousel"}<br/></>}
+                        {mix.LinkedIn && <>• <strong style={{ color: "#e2e8f0" }}>LinkedIn:</strong> Feed image 1080×1080 (1:1) + video with captions + Document Ad (PDF) for thought leadership.<br/></>}
+                        {mix.Programmatic && <>• <strong style={{ color: "#e2e8f0" }}>Programmatic:</strong> Display: 300×250, 728×90, 160×600, 320×50, 300×600 (all 5 sizes). {hasKSA || hasKuwait ? "Arabic + English versions." : ""}<br/></>}
+                        {mix["X (Twitter)"] && <>• <strong style={{ color: "#e2e8f0" }}>X:</strong> Promoted image 1200×675 or 1080×1080 + video up to 2:20.<br/></>}
+                      </div>
+                    </Card>
+
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: "#7eb8ff", marginBottom: 12 }}>Measurement Setup Required</h3>
+                    <Card style={{ marginBottom: 20 }}>
+                      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                        {mix.Meta && <>• Meta Pixel + CAPI (server-side) — required for any conversion/lead campaign<br/></>}
+                        {mix.TikTok && <>• TikTok Pixel + Events API — required for conversion optimisation<br/></>}
+                        {mix.Snapchat && <>• Snap Pixel — required for conversion tracking and Dynamic Ads<br/></>}
+                        {mix.Google && <>• Google Tag + GA4 + {isEcom ? "Enhanced Conversions" : "conversion events"}<br/></>}
+                        {mix.LinkedIn && <>• LinkedIn Insight Tag — required for conversion tracking and retargeting<br/></>}
+                        • UTM parameters on ALL ad destination URLs — consistent naming convention<br/>
+                        • GA4 as cross-channel source of truth — do not sum platform ROAS figures<br/>
+                        {isEcom && (hasKSA) && <>• COD attribution — ask client for Cash on Delivery % (common in KSA). Adjust ROAS reporting accordingly.<br/></>}
+                      </div>
+                    </Card>
+
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: "#ffcb7e", marginBottom: 12 }}>GCC-Specific Recommendations</h3>
+                    <Card style={{ background: "#0f1726" }}>
+                      <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.8 }}>
+                        {hasKSA && <>• <strong style={{ color: "#e2e8f0" }}>KSA:</strong> Snapchat and TikTok are dominant for under-35. Arabic creative is mandatory. Snap penetration 60–70%.<br/></>}
+                        {hasKuwait && <>• <strong style={{ color: "#e2e8f0" }}>Kuwait:</strong> Snapchat is the #1 platform — do not exclude. Arabic creative required.<br/></>}
+                        {planInputs.markets.includes("UAE") && <>• <strong style={{ color: "#e2e8f0" }}>UAE:</strong> Most diverse audience (expat-heavy). Dual-language AR+EN recommended. WhatsApp penetration ~95%+.<br/></>}
+                        • <strong style={{ color: "#e2e8f0" }}>9:16 vertical</strong> is mandatory for TikTok, Reels, Stories, Shorts, and Snapchat — this is the 2026 default.<br/>
+                        • <strong style={{ color: "#e2e8f0" }}>Creative is #1 variable</strong> — supply minimum 3 variants per platform. Andromeda (Meta) uses creative as targeting signal.<br/>
+                        {planInputs.vertical === "Real Estate" && <>• <strong style={{ color: "#e2e8f0" }}>Real Estate:</strong> Click-to-WhatsApp converts extremely well in GCC. Consider WeChat for Chinese HNWI via EternityX.<br/></>}
+                        {planInputs.vertical === "Luxury" && <>• <strong style={{ color: "#e2e8f0" }}>Luxury:</strong> Pinterest for affluent female audience. LinkedIn for HNWI professional targeting. Premium programmatic PMPs.<br/></>}
+                        {planInputs.vertical === "Fashion / Retail" && <>• <strong style={{ color: "#e2e8f0" }}>Fashion/Retail:</strong> TikTok Spark Ads + Meta Advantage+ Sales for peak Eid/DSF/White Friday moments. DPA essential.<br/></>}
+                        {planInputs.vertical === "Finance / BFSI" && <>• <strong style={{ color: "#e2e8f0" }}>BFSI:</strong> LinkedIn is primary. X (Twitter) for finance audience. Programmatic native for long-form content. Regulated category — check platform policies.<br/></>}
+                        {planInputs.vertical === "Travel / Hospitality" && <>• <strong style={{ color: "#e2e8f0" }}>Travel:</strong> YouTube Demand Gen is strongest mid-funnel. Google PMax for booking conversions. Instagram Reels for inspiration. DSF and summer are key periods.<br/></>}
+                      </div>
+                    </Card>
+                  </div>
+                );
+              })()}
             </div>
           )}
 
