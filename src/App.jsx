@@ -1127,68 +1127,107 @@ export default function App() {
               <SectionTitle>Pre-Launch QA Checklist</SectionTitle>
               <SectionDesc>Complete before every campaign go-live. {checkedCount}/{totalChecks} items checked.</SectionDesc>
 
-              {(() => {
-                const pct = Math.round((checkedCount / totalChecks) * 100);
-                const stages = [
-                  { min: 0, icon: "🥚", name: "The Brief Egg", msg: "Your campaign is just an idea. Start checking items to hatch it.", bg: "#141c2e" },
-                  { min: 8, icon: "🐣", name: "The Hatchling", msg: "Signs of life! Brief & strategy taking shape.", bg: "#1a2020" },
-                  { min: 20, icon: "🐥", name: "Baby Planner", msg: "Getting stronger. Creative and tracking coming together.", bg: "#1a2520" },
-                  { min: 35, icon: "🐦", name: "Fledgling Campaign", msg: "Learning to fly. Measurement framework locked in.", bg: "#1a2a25" },
-                  { min: 50, icon: "🦅", name: "Campaign Eagle", msg: "Soaring! Over halfway there. Campaign setup looking solid.", bg: "#1a302a" },
-                  { min: 65, icon: "🚀", name: "Launch Sequence", msg: "Engines warming up. Final checks in progress.", bg: "#1a2540" },
-                  { min: 80, icon: "🛸", name: "Orbit Mode", msg: "Almost there! Just a few more sign-offs to go.", bg: "#1a2050" },
-                  { min: 95, icon: "⭐", name: "Supernova", msg: "One or two items left. You're so close!", bg: "#2a1a40" },
-                  { min: 100, icon: "🏆", name: "Campaign Ready!", msg: "All checks complete. You are cleared for launch! 🎉", bg: "#1a3a1a" },
-                ];
-                const stage = [...stages].reverse().find(s => pct >= s.min) || stages[0];
-                const nextStage = stages[stages.indexOf(stage) + 1];
-
-                return (
-                  <Card style={{ background: `linear-gradient(135deg, ${stage.bg} 0%, #0d1425 100%)`, border: "1px solid #1e2d45", marginBottom: 20, textAlign: "center", padding: 24 }}>
-                    <div style={{ fontSize: 52, marginBottom: 8, filter: pct === 100 ? "drop-shadow(0 0 12px #22c55e)" : "none", transition: "all .5s" }}>{stage.icon}</div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "#e2e8f0", marginBottom: 4 }}>{stage.name}</div>
-                    <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 14 }}>{stage.msg}</div>
-
-                    <div style={{ maxWidth: 400, margin: "0 auto" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                        <span style={{ fontSize: 11, color: "#64748b" }}>{pct}% complete</span>
-                        <span style={{ fontSize: 11, color: "#64748b" }}>{checkedCount}/{totalChecks}</span>
+              <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+                {/* Left: Checklist items */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  {Object.entries(qaChecklist).map(([category, items]) => {
+                    const catChecked = items.filter((_, i) => checkedItems[`qa_${category}_${i}`]).length;
+                    const catDone = catChecked === items.length;
+                    return (
+                    <Card key={category} style={{ marginBottom: 16, border: catDone ? "1px solid #22c55e30" : "1px solid #1e2d45" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0" }}>{category}</div>
+                        <div style={{ fontSize: 11, color: catDone ? "#22c55e" : "#64748b", fontWeight: 600 }}>
+                          {catDone ? "✅ Complete" : `${catChecked}/${items.length}`}
+                        </div>
                       </div>
-                      <ProgressBar value={checkedCount} max={totalChecks} color={pct === 100 ? "#22c55e" : pct >= 80 ? "#7eb8ff" : pct >= 50 ? "#3b82f6" : "#334155"} />
-                    </div>
+                      {items.map((item, i) => {
+                        const key = `qa_${category}_${i}`;
+                        return <CheckItem key={key} checked={checkedItems[key]} onChange={() => toggleCheck(key)}>{item}</CheckItem>;
+                      })}
+                    </Card>
+                  );})}
+                </div>
 
-                    {nextStage && pct < 100 && (
-                      <div style={{ marginTop: 12, fontSize: 11, color: "#475569" }}>
-                        Next evolution: {nextStage.icon} <strong style={{ color: "#64748b" }}>{nextStage.name}</strong> at {nextStage.min}%
+                {/* Right: Sticky evolution card */}
+                <div style={{ width: 220, flexShrink: 0, position: "sticky", top: 28 }}>
+                  {(() => {
+                    const pct = Math.round((checkedCount / totalChecks) * 100);
+                    const stages = [
+                      { min: 0, icon: "🥚", name: "The Brief Egg", msg: "Start checking items to hatch it.", bg: "#141c2e" },
+                      { min: 8, icon: "🐣", name: "The Hatchling", msg: "Brief & strategy taking shape.", bg: "#1a2020" },
+                      { min: 20, icon: "🐥", name: "Baby Planner", msg: "Creative & tracking coming together.", bg: "#1a2520" },
+                      { min: 35, icon: "🐦", name: "Fledgling Campaign", msg: "Learning to fly.", bg: "#1a2a25" },
+                      { min: 50, icon: "🦅", name: "Campaign Eagle", msg: "Over halfway there!", bg: "#1a302a" },
+                      { min: 65, icon: "🚀", name: "Launch Sequence", msg: "Engines warming up.", bg: "#1a2540" },
+                      { min: 80, icon: "🛸", name: "Orbit Mode", msg: "Final checks in progress.", bg: "#1a2050" },
+                      { min: 95, icon: "⭐", name: "Supernova", msg: "So close!", bg: "#2a1a40" },
+                      { min: 100, icon: "🏆", name: "Campaign Ready!", msg: "Cleared for launch! 🎉", bg: "#1a3a1a" },
+                    ];
+                    const stage = [...stages].reverse().find(s => pct >= s.min) || stages[0];
+                    const nextStage = stages[stages.indexOf(stage) + 1];
+
+                    return (
+                      <div style={{ background: `linear-gradient(180deg, ${stage.bg} 0%, #0d1425 100%)`, border: "1px solid #1e2d45", borderRadius: 12, padding: 20, textAlign: "center" }}>
+                        <div style={{ fontSize: 48, marginBottom: 6, filter: pct === 100 ? "drop-shadow(0 0 12px #22c55e)" : "none", transition: "all .5s" }}>{stage.icon}</div>
+                        <div style={{ fontSize: 14, fontWeight: 800, color: "#e2e8f0", marginBottom: 2 }}>{stage.name}</div>
+                        <div style={{ fontSize: 10, color: "#94a3b8", marginBottom: 12 }}>{stage.msg}</div>
+
+                        <div style={{ marginBottom: 4 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                            <span style={{ fontSize: 10, color: "#64748b" }}>{pct}%</span>
+                            <span style={{ fontSize: 10, color: "#64748b" }}>{checkedCount}/{totalChecks}</span>
+                          </div>
+                          <ProgressBar value={checkedCount} max={totalChecks} color={pct === 100 ? "#22c55e" : pct >= 80 ? "#7eb8ff" : pct >= 50 ? "#3b82f6" : "#334155"} />
+                        </div>
+
+                        {nextStage && pct < 100 && (
+                          <div style={{ marginTop: 10, fontSize: 9, color: "#475569", lineHeight: 1.4 }}>
+                            Next: {nextStage.icon} {nextStage.name}<br/>at {nextStage.min}%
+                          </div>
+                        )}
+
+                        {pct === 100 && (
+                          <div style={{ marginTop: 10, display: "flex", justifyContent: "center", gap: 3, flexWrap: "wrap" }}>
+                            {stages.map((s, i) => <span key={i} style={{ fontSize: 12, opacity: 0.7 }}>{s.icon}</span>)}
+                          </div>
+                        )}
+
+                        {/* Evolution timeline */}
+                        <div style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 2 }}>
+                          {stages.map((s, i) => (
+                            <div key={i} style={{ display: "flex", alignItems: "center", gap: 2 }}>
+                              <div style={{
+                                width: 8, height: 8, borderRadius: "50%",
+                                background: pct >= s.min ? (pct === 100 ? "#22c55e" : "#3b82f6") : "#1e2d45",
+                                border: pct >= s.min && pct < (stages[i+1]?.min || 101) ? "2px solid #7eb8ff" : "1px solid transparent",
+                                transition: "all .3s",
+                                fontSize: 5, display: "flex", alignItems: "center", justifyContent: "center"
+                              }} />
+                              {i < stages.length - 1 && <div style={{ width: 6, height: 1, background: pct >= (stages[i+1]?.min || 101) ? "#3b82f6" : "#1e2d45" }} />}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Reset button */}
+                        <button
+                          onClick={() => { if (window.confirm("Reset all checked items? This will clear your progress.")) setCheckedItems({}); }}
+                          style={{
+                            marginTop: 16, width: "100%", padding: "8px 0", borderRadius: 8,
+                            background: "transparent", border: "1px solid #334155", color: "#64748b",
+                            fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+                            transition: "all .15s"
+                          }}
+                          onMouseEnter={e => { e.target.style.borderColor = "#ff7e7e"; e.target.style.color = "#ff7e7e"; }}
+                          onMouseLeave={e => { e.target.style.borderColor = "#334155"; e.target.style.color = "#64748b"; }}
+                        >
+                          ↺ Reset Checklist
+                        </button>
                       </div>
-                    )}
-
-                    {pct === 100 && (
-                      <div style={{ marginTop: 12, display: "flex", justifyContent: "center", gap: 6 }}>
-                        {stages.map((s, i) => <span key={i} style={{ fontSize: 16, opacity: 0.7 }}>{s.icon}</span>)}
-                      </div>
-                    )}
-                  </Card>
-                );
-              })()}
-
-              {Object.entries(qaChecklist).map(([category, items]) => {
-                const catChecked = items.filter((_, i) => checkedItems[`qa_${category}_${i}`]).length;
-                const catDone = catChecked === items.length;
-                return (
-                <Card key={category} style={{ marginBottom: 16, border: catDone ? "1px solid #22c55e30" : "1px solid #1e2d45" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "#e2e8f0" }}>{category}</div>
-                    <div style={{ fontSize: 11, color: catDone ? "#22c55e" : "#64748b", fontWeight: 600 }}>
-                      {catDone ? "✅ Complete" : `${catChecked}/${items.length}`}
-                    </div>
-                  </div>
-                  {items.map((item, i) => {
-                    const key = `qa_${category}_${i}`;
-                    return <CheckItem key={key} checked={checkedItems[key]} onChange={() => toggleCheck(key)}>{item}</CheckItem>;
-                  })}
-                </Card>
-              );})}
+                    );
+                  })()}
+                </div>
+              </div>
             </div>
           )}
 
