@@ -548,7 +548,7 @@ export default function App() {
         <div style={{ padding: "20px 16px 12px", borderBottom: "1px solid #1a2540" }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: "#3b82f6", letterSpacing: "0.08em", textTransform: "uppercase" }}>GCC Digital Media</div>
           <div style={{ fontSize: 18, fontWeight: 800, color: "#e2e8f0", marginTop: 2 }}>Planning Playbook</div>
-          <div style={{ fontSize: 10, color: "#475569", marginTop: 4 }}>Updated March 2026 · Michel Zaidan · UM</div>
+          <div style={{ fontSize: 10, color: "#475569", marginTop: 4 }}>Updated March 2026 · Chrisa Chatzisavva · UM</div>
         </div>
         <div style={{ flex: 1, overflowY: "auto", padding: "8px 8px" }}>
           {SECTIONS.map(s => (
