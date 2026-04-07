@@ -703,12 +703,6 @@ export default function App() {
               {platforms.filter(p => !filterText || JSON.stringify(p).toLowerCase().includes(filterText)).map((p, i) => (
                 <Accordion key={i} title={p.name} badge={<Chip color={p.color}>{p.minBudget} min</Chip>}>
                   <div style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.7 }}>
-                    {platformMockups[p.name] && (
-                      <div style={{ marginBottom: 14, padding: "8px 0 8px", borderBottom: "1px solid #1e2d45" }}>
-                        <div style={{ fontSize: 10, fontWeight: 700, color: "#64748b", textTransform: "uppercase", marginBottom: 6 }}>Ad Format Examples</div>
-                        {platformMockups[p.name]()}
-                      </div>
-                    )}
 
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ fontWeight: 700, color: "#7effb8", fontSize: 11, textTransform: "uppercase", marginBottom: 6 }}>Strengths</div>
@@ -742,6 +736,15 @@ export default function App() {
                     <div style={{ marginTop: 8 }}>
                       <InfoRow label="Min Budget" value={<span style={{ color: "#7effb8", fontWeight: 700 }}>{p.minBudget}</span>} />
                     </div>
+
+                    {platformMockups[p.name] && (
+                      <div style={{ marginTop: 16, padding: "16px 0 4px", borderTop: "1px solid #1e2d45" }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: "#64748b", textTransform: "uppercase", marginBottom: 10 }}>Ad Format Examples</div>
+                        <div style={{ transform: "scale(1.35)", transformOrigin: "top left", marginBottom: 40 }}>
+                          {platformMockups[p.name]()}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Accordion>
               ))}
